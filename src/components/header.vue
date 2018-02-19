@@ -56,18 +56,21 @@ export default {
 <style rel="stylesheet/stylus" lang="stylus">
 music-color = #31c27c
 #music-header
-  display: flex
-  -webkit-flex-direction: row
-  -moz-flex-direction: row
-  -ms-flex-direction: row
-  -o-flex-direction: row
-  flex-direction: row
-  justify-content: center
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05)
-  max-width: 1240px
-  margin: auto
-  .header-head 
-    margin-right:30px;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  max-width: 1240px;
+  margin: auto;
+  overflow:hidden;
+  position:relative;
+  width:90%;
+  min-width:900px;
+  .header-head
+    margin-right:5em;
     flex-shrink:0;
     .home-link
       display: table-cell
