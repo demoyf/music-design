@@ -30,6 +30,9 @@
       </ul>
     </div>
     <vue-search></vue-search>
+    <div class="button-container">
+      <button>登录</button>
+    </div>
   </div>
 </template>
 <script>
@@ -65,10 +68,9 @@ music-color = #31c27c
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   max-width: 1240px;
   margin: auto;
-  overflow:hidden;
-  position:relative;
   width:90%;
   min-width:900px;
+  position:relative;
   .header-head
     margin-right:5em;
     flex-shrink:0;
@@ -103,4 +105,7 @@ music-color = #31c27c
           &.active 
             background-color:music-color
             color: white
+  .button-container
+    position:absolute;
+    right:0;
 </style>
