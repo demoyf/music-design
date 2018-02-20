@@ -1,25 +1,36 @@
 <template>
 	<div id="vue-search" v-on:mouseenter="enter()" v-on:mouseleave="leave()">
 		<div class="input-container" ref="input_container">
-		<input ref="search_input" placeholder="歌曲名、歌手名、专辑名" class="search-input input-large" type="text" name="search-input" v-on:input="search_suggestion" v-model="search_content">
+		<input ref="search_input" placeholder="歌曲名、歌手名、专辑名" class="search-input input-large" type="text" name="search-input" v-on:input="search_suggestion" v-model="search_content" v-on:blur="hide_result" v-on:focus="show_result">
 		<i class="icon-search-icon icon">
 		</i>
 		</div>
 		<div class="search-result" ref="search_result">
 			<div class="result-item">
-				<span v-for="item in song_list">
-					{{item.songname}}-
+				<div class="icon-container">
+					<i class="icon-music-icon search-i"></i>
+					<span>单曲</span>
+				</div>
+				<span v-for="item in song_list" class="result-span">
+					{{item.songname}}<span>- {{item.artistname}}</span>
+				</span>
+			</div>
+			<div class="result-item">
+				<div class="icon-container">
+					<i class="icon-music-icon search-i"></i>
+					<span>歌手</span>
+				</div>
+				<span v-for="item in artist_list" class="result-span">
 					{{item.artistname}}
 				</span>
 			</div>
 			<div class="result-item">
-				<span v-for="item in artist_list">
-					{{item.artistname}}
-				</span>
-			</div>
-			<div class="result-item">
-				<span v-for="item in album_list">
-					{{item.albumname}}
+				<div class="icon-container">
+					<i class="icon-album-icon search-i"></i>
+					<span>专辑</span>
+				</div>
+				<span v-for="item in album_list" class="result-span">
+					{{item.albumname}}<span>- {{item.artistname}}</span>
 				</span>
 			</div>
 		</div>
@@ -31,7 +42,8 @@ import url_util from './../common/util/url.js';
 		name:"vue-search",
 		data(){
 			return {
-				min_width:1120,
+				min_width:1180,
+				middle_width:1300,
 				current_width:0,
 				search_content:"",
 				is_search_now:false,
@@ -52,12 +64,21 @@ import url_util from './../common/util/url.js';
 		watch:{
 			current_width(new_val){
 				let ref_class = this.$refs.search_input.classList;
+				let contain_class = this.$refs.input_container.classList;
 				// 1200
+				if (this.middle_width>=new_val) {
+					if (!contain_class.contains("input-center")) {
+						contain_class.add("input-center");
+					}
+				}
 				if (this.min_width>=new_val) {
 					console.log(ref_class.contains("input-small"));
 					if (!ref_class.contains("input-small")) {
 						ref_class.add("input-small");
 						ref_class.remove("input-large");
+					}
+					if (contain_class.contains("input-center")) {
+						contain_class.remove("input-center");
 					}
 				}
 				else{
@@ -79,7 +100,12 @@ import url_util from './../common/util/url.js';
 					ref_class.remove("input-small");
 					ref_class.add("input-large");
 				}
+				this.$refs.search_result.classList.add("input-left");
 				this.$refs.input_container.classList.add("input-left");
+				let list = this.$refs.search_result.classList;
+				if (!(this.search_content==="")&&!list.contains("show")) {
+					this.$refs.search_result.classList.add("show");
+				}
 			},
 			leave(){
 				if (this.current_width>this.min_width) {
@@ -91,28 +117,42 @@ import url_util from './../common/util/url.js';
 					ref_class.add("input-small");
 				}
 				this.$refs.input_container.classList.remove("input-left");
+				this.$refs.search_result.classList.remove("input-left");
+				this.$refs.search_result.classList.remove("show");
 			},
 			search_suggestion(){
 				if (!this.is_search_now) {
 					this.is_search_now = true;
-					setTimeout(()=>{
-						let search_text = this.search_content;	
-						if (!search_text) {
-							return;
-						}
-						this.$http.get(url_util.url+"search/suggesstion/"+search_text).then((data)=>{
-							if (data.status===200) {
-								let body = data.body;
+					let search_text = this.search_content;
+					if (search_text==="") {
+						this.is_search_now = false;
+						return;
+					}
+					this.$http.get(url_util.url+"search/suggesstion/"+search_text).then((data)=>{
+						if (data.status===200) {
+							let body = data.body;
+							if (body) {
 								this.song_list = body.song.slice(0,4);
 								this.artist_list = body.artist.slice(0,3);
 								this.album_list = body.album.slice(0,3);
 								this.$refs.search_result.classList.add("show");
+								this.is_search_now = false;
 							}
-						}).catch(()=>{
-							console.log("error");
-						});
+						}
+					}).catch(()=>{
 						this.is_search_now = false;
-					}, 300);
+						console.log("error");
+					});
+				}
+			},
+			hide_result(){
+				this.$refs.search_result.classList.remove("show");
+			},
+			show_result(){
+				console.log("in show");
+				let list = this.$refs.search_result.classList;
+				if (!(this.search_content==="")&&!list.contains("show")) {
+					this.$refs.search_result.classList.add("show");
 				}
 			}
 		}
@@ -165,16 +205,46 @@ music-color = #31c27c
 		top:64px;
 		// padding:0.5em;
 		box-sizing:border-box;
-		height:0;
-		visibility: hidden;
-		transition:height .5s;
-		.result-item span
-			display:block;
-			height:1em;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			overflow: hidden; 
-			width:100%;
+		transition:all .5s;
+		visibility:hidden;
+		.result-item
+			margin:0.3em 0;
+			display:flex;
+			flex-direction:column;
+			.icon-container
+				color:gray;
+				font-size:0.9em;
+				line-height:1.2em;
+				margin:0.5em;
+				.search-i
+					margin-left:0.3em;
+					margin-top:0.2em;
+					margin-right:0.5em;
+					display:block;
+					width:1em;
+					float:left;
+					&::after
+						content:'';
+						clear:both;
+			span.result-span
+				font-size:0.92em;
+				display:block;
+				height:2em;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden; 
+				width:100%;
+				box-sizing:border-box;
+				padding:0.5em 0.5em 0em 2.1em;
+				color:black;
+				span
+					color:gray;
+				&:hover
+					background-color:music-color;
+					color:white;
+					cursor:pointer;
+					span
+						color:white;
 	.input-large
 		transition:all 0.5s;
 		width:190px;
@@ -182,15 +252,16 @@ music-color = #31c27c
 		transition:width 0.5s;
 		width:0px;
 	.input-left
-		left:-6em;
-		transition:left 0.5s;
+		left:-7em;
+		transition:all 0.5s;
+	.input-center
+		left:0em;
+		transition:left .5s;
 	.show
-		visibility:visible;
 		height:auto;
-		transition:height .5s;
+		visibility:visible;
 </style>
 <style>
 	.{
-		
 	}
 </style>

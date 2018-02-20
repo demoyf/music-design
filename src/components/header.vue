@@ -31,7 +31,8 @@
     </div>
     <vue-search></vue-search>
     <div class="button-container">
-      <button>登录</button>
+      <button class="login-button"> 登录</button>
+      <button class="register-button">注册</button>
     </div>
   </div>
 </template>
@@ -108,4 +109,17 @@ music-color = #31c27c
   .button-container
     position:absolute;
     right:0;
+    height:90px;
+    line-height:90px;
+    .login-button
+      font-size:1.1em;
+      margin-right:1em;
+      color:rgba(0,0,0,0.6);
+    .register-button
+      background-color:music-color
+      color:white;
+      font-size:1.1em;
+      padding:.5em .7em;
+      border-radius:3px;
+      margin-right:1em;
 </style>

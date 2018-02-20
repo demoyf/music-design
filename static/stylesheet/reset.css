@@ -99,3 +99,17 @@ input:visited,input:active{
     border: none;
     outline: none;
 }
+button{
+    background-color: transparent;
+    border:none;
+    border-style: none;
+    outline: 0;
+}
+button:focus,button:active,button:visited{
+    border-style: none;
+    border:none;
+    outline: 0;
+}
+button:hover{
+    cursor: pointer;
+}
