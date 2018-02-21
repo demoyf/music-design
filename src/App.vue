@@ -7,7 +7,7 @@
 
 <script>
 import header from './components/header/header.vue';
-import card from './/components/song_loop_card/card_component.vue';
+import card_loop from './/components/song_loop_card/circle_loop.vue';
 export default {
   name: 'app',
   data () {
@@ -17,7 +17,7 @@ export default {
   },
   components:{
     "m-header":header,
-    "card-loop":card
+    "card-loop":card_loop
   }
 }
 </script>

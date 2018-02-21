@@ -2,16 +2,17 @@
 	<div id="card-component">
 		<div class="container-div">
 			<div class="img-container">
-			<a href="#">
-				<img src="https://p.qpic.cn/music_cover/JBDCVgqXWXaYUvcsElqcicTqxjf1FITqfN9nJ1D7xicyMRlJ81Pic30kg/300?n=1" class="singer-img">
-				<div class="shadow-div">
-					<div class="circle-icon">
-						<i class="icon-play-icon icon"></i>
+				<a href="#">
+					<img src="https://p.qpic.cn/music_cover/JBDCVgqXWXaYUvcsElqcicTqxjf1FITqfN9nJ1D7xicyMRlJ81Pic30kg/300?n=1" class="singer-img">
+					<div class="shadow-div">
+						<div class="circle-icon">
+							<i class="icon-play-icon icon"></i>
+						</div>
 					</div>
-				</div>
-			</a>
+				</a>
 			</div>
-			<a><h3>2018还要一起过</h3></a>
+			<a href="#"><h3 class="title-h3">一曲流觞唱流年，一人独坐观中叹</h3></a>
+			<a href="#"><span class="artist-span">估计是个傻子</span></a>
 		</div>	
 	</div>
 </template>
@@ -31,9 +32,8 @@ export default {
 </script>
 <!--  lang="stylus" -->
 <style type="stylesheet/stylus" lang="stylus">
+@import './../../common/stylus/mixin.styl';
 #card-component
-	min-width: 170px;
-	max-width: 220px;
 	width: 20%;
 	box-sizing: border-box;
 	padding-right:20px;
@@ -50,7 +50,7 @@ export default {
 				width: 100%;
 				height: auto;
 				z-index:10;
-				transition:all .5s;
+				add_prefix('transition',all .5s);
 			.shadow-div
 				z-index:50;
 				width: 100%;
@@ -65,7 +65,7 @@ export default {
 				align-items: center;
 				overflow:hidden;
 				opacity: 0;
-				transition:all .5s;
+				add_prefix('transition',all 0.5s);
 				.circle-icon
 					background-color: white;
 					box-shadow:1px 1px 3px 3px rgba(0,0,0,0.2);
@@ -76,12 +76,9 @@ export default {
 					flex-direction:column;
 					justify-content: center;
 					align-items: center;
-					transition:all .5s;
+					add_prefix('transition',all .5s);
 					opacity: 0;
-					-webkit-transform: scale(0.1);
-					-ms-transform: scale(0.1);
-					-o-transform: scale(0.1);
-					transform: scale(0.1);
+					add_prefix('transform',scale(0.1));
 					.icon
 						font-size: 1.9em;
 						display:block;
@@ -90,22 +87,36 @@ export default {
 			&:hover
 				cursor:pointer;
 				.singer-img
-					transition:all .5s;
-					-webkit-transform: scale(1.1);
-					-ms-transform: scale(1.1);
-					-o-transform: scale(1.1);
-					transform: scale(1.1);
+					add_prefix('transition',all .5s);
+					add_prefix('transform',scale(1.1));
 				.shadow-div
-					transition:all .5s;
+					add_prefix('transition',all .5s);
 					opacity:1;
 				.circle-icon
-					transition:all .5s;
+					add_prefix('transition',all .5s);
 					opacity:1;
-					-webkit-transform: scale(1);
-					-ms-transform: scale(1);
-					-o-transform: scale(1);
-					transform: scale(1);
+					add_prefix('transform',scale(1));
+		h3.title-h3
+			font-size:1em;
+			margin-top:.5em;
+			color:#333;
+			width:100%;
+			line-height: 22px;
+			font-weight:400
+			ellipsis_tran()
+			&:hover
+				color:music-color;
+		span.artist-span
+			font-size:.95em;
+			color:#999;
+			line-height:22px;
+			display:block;
+			ellipsis_tran();
+			&:hover
+				color:music-color;
 </style>
 <style type="text/css">
-
+{
+	font-weight: 100;
+}
 </style>

@@ -1,3 +1,5 @@
+music-color = #31c27c
+my-min-width = 1100px;
 border-1px($color)
   position: relative
   &:after
@@ -8,3 +10,13 @@ border-1px($color)
     width: 100%
     border-top: 1px solid $color
     content: ' '
+add_prefix(prop,arg)
+	-webkit-{prop}: arg;
+	-ms-{prop}: arg;
+	-o-{prop}: arg;
+	{prop}: arg;
+
+ellipsis_tran()
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;  

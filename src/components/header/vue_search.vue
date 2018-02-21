@@ -43,8 +43,8 @@ import * as storage_util from './../../common/util/local_storage.js';
 		name:"vue-search",
 		data(){
 			return {
-				min_width:1180,
-				middle_width:1300,
+				min_width:1310,
+				middle_width:1410,
 				current_width:0,
 				search_content:"",
 				is_search_now:false,
@@ -73,6 +73,10 @@ import * as storage_util from './../../common/util/local_storage.js';
 				if (this.middle_width>=new_val) {
 					if (!contain_class.contains("input-center")) {
 						contain_class.add("input-center");
+					}
+				}else{
+					if (contain_class.contains("input-center")) {
+						contain_class.remove("input-center");
 					}
 				}
 				if (this.min_width>=new_val) {
@@ -173,7 +177,7 @@ import * as storage_util from './../../common/util/local_storage.js';
 	}
 </script>
 <style type="stylesheet/stylus" lang="stylus">
-music-color = #31c27c
+@import './../../common/stylus/mixin.styl';
 #vue-search
 	color:rgba(0,0,0,0.8);
 	display: flex;
@@ -192,7 +196,7 @@ music-color = #31c27c
 		left:5em;
 		top:25px;
 		z-index:50;
-		transition:left 0.5s;
+		add_prefix('transition',left .5s);
 		background-color:white;
 		.search-input
 			display: inline-block;
@@ -216,10 +220,11 @@ music-color = #31c27c
 		background-color:white;
 		border:1px solid gray;
 		border-radius:3px;
+		z-index:100;
 		top:64px;
 		// padding:0.5em;
 		box-sizing:border-box;
-		transition:all .5s;
+		add_prefix('transition',all .5s);
 		visibility:hidden;
 		.result-item
 			margin:0.3em 0;
@@ -260,17 +265,17 @@ music-color = #31c27c
 					span
 						color:white;
 	.input-large
-		transition:all 0.5s;
+		add_prefix('transition',all .5s);
 		width:190px;
 	.input-small
-		transition:width 0.5s;
+		add_prefix('transition',all .5s);
 		width:0px;
 	.input-left
 		left:-7em;
-		transition:all 0.5s;
+		add_prefix('transition',all .5s);
 	.input-center
 		left:0em;
-		transition:left .5s;
+		add_prefix('transition',left .5s);
 	.show
 		height:auto;
 		visibility:visible;
