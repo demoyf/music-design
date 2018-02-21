@@ -1,11 +1,13 @@
 <template>
   <div id="app">
   <m-header></m-header>
+  <card-loop></card-loop>
   </div>
 </template>
 
 <script>
-import header from './components/header.vue';
+import header from './components/header/header.vue';
+import card from './/components/song_loop_card/card_component.vue';
 export default {
   name: 'app',
   data () {
@@ -14,7 +16,8 @@ export default {
     }
   },
   components:{
-    "m-header":header
+    "m-header":header,
+    "card-loop":card
   }
 }
 </script>

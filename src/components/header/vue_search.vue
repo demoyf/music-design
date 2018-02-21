@@ -1,7 +1,7 @@
 <template>
 	<div id="vue-search" v-on:mouseenter="enter()" v-on:mouseleave="leave()">
 		<div class="input-container" ref="input_container">
-		<input ref="search_input" placeholder="歌曲名、歌手名、专辑名" class="search-input input-large" type="text" name="search-input" v-on:input="search_suggestion" v-model="search_content" v-on:blur="hide_result" v-on:focus="show_result">
+		<input ref="search_input" placeholder="歌曲名、歌手名、专辑名" class="search-input input-large" type="text" name="search-input" v-on:input="search_suggestion" v-model="search_content" v-on:blur="hide_result" v-on:focus="show_result" v-on:keyup.enter="local_to_search_page">
 		<i class="icon-search-icon icon">
 		</i>
 		</div>
@@ -37,8 +37,8 @@
 	</div>
 </template>
 <script type="text/javascript">
-import url_util from './../common/util/url.js';
-import * as storage_util from './../common/util/local_storage.js';
+import url_util from './../../common/util/url.js';
+import * as storage_util from './../../common/util/local_storage.js';
 	export default {
 		name:"vue-search",
 		data(){
@@ -55,7 +55,7 @@ import * as storage_util from './../common/util/local_storage.js';
 			}
 		},
 		mounted(){
-			// console.log(storage_util.read_form_array());
+			console.log(storage_util.read_form_array());
 			// storage_util.clear_all();
 			const self = this;
 			self.current_width = document.body.clientWidth;
@@ -161,6 +161,13 @@ import * as storage_util from './../common/util/local_storage.js';
 				if (!(this.search_content==="")&&!list.contains("show")) {
 					this.$refs.search_result.classList.add("show");
 				}
+			},
+			local_to_search_page(){
+				if (this.search_content==="") {
+					return;
+				}
+				storage_util.save_to_array(this.search_content);
+				// @todo  跳转到搜索结果页面
 			}
 		}
 	}
@@ -177,7 +184,7 @@ music-color = #31c27c
 	.input-container
 		display:flex;
 		flex-direction:row;
-		border:1px solid rgba(0,0,0,0.8);
+		border:1px solid gray;
 		align-items:center;
 		border-radius:2px;
 		padding:3px;

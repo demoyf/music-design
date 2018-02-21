@@ -1,8 +1,8 @@
 <template>
   <div id="music-header">
     <h1 class="header-head">
-      <a class="home-link">
-        <img src="./../assets/logo.png" >
+      <a class="home-link" href="/">
+        <img src="./../../assets/logo.png" >
       </a>
     </h1>
     <div class="header-content">

@@ -5,7 +5,15 @@ export function save_to_array(item,key = "history") {
     if (obj) {
       obj = JSON.parse(obj);
       if (obj.data) {
-        obj.data = obj.data.concat(item);
+        if (obj.data.indexOf(item)>=0) {
+          return;  
+        }
+        if (obj.data.length==6) {
+          obj.data.shift();
+          obj.data.push(item);
+        }else{
+          obj.data = obj.data.concat(item);
+        }
       } else {
         obj.data = [].concat(item);
       }
