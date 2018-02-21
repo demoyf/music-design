@@ -38,6 +38,7 @@
 </template>
 <script type="text/javascript">
 import url_util from './../common/util/url.js';
+import * as storage_util from './../common/util/local_storage.js';
 	export default {
 		name:"vue-search",
 		data(){
@@ -49,10 +50,13 @@ import url_util from './../common/util/url.js';
 				is_search_now:false,
 				song_list:[],
 				album_list:[],
-				artist_list:[]
+				artist_list:[],
+				search_history:[]
 			}
 		},
 		mounted(){
+			// console.log(storage_util.read_form_array());
+			// storage_util.clear_all();
 			const self = this;
 			self.current_width = document.body.clientWidth;
 			window.onresize = ()=>{
@@ -130,18 +134,22 @@ import url_util from './../common/util/url.js';
 					}
 					this.$http.get(url_util.url+"search/suggesstion/"+search_text).then((data)=>{
 						if (data.status===200) {
-							let body = data.body;
-							if (body) {
+							if (data.body) {
+								let body = data.body;
 								this.song_list = body.song.slice(0,4);
 								this.artist_list = body.artist.slice(0,3);
 								this.album_list = body.album.slice(0,3);
 								this.$refs.search_result.classList.add("show");
 								this.is_search_now = false;
+							}else{
+								this.is_search_now = false;
+								this.song_list = [];
+								this.artist_list = [];
+								this.album_list = [];
 							}
 						}
 					}).catch(()=>{
 						this.is_search_now = false;
-						console.log("error");
 					});
 				}
 			},
@@ -149,7 +157,6 @@ import url_util from './../common/util/url.js';
 				this.$refs.search_result.classList.remove("show");
 			},
 			show_result(){
-				console.log("in show");
 				let list = this.$refs.search_result.classList;
 				if (!(this.search_content==="")&&!list.contains("show")) {
 					this.$refs.search_result.classList.add("show");
