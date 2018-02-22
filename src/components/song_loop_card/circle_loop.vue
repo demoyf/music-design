@@ -2,19 +2,28 @@
 	<div id="loop">
 		<h1 class="circle-title">歌单推荐</h1>
 		<!-- 轮播图 -->
-		<div class="loop-container">
-			<div class="card-container">
-				<card-component></card-component>
-				<card-component></card-component>
-				<card-component></card-component>
-				<card-component></card-component>
-				<card-component></card-component>
+		<div class="loop-parent">
+			<div class="loop-container" ref="loop_container">
+				<div class="card-container">
+					<card-component></card-component>
+					<card-component></card-component>
+					<card-component></card-component>
+					<card-component></card-component>
+					<card-component></card-component>
+				</div>
+				<div class="card-container">
+					<card-component></card-component>
+					<card-component></card-component>
+					<card-component></card-component>
+					<card-component></card-component>
+					<card-component></card-component>
+				</div>
 			</div>
 		</div>
-		<div class="to-left-button loop-ctrl">
+		<div class="to-left-button loop-ctrl" @click="to_left">
 			<i class="icon-to-left-icon icon"></i>
 		</div>
-		<div class="to-right-button loop-ctrl">
+		<div class="to-right-button loop-ctrl" @click="to_right">
 			<i class="icon-to-right-icon icon"></i>
 		</div>
 	</div>
@@ -29,7 +38,12 @@ export default {
 		}
 	},
 	methods:{
-		
+		to_left(){
+			this.$refs.loop_container.style.left = "-100%";
+		},
+		to_right(){
+			this.$refs.loop_container.style.left = "0%";
+		}
 	},
 	components:{
 		'card-component':card
@@ -55,16 +69,28 @@ export default {
 		font-family:SimHei;
 		font-weight:bold;
 		add_prefix('transform',scaleX(.95));
-	.card-container
-		width: 80%;
-		position: relative;
-		overflow: hidden;
+	.loop-parent
+		width:82%;
 		margin:auto;
-		> div
-			float: left;
-		&::after
-			content: '';
-			clear: both;
+		overflow:hidden;
+		.loop-container
+			width:200%;
+			position:relative;
+			left:0;
+			add_prefix('transition',all 1s);
+			.card-container
+				width: 50%;
+				overflow: hidden;
+				margin:auto;
+				float:left;
+				> div
+					float: left;
+					&::after
+						content: '';
+						clear: both;
+				&::after
+					content: '';
+					clear: both;
 	.loop-ctrl
 		background:rgba(99,99,99,0.05);
 		width:5em;
@@ -92,7 +118,8 @@ export default {
 		.to-right-button
 			right:0em;
 			add_prefix('transition',right .5s);
+	
 @media(max-width:1300px)
-	#loop .card-container
+	#loop .loop-parent
 		width:90%;
 </style>
