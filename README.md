@@ -1,21 +1,9 @@
-# music
+# 音乐门户网站前端设计（模仿QQ音乐）
 
-> A Vue.js project
+> 技术栈：vue+vue-router+vue-resource+stylus+webpack  (暂时不使用vuex)
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+## 1.Vue.js
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+轻量级MVVM框架
+```
+[vue.js 教程](https://cn.vuejs.org/v2/guide/)

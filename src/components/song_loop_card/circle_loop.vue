@@ -5,18 +5,18 @@
 		<div class="loop-parent">
 			<div class="loop-container" ref="loop_container">
 				<div class="card-container">
-					<card-component></card-component>
-					<card-component></card-component>
-					<card-component></card-component>
-					<card-component></card-component>
-					<card-component></card-component>
+					<card-component class="one-card"></card-component>
+					<card-component class="one-card"></card-component>
+					<card-component class="one-card"></card-component>
+					<card-component class="one-card"></card-component>
+					<card-component class="one-card"></card-component>
 				</div>
 				<div class="card-container">
-					<card-component></card-component>
-					<card-component></card-component>
-					<card-component></card-component>
-					<card-component></card-component>
-					<card-component></card-component>
+					<card-component class="one-card"></card-component>
+					<card-component class="one-card"></card-component>
+					<card-component class="one-card"></card-component>
+					<card-component class="one-card"></card-component>
+					<card-component class="one-card"></card-component>
 				</div>
 			</div>
 		</div>
@@ -75,15 +75,16 @@ export default {
 		overflow:hidden;
 		.loop-container
 			width:200%;
-			position:relative;
+			float:left;
 			left:0;
+			position:relative;
 			add_prefix('transition',all 1s);
 			.card-container
 				width: 50%;
 				overflow: hidden;
 				margin:auto;
 				float:left;
-				> div
+				.one-card
 					float: left;
 					&::after
 						content: '';
@@ -91,6 +92,9 @@ export default {
 				&::after
 					content: '';
 					clear: both;
+		&::after
+			content: '';
+			clear: both;
 	.loop-ctrl
 		background:rgba(99,99,99,0.05);
 		width:5em;
@@ -118,7 +122,6 @@ export default {
 		.to-right-button
 			right:0em;
 			add_prefix('transition',right .5s);
-	
 @media(max-width:1300px)
 	#loop .loop-parent
 		width:90%;
