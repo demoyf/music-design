@@ -4,19 +4,8 @@
 		<!-- 轮播图 -->
 		<div class="loop-parent">
 			<div class="loop-container" ref="loop_container">
-				<div class="card-container">
-					<card-component class="one-card"></card-component>
-					<card-component class="one-card"></card-component>
-					<card-component class="one-card"></card-component>
-					<card-component class="one-card"></card-component>
-					<card-component class="one-card"></card-component>
-				</div>
-				<div class="card-container">
-					<card-component class="one-card"></card-component>
-					<card-component class="one-card"></card-component>
-					<card-component class="one-card"></card-component>
-					<card-component class="one-card"></card-component>
-					<card-component class="one-card"></card-component>
+				<div class="card-container" v-for="item in reslut_list" :key="item.id" ref="card_container">
+					<card-component class="one-card" v-for="card in item" :key="card.id"></card-component>
 				</div>
 			</div>
 		</div>
@@ -34,15 +23,56 @@ export default {
 	props:['info_list'],
 	data(){
 		return{
-			all_info:this.info_list
+			all_info:this.info_list,
+			mock_list:[
+				{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8},{id:9},{id:10}
+			],
+			reslut_list:[],
+			current:0
+		}
+	},	
+	created(){
+		if (this.mock_list.length%5===0) {
+			let first = this.mock_list.slice(0,5);
+			// console.log(first);
+			let last = this.mock_list.slice(this.mock_list.length-5,this.mock_list.length);
+			// console.log(last);
+			this.mock_list.unshift(...last);
+			this.mock_list.push(...first);
+			let num = this.mock_list.length/5;
+			let temp = [];
+			for (let i = 0;i<num;i++) {
+				temp.push(this.mock_list.slice(i*5,(i+1)*5));
+			}
+			this.reslut_list = temp;
+			this.$nextTick(()=>{
+				this.$refs.loop_container.style.width = num*100+"%";
+				let length = this.$refs.card_container.length;
+				let temp = this.$refs.card_container;
+				for(let i = 0;i<length;i++){
+					temp[i].style.width = 100/num+"%";
+				}
+			});
 		}
 	},
 	methods:{
 		to_left(){
-			this.$refs.loop_container.style.left = "-100%";
+			//0 -100 1 -200 2 - 300 3
+			this.current++;
+			if (this.current >= 4) {
+				this.current = 3;
+				return;
+			}
+			this.$refs.loop_container.style.left = -this.current*100+"%";
 		},
 		to_right(){
-			this.$refs.loop_container.style.left = "0%";
+			// -300 -200 -100 0
+			this.current--;
+			if (this.current < 0) {
+				this.current = 0;
+				return;
+			}
+			this.$refs.loop_container.style.left = -this.current*100+"%";
 		}
 	},
 	components:{
@@ -78,7 +108,7 @@ export default {
 			float:left;
 			left:0;
 			position:relative;
-			add_prefix('transition',all 1s);
+			add_prefix('transition',left 1s);
 			.card-container
 				width: 50%;
 				overflow: hidden;
