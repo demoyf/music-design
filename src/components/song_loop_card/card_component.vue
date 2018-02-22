@@ -13,7 +13,7 @@
 			</div>
 			<a href="#"><h3 class="title-h3">一曲流觞唱流年，一人独坐观中叹</h3></a>
 			<a href="#"><span class="artist-span">估计是个傻子</span></a>
-		</div>	
+		</div>
 	</div>
 </template>
 <script type="text/javascript">

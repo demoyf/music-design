@@ -11,6 +11,12 @@
 				<card-component></card-component>
 			</div>
 		</div>
+		<div class="to-left-button loop-ctrl">
+			<i class="icon-to-left-icon icon"></i>
+		</div>
+		<div class="to-right-button loop-ctrl">
+			<i class="icon-to-right-icon icon"></i>
+		</div>
 	</div>
 </template>
 <script type="text/javascript">
@@ -23,7 +29,7 @@ export default {
 		}
 	},
 	methods:{
-
+		
 	},
 	components:{
 		'card-component':card
@@ -35,8 +41,10 @@ export default {
 #loop
 	width: 100%;
 	min-width: my-min-width;
-	background: linear-gradient(#99999922,white);
+	background: linear-gradient(#99999928 40%,white 100%);
 	padding-top:3em;
+	position:relative;
+	overflow:hidden;
 	.circle-title
 		text-align: center;
 		margin-bottom: 1.8em;
@@ -57,7 +65,33 @@ export default {
 		&::after
 			content: '';
 			clear: both;
-			
+	.loop-ctrl
+		background:rgba(99,99,99,0.05);
+		width:5em;
+		height:7em;
+		text-align:center;
+		position:absolute;
+		top:calc(50% - 3.5em);
+		line-height:8.3em;
+		.icon
+			font-size:2.6em;
+			color:#333;
+		&:hover
+			cursor:pointer;
+			background:rgba(99,99,99,0.1);
+	.to-left-button
+		left:-5em;
+		add_prefix('transition',left .5s);
+	.to-right-button
+		right:-5em;
+		add_prefix('transition',right .5s);
+	&:hover
+		.to-left-button
+			left:0em;
+			add_prefix('transition',left .5s);
+		.to-right-button
+			right:0em;
+			add_prefix('transition',right .5s);
 @media(max-width:1300px)
 	#loop .card-container
 		width:90%;
