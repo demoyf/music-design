@@ -28,21 +28,24 @@ export default {
 				{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8},{id:9},{id:10}
 			],
 			reslut_list:[],
-			current:0
+			current:0,
+			count:0
 		}
 	},	
 	created(){
 		if (this.mock_list.length%5===0) {
-			let first = this.mock_list.slice(0,5);
+			let _mock_list = this.mock_list;
+			let first = _mock_list.slice(0,5);
 			// console.log(first);
-			let last = this.mock_list.slice(this.mock_list.length-5,this.mock_list.length);
+			let last = _mock_list.slice(this.mock_list.length-5,this.mock_list.length);
 			// console.log(last);
-			this.mock_list.unshift(...last);
-			this.mock_list.push(...first);
-			let num = this.mock_list.length/5;
+			_mock_list.unshift(...last);
+			_mock_list.push(...first);
+			let num = _mock_list.length/5;
+			this.count = num-2;
 			let temp = [];
 			for (let i = 0;i<num;i++) {
-				temp.push(this.mock_list.slice(i*5,(i+1)*5));
+				temp.push(_mock_list.slice(i*5,(i+1)*5));
 			}
 			this.reslut_list = temp;
 			this.$nextTick(()=>{
@@ -51,12 +54,21 @@ export default {
 				let temp = this.$refs.card_container;
 				for(let i = 0;i<length;i++){
 					temp[i].style.width = 100/num+"%";
-				}
+				}	
 			});
 		}
 	},
+	mounted(){
+		this.$refs.loop_container.addEventListener("transitionend",(event)=>{
+			// if ($event.traget) {}
+			// console.log();
+			if (event.target.classList.contains("loop-container")) {
+				console.log("in div tag");
+			}
+		});
+	},
 	methods:{
-		to_left(){
+		to_right(){
 			//0 -100 1 -200 2 - 300 3
 			this.current++;
 			if (this.current >= 4) {
@@ -65,7 +77,7 @@ export default {
 			}
 			this.$refs.loop_container.style.left = -this.current*100+"%";
 		},
-		to_right(){
+		to_left(){
 			// -300 -200 -100 0
 			this.current--;
 			if (this.current < 0) {
