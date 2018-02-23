@@ -28,8 +28,9 @@ export default {
 				{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8},{id:9},{id:10}
 			],
 			reslut_list:[],
-			current:0,
-			count:0
+			current:1,
+			count:0,
+			is_transition:false
 		}
 	},	
 	created(){
@@ -63,28 +64,58 @@ export default {
 			// if ($event.traget) {}
 			// console.log();
 			if (event.target.classList.contains("loop-container")) {
-				console.log("in div tag");
+				this.is_transition = false;
+				let count = this.count;
+				if (this.current <= 0) {
+					this.current = count;
+					let container = this.$refs.loop_container;
+					if (container.classList.contains("add_transition")) {
+						container.classList.remove('add_transition');
+					}
+					container.style.left = -this.current*100+"%";
+					return;
+				}
+				if (this.current > count) {//最后一个了，这个只是测试用的
+					this.current = 1;
+					let container = this.$refs.loop_container;
+					if (container.classList.contains("add_transition")) {
+						container.classList.remove('add_transition');
+					}
+					container.style.left = -this.current*100+"%";
+					return;
+				}
 			}
 		});
 	},
 	methods:{
 		to_right(){
 			//0 -100 1 -200 2 - 300 3
-			this.current++;
-			if (this.current >= 4) {
-				this.current = 3;
+			console.log(this.current);
+			if (this.is_transition) {//动画过程中，点击无效
 				return;
 			}
-			this.$refs.loop_container.style.left = -this.current*100+"%";
+			this.current++;
+			// 因为需要瞬间回到第一或者最后一个，所以transition还是要可控
+			let container = this.$refs.loop_container;
+			if (!container.classList.contains("add_transition")) {
+				container.classList.add('add_transition');
+			}
+			this.is_transition = true;
+			container.style.left = -this.current*100+"%";
 		},
 		to_left(){
 			// -300 -200 -100 0
-			this.current--;
-			if (this.current < 0) {
-				this.current = 0;
+			console.log(this.current);
+			if (this.is_transition) {
 				return;
 			}
-			this.$refs.loop_container.style.left = -this.current*100+"%";
+			this.current--;
+			this.is_transition = true;
+			let container = this.$refs.loop_container;
+			if (!container.classList.contains("add_transition")) {
+				container.classList.add('add_transition');
+			}
+			container.style.left = -this.current*100+"%";
 		}
 	},
 	components:{
@@ -118,9 +149,8 @@ export default {
 		.loop-container
 			width:200%;
 			float:left;
-			left:0;
+			left:-100%;
 			position:relative;
-			add_prefix('transition',left 1s);
 			.card-container
 				width: 50%;
 				overflow: hidden;
@@ -134,6 +164,8 @@ export default {
 				&::after
 					content: '';
 					clear: both;
+		.add_transition
+			add_prefix('transition',left 1s);
 		&::after
 			content: '';
 			clear: both;
