@@ -9,6 +9,9 @@
 				</div>
 			</div>
 		</div>
+		<div class="circle-bottom-icon-container">
+			<i class="bottom-icon icon-to-left-icon" v-for="n in count" :class="n===active_index?'active':''"></i>
+		</div>
 		<div class="to-left-button loop-ctrl" @click="to_left">
 			<i class="icon-to-left-icon icon"></i>
 		</div>
@@ -30,7 +33,8 @@ export default {
 			reslut_list:[],
 			current:1,
 			count:0,
-			is_transition:false
+			is_transition:false,
+			active_index:1
 		}
 	},	
 	created(){
@@ -55,7 +59,7 @@ export default {
 				let temp = this.$refs.card_container;
 				for(let i = 0;i<length;i++){
 					temp[i].style.width = 100/num+"%";
-				}	
+				}
 			});
 		}
 	},
@@ -90,7 +94,6 @@ export default {
 	methods:{
 		to_right(){
 			//0 -100 1 -200 2 - 300 3
-			console.log(this.current);
 			if (this.is_transition) {//动画过程中，点击无效
 				return;
 			}
@@ -100,12 +103,17 @@ export default {
 			if (!container.classList.contains("add_transition")) {
 				container.classList.add('add_transition');
 			}
+			if (this.current>this.count) {
+				this.active_index = 1;
+			}else{
+				this.active_index = this.current;
+			}
+			console.log(this.active_index);
 			this.is_transition = true;
 			container.style.left = -this.current*100+"%";
 		},
 		to_left(){
 			// -300 -200 -100 0
-			console.log(this.current);
 			if (this.is_transition) {
 				return;
 			}
@@ -115,6 +123,12 @@ export default {
 			if (!container.classList.contains("add_transition")) {
 				container.classList.add('add_transition');
 			}
+			if (this.current<0) {
+				this.active_index = this.count;
+			}else{
+				this.active_index = this.current;
+			}
+			console.log(this.active_index);
 			container.style.left = -this.current*100+"%";
 		}
 	},
@@ -132,6 +146,18 @@ export default {
 	padding-top:3em;
 	position:relative;
 	overflow:hidden;
+	.circle-bottom-icon-container
+		width:100%;
+		margin:30px 0;
+		padding:20px 0px 0px 0px;
+		text-align:center;
+		height:20px;
+		line-height:20px;
+		.bottom-icon
+			color:#999;
+			display:inline-block;
+		.active
+			color:#333;
 	.circle-title
 		text-align: center;
 		margin-bottom: 1.8em;
