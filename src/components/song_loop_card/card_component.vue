@@ -1,7 +1,7 @@
 <template>
 	<div id="card-component">
 		<div class="container-div">
-			<div class="img-container">
+			<div class="img-container" ref="img_container">
 				<a href="#">
 					<img src="https://p.qpic.cn/music_cover/JBDCVgqXWXaYUvcsElqcicTqxjf1FITqfN9nJ1D7xicyMRlJ81Pic30kg/300?n=1" class="singer-img">
 					<div class="shadow-div">
@@ -24,6 +24,9 @@ export default {
 		return {
 			data_info:this.info_item
 		}
+	},
+	mounted(){
+		
 	},
 	methods:{
 		
@@ -114,9 +117,4 @@ export default {
 			ellipsis_tran();
 			&:hover
 				color:music-color;
-</style>
-<style type="text/css">
-{
-	font-weight: 100;
-}
 </style>

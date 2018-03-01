@@ -10,7 +10,8 @@
 			</div>
 		</div>
 		<div class="circle-bottom-icon-container">
-			<i class="bottom-icon icon-to-left-icon" v-for="n in count" :class="n===active_index?'active':''"></i>
+			<i class="bottom-icon icon-circle-icon" v-for="n in count" :class="n===active_index?'active':''"
+			@click="to_index(n)"></i>
 		</div>
 		<div class="to-left-button loop-ctrl" @click="to_left">
 			<i class="icon-to-left-icon icon"></i>
@@ -22,6 +23,7 @@
 </template>
 <script type="text/javascript">
 import card from './card_component.vue';
+
 export default {
 	props:['info_list'],
 	data(){
@@ -58,7 +60,7 @@ export default {
 				let length = this.$refs.card_container.length;
 				let temp = this.$refs.card_container;
 				for(let i = 0;i<length;i++){
-					temp[i].style.width = 100/num+"%";
+					temp[i].style.width = (100/num).toFixed(2)+"%";
 				}
 			});
 		}
@@ -70,18 +72,18 @@ export default {
 			if (event.target.classList.contains("loop-container")) {
 				this.is_transition = false;
 				let count = this.count;
-				if (this.current <= 0) {
+				let _current = this.current;
+				let container = this.$refs.loop_container;
+				if (_current <= 0) {
 					this.current = count;
-					let container = this.$refs.loop_container;
 					if (container.classList.contains("add_transition")) {
 						container.classList.remove('add_transition');
 					}
 					container.style.left = -this.current*100+"%";
 					return;
 				}
-				if (this.current > count) {//最后一个了，这个只是测试用的
+				if (_current > count) {//最后一个了，这个只是测试用的
 					this.current = 1;
-					let container = this.$refs.loop_container;
 					if (container.classList.contains("add_transition")) {
 						container.classList.remove('add_transition');
 					}
@@ -97,39 +99,62 @@ export default {
 			if (this.is_transition) {//动画过程中，点击无效
 				return;
 			}
-			this.current++;
+			let _current = ++this.current;
 			// 因为需要瞬间回到第一或者最后一个，所以transition还是要可控
 			let container = this.$refs.loop_container;
 			if (!container.classList.contains("add_transition")) {
 				container.classList.add('add_transition');
 			}
-			if (this.current>this.count) {
+			if (_current>this.count) {
 				this.active_index = 1;
 			}else{
-				this.active_index = this.current;
+				this.active_index = _current;
 			}
-			console.log(this.active_index);
 			this.is_transition = true;
-			container.style.left = -this.current*100+"%";
+			container.style.left = -_current*100+"%";
 		},
 		to_left(){
 			// -300 -200 -100 0
 			if (this.is_transition) {
 				return;
 			}
-			this.current--;
+			let _current = --this.current;
 			this.is_transition = true;
 			let container = this.$refs.loop_container;
 			if (!container.classList.contains("add_transition")) {
 				container.classList.add('add_transition');
 			}
-			if (this.current<0) {
+			if (_current<0) {
 				this.active_index = this.count;
 			}else{
-				this.active_index = this.current;
+				this.active_index = _current;
 			}
-			console.log(this.active_index);
-			container.style.left = -this.current*100+"%";
+			container.style.left = -_current*100+"%";
+		},
+		to_index(index){
+			let _current = this.current;
+			if(index===_current){
+				console.log("return")
+				return;
+			}
+			console.log("index:"+index);
+			if (this.is_transition) {//动画过程中，点击无效
+				return;
+			}
+			_current += index-_current;
+			this.current = _current;
+			// 因为需要瞬间回到第一或者最后一个，所以transition还是要可控
+			let container = this.$refs.loop_container;
+			if (!container.classList.contains("add_transition")) {
+				container.classList.add('add_transition');
+			}
+			if (_current>this.count) {
+				this.active_index = 1;
+			}else{
+				this.active_index = _current;
+			}
+			this.is_transition = true;
+			container.style.left = -_current*100+"%";
 		}
 	},
 	components:{
@@ -156,8 +181,13 @@ export default {
 		.bottom-icon
 			color:#999;
 			display:inline-block;
+			font-size:.65em;
+			margin:0 1em;
+			color:rgba(0,0,0,.15);
+			&:hover
+				cursor:pointer;
 		.active
-			color:#333;
+			color:rgba(0,0,0,.3);
 	.circle-title
 		text-align: center;
 		margin-bottom: 1.8em;

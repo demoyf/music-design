@@ -122,4 +122,5 @@ export default {
         padding:.5em .7em;
         border-radius:3px;
         margin-right:1em;
+        height: 2.2em;
 </style>
