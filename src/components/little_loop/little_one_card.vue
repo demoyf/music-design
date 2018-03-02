@@ -6,6 +6,7 @@
 		<div class="descripe-container">
 
 		</div>
+
 	</div>
 </template>
 <script type="text/javascript">
@@ -21,13 +22,16 @@
 			
 		},
 		computed:{
-			
+
+		},
+		mounted(){
+
 		}
 	}
 </script>
-<style lang="stylus">
+<style>
 #little-one-card
 	width:33%;
-	.img-container
-	
+
+
 </style>

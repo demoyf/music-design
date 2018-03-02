@@ -3,7 +3,7 @@
   <div class="music-header-container">
     <h1 class="header-head">
       <a class="home-link" href="/">
-        <img src="./../../assets/logo.png" >
+        <img src="./../../assets/logo.png">
       </a>
     </h1>
     <div class="header-content">
@@ -38,7 +38,7 @@
   </div>
   </div>
 </template>
-<script>
+<script type="text/javascript">
 import vue_search from './vue_search.vue';
 export default {
   name: "music-header",
@@ -51,7 +51,7 @@ export default {
 
   },
   compute: {
-
+    
   },
   components:{
     "vue-search":vue_search
@@ -81,10 +81,10 @@ export default {
         height: 90px
         width: 170px
         margin: 0 2em
-        img 
+        img
           vertical-align: middle
           display: inline-block
-    .header-content 
+    .header-content
       flex-shrink:0;
       .header-nav
         display: flex
@@ -93,7 +93,7 @@ export default {
         li
           display: list-item
           flex-shrink:0
-          a 
+          a
             height: 90px
             padding: 0 1.2em
             line-height: 90px
@@ -103,7 +103,7 @@ export default {
             color: rgba(0, 0, 0, 0.99)
             &:hover
               color: music-color
-            &.active 
+            &.active
               background-color:music-color
               color: white
     .button-container

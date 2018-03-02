@@ -21,7 +21,7 @@ export default {
     "m-header":header,
     "card-loop":card_loop,
     "little-loop":little_loop
-  }
+  },
 }
 </script>
 
