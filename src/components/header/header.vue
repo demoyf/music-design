@@ -51,7 +51,7 @@ export default {
 
   },
   compute: {
-    
+
   },
   components:{
     "vue-search":vue_search
@@ -74,37 +74,47 @@ export default {
     position:relative;
     .header-head
       margin-right:5em;
+      -ms-flex-negative:0;
       flex-shrink:0;
       .home-link
-        display: table-cell
-        vertical-align: middle
-        height: 90px
-        width: 170px
+        display: table-cell;
+        vertical-align: middle;
+        height: 90px;
+        width: 170px;
         margin: 0 2em
         img
-          vertical-align: middle
+          vertical-align: middle;
           display: inline-block
     .header-content
       flex-shrink:0;
       .header-nav
-        display: flex
-        flex-direction: row
-        justify-content: center
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-pack: center;
         li
-          display: list-item
-          flex-shrink:0
+          -ms-flex-pack: center;
+        li
+          justify-content: center;
+        li
+          display: list-item;
+          -ms-flex-negative:0;
           a
-            height: 90px
-            padding: 0 1.2em
-            line-height: 90px
-            display: inline-block
-            font-size: 1.2em
-            font-weight: 400
-            color: rgba(0, 0, 0, 0.99)
+            flex-shrink:0
+          a
+            height: 90px;
+            padding: 0 1.2em;
+            line-height: 90px;
+            display: inline-block;
+            font-size: 1.2em;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.99);
             &:hover
               color: music-color
             &.active
-              background-color:music-color
+              background-color:music-color;
               color: white
     .button-container
       position:absolute;
@@ -116,7 +126,7 @@ export default {
         margin-right:1em;
         color:rgba(0,0,0,0.6);
       .register-button
-        background-color:music-color
+        background-color:music-color;
         color:white;
         font-size:1.1em;
         padding:.5em .7em;

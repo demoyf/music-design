@@ -5,7 +5,6 @@
   <little-loop></little-loop>
   </div>
 </template>
-
 <script>
 import header from './components/header/header.vue';
 import card_loop from './components/song_loop_card/circle_loop.vue';

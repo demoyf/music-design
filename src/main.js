@@ -6,4 +6,4 @@ Vue.use(vue_resourse);
 new Vue({
   el: '#app',
   render: h => h(App)
-})
+});

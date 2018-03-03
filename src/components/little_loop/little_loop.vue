@@ -1,14 +1,14 @@
 <template>
 	<div id="little-loop-component">
 		<div class="parent-container">
-			
+			<little-one-card></little-one-card>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
-import one_card from './little_one_card';
+import one_card from './little_one_card.vue';
 	export default {
-		name:"little-one-card",
+		name:"little-loop-component",
 		props:[],
 		data(){
 			return {
@@ -16,13 +16,16 @@ import one_card from './little_one_card';
 			}
 		},
 		methods:{
-			
+
 		},
 		computed:{
-			
+
 		},
 		components: {
 			"little-one-card":one_card
+		},
+		mounted(){
+
 		}
 	}
 </script>
@@ -31,13 +34,10 @@ import one_card from './little_one_card';
 	width:100%;
 	position:relative;
 	height:100px;
-	background-color:yellow;
 	.parent-container
 		height:100%;
 		width:82%;
-		background-color:green;
 		position:absolute;
 		left:9%;
 		overflow:hidden;
-	
 </style>
