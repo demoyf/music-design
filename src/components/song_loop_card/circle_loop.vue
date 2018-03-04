@@ -23,7 +23,6 @@
 </template>
 <script type="text/javascript">
 import card from './card_component.vue';
-
 export default {
 	props:['info_list'],
 	data(){
@@ -38,7 +37,7 @@ export default {
 			is_transition:false,
 			active_index:1
 		}
-	},	
+	},
 	created(){
 		if (this.mock_list.length%5===0) {
 			let _mock_list = this.mock_list;
@@ -69,7 +68,7 @@ export default {
 		this.$refs.loop_container.addEventListener("transitionend",(event)=>{
 			// if ($event.traget) {}
 			// console.log();
-			if (event.target.classList.contains("loop-container")) {
+			if(event.target.classList.contains("loop-container")){
 				this.is_transition = false;
 				let count = this.count;
 				let _current = this.current;
@@ -90,8 +89,8 @@ export default {
 					container.style.left = -this.current*100+"%";
 					return;
 				}
-			}
-		});
+				}
+		},true);
 	},
 	methods:{
 		to_right(){
@@ -124,7 +123,7 @@ export default {
 			if (!container.classList.contains("add_transition")) {
 				container.classList.add('add_transition');
 			}
-			if (_current<0) {
+			if (_current<=0) {
 				this.active_index = this.count;
 			}else{
 				this.active_index = _current;
@@ -184,10 +183,12 @@ export default {
 			font-size:.65em;
 			margin:0 1em;
 			color:rgba(0,0,0,.15);
+			transition: color .5s;
 			&:hover
 				cursor:pointer;
 		.active
 			color:rgba(0,0,0,.3);
+			transition: color .5s;
 	.circle-title
 		text-align: center;
 		margin-bottom: 1.8em;
