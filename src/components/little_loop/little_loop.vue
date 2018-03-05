@@ -3,7 +3,7 @@
 		<h1 class="circle-title">新歌速递</h1>
 		<div class="parent-container">
 			<div class="roll-container" ref="song_list_container">
-				<div class="one-part" ref="song_item_container" v-for="index in length" :key="index">
+				<div class="one-part" ref="song_item_container" v-for="index in my_length" :key="index">
 					<little-one-card v-for="n in card_num" :song-item="song_list[card_num*(index-1)+(n-1)]" :key="index*200+n">
 					</little-one-card>
 				</div>
@@ -23,7 +23,7 @@
 	</div>
 </template>
 <script type="text/javascript">
-import one_card from './little_one_card.vue';
+import one_card from './little_one_card';
 import Roll from './../../common/util/roll_util';
 import url from './../../common/util/url';
 	export default {
@@ -34,14 +34,13 @@ import url from './../../common/util/url';
 				roll:null,
 				count:0,
 				active_index:1,
-				length:0,
+				my_length:0,
 				song_list:[],
 				card_num:9
 			}
 		},
 		created() {
 		  //do something after creating vue instance
-			console.log(url.get_new_song+"1");
 			this.$http.get(url.get_new_song+"1").then((response)=>{
 				if(response.status===200){
 					let body = response.body;
@@ -62,30 +61,42 @@ import url from './../../common/util/url';
 					let after = song_list.slice(index,length);
 					song_list.push(...first);
 					song_list.unshift(...after);
-					this.length = count+2;
+					this.my_length = count+2;
 					this.song_list = song_list;
 					after = null;
 					first = null;
+					this.$nextTick(()=>{
+						this.roll = new Roll(this,"song_list_container","song_item_container");
+						this.roll.build("add_transition",this.count);
+						this.roll.bind_transition_listener("roll-container");
+					})
 				}
-				this.$nextTick(()=>{
-					this.roll = new Roll(this,"song_list_container","song_item_container");
-					this.roll.build("add_transition",this.count);
-					this.roll.bind_transition_listener("roll-container");
-				});
 			}).catch((error)=>{
 				console.log(error);
 			})
 		},
+		watch:{
+
+		},
 		methods:{
 			to_left(){
+				if(!this.roll){
+					return;
+				}
 				this.roll.to_left();
 				this.active_index = this.roll.get_active();
 			},
 			to_right(){
+				if(!this.roll){
+					return;
+				}
 				this.roll.to_right();
 				this.active_index = this.roll.get_active();
 			},
 			to_index(index){
+				if(!this.roll){
+					return;
+				}
 				this.roll.to_index(index);
 				this.active_index = this.roll.get_active();
 			}
@@ -99,6 +110,7 @@ import url from './../../common/util/url';
 @import "../../common/stylus/mixin.styl";
 .little-loop-component
 	width:100%;
+	background: -webkit-gradient(linear,left top, left bottom,color-stop(40%, #99999928),to(white));
 	background: linear-gradient(#99999928 40%,white 100%);
 	overflow: hidden;
 	position: relative;
@@ -115,6 +127,7 @@ import url from './../../common/util/url';
 			font-size:.65em;
 			margin:0 1em;
 			color:rgba(0,0,0,.15);
+			-webkit-transition: color scale-second;
 			transition: color scale-second;
 			&:hover
 				cursor:pointer;

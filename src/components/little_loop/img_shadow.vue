@@ -24,7 +24,6 @@
 			let image = new Image();
 			image.src = img_url;
 			image.onload = ()=>{
-				console.log("image_load");
 				this.img_url = img_url;
 				image = null;
 			};
