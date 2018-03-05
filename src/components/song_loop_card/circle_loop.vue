@@ -4,8 +4,9 @@
 		<!-- 轮播图 -->
 		<div class="loop-parent">
 			<div class="loop-container" ref="loop_container">
-				<div class="card-container" v-for="item in reslut_list" :key="item.id" ref="card_container">
-					<card-component class="one-card" v-for="card in item" :key="card.id"></card-component>
+				<div class="card-container" v-for="(item,index) in reslut_list" ref="card_container" :key="index">
+					<card-component class="one-card" v-for="(card,j) in item"
+					 :info-item="card" :key="index*1000+j"></card-component>
 				</div>
 			</div>
 		</div>
@@ -23,14 +24,12 @@
 </template>
 <script type="text/javascript">
 import card from './card_component.vue';
+import url_util from './../../common/util/url';
 export default {
 	props:['info_list'],
 	data(){
 		return{
 			all_info:this.info_list,
-			mock_list:[
-				{id:1},{id:2},{id:3},{id:4},{id:5},{id:6},{id:7},{id:8},{id:9},{id:10}
-			],
 			reslut_list:[],
 			current:1,
 			count:0,
@@ -39,29 +38,50 @@ export default {
 		}
 	},
 	created(){
-		if (this.mock_list.length%5===0) {
-			let _mock_list = this.mock_list;
-			let first = _mock_list.slice(0,5);
-			// console.log(first);
-			let last = _mock_list.slice(this.mock_list.length-5,this.mock_list.length);
-			// console.log(last);
-			_mock_list.unshift(...last);
-			_mock_list.push(...first);
-			let num = _mock_list.length/5;
-			this.count = num-2;
-			let temp = [];
-			for (let i = 0;i<num;i++) {
-				temp.push(_mock_list.slice(i*5,(i+1)*5));
+		let url = url_util.get_new_album;
+		let that = this;
+		this.$http.get(url).then((response)=>{
+			if(response.status==200){
+					let body = response.body.plaze_album_list.RM.album_list.list;
+					let length = body.length;
+					if(length>10){
+						body = body.slice(0,10);
+						init(body);
+					}else if(length<10){
+						let temp = body.slice(0,10-body.length);
+						body.push(...temp);
+						init(body);
+					}else{
+						init(body);
+					}
 			}
-			this.reslut_list = temp;
-			this.$nextTick(()=>{
-				this.$refs.loop_container.style.width = num*100+"%";
-				let length = this.$refs.card_container.length;
-				let temp = this.$refs.card_container;
-				for(let i = 0;i<length;i++){
-					temp[i].style.width = (100/num).toFixed(2)+"%";
+		}).catch(()=>{
+
+		});
+		function init(mock_list){
+				let _mock_list = mock_list;
+				let first = _mock_list.slice(0,5);
+				// console.log(first);
+				let last = _mock_list.slice(_mock_list.length-5,_mock_list.length);
+				// console.log(last);
+				_mock_list.unshift(...last);
+				_mock_list.push(...first);
+				let num = _mock_list.length/5;
+				that.count = num-2;
+				let temp = [];
+				for (let i = 0;i<num;i++) {
+					temp.push(_mock_list.slice(i*5,(i+1)*5));
 				}
-			});
+				that.reslut_list = temp;
+				that.$nextTick(()=>{
+					console.log("tick");
+					that.$refs.loop_container.style.width = num*100+"%";
+					let length = that.$refs.card_container.length;
+					let container = that.$refs.card_container;
+					for(let i = 0;i<length;i++){
+						container[i].style.width = (100/num).toFixed(2)+"%";
+					}
+				});
 		}
 	},
 	mounted(){

@@ -3,8 +3,8 @@
 		<h1 class="circle-title">新歌速递</h1>
 		<div class="parent-container">
 			<div class="roll-container" ref="song_list_container">
-				<div class="one-part" ref="song_item_container" v-for="index in length">
-					<little-one-card v-for="n in card_num" :song-item="song_list[card_num*(index-1)+(n-1)]">
+				<div class="one-part" ref="song_item_container" v-for="index in length" :key="index">
+					<little-one-card v-for="n in card_num" :song-item="song_list[card_num*(index-1)+(n-1)]" :key="index*200+n">
 					</little-one-card>
 				</div>
 				<i class="clear_float"></i>

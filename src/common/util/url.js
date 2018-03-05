@@ -8,6 +8,6 @@ export default {
 	get_artist_song_lsit:url+"song/song_list/",//need tinguid artisitid page,
 	get_hot_artsit:url+"artist/hot_artist/",
 	get_artist_by_id:url+"artist/get_artist/",//need tinguid artisitid
-	get_new_album:url+"album/new_album",//not need
-	get_album_info:url+"album/album_info",//need albumid
+	get_new_album:url+"album/new_album/",//not need
+	get_album_info:url+"album/album_info/",//need albumid
 }

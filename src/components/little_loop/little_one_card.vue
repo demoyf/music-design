@@ -1,11 +1,13 @@
 <template>
 	<div class="little-one-card">
-		<img-shadow class="img-container" :img-url="img_url"></img-shadow>
+		<img-shadow class="img-container" :img-url="get_music_url()"></img-shadow>
 		<div class="descripe-container">
-				<p class="music-title-p">{{my_song_item.title}}</p>
-				<p class="artist-name-p">{{my_song_item.author}}</p>
+				<p class="music-title-p"
+				:data-song-id="my_song_item.song_id">{{my_song_item.title}}</p>
+				<p class="artist-name-p" :data-tinguid="my_song_item.ting_uid"
+				:data-artistid="my_song_item.artist_id">{{my_song_item.author}}</p>
 		</div>
-		<p class="music-duration">{{my_song_item.file_duration}}</p>
+		<p class="music-duration">{{get_file_duration()}}</p>
 	</div>
 </template>
 <script type="text/javascript">
@@ -21,17 +23,31 @@ export default {
 		}
 	},
 	methods:{
-
+		get_file_duration(){
+			let file_duration = parseInt(this.my_song_item.file_duration);
+			let result = "";
+			let minute = Math.ceil(file_duration/60);
+			result+=minute>=10?minute:("0"+minute);
+			result+=":";
+			let second = file_duration%60;
+			result+=second>=10?second:"0"+second;
+			return result;
+		},
+		get_music_url(){
+			let url = this.my_song_item.pic_small;
+			let music_url = {
+				img_url:url,
+				song_id:this.my_song_item.song_id
+			}
+			this.img_url = music_url;
+			return this.img_url;
+		}
 	},
 	computed:{
 
 	},
 	mounted(){
-		let url = this.my_song_item.pic_small;
-		let music_url = {
-			img_url:url
-		}
-		this.img_url = music_url;
+
 	},
 	components: {
 		'img-shadow':img_shadow

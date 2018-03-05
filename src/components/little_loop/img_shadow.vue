@@ -1,5 +1,5 @@
 <template>
-	<div class="img-shadow">
+	<div class="img-shadow" :data-song-id="info.song_id">
 		<a href="#" class="link-container">
 			<img :src="img_url">
 			<i class="mask-mod">
@@ -18,9 +18,16 @@
 				img_url:"./../../../static/img/default.png"
 			}
 		},
-		mounted() {
-		  //do something after mounting vue instance
-			this.img_url = this.info.img_url;
+		created() {
+		  //do something after creating vue instance
+			let img_url = this.info.img_url;
+			let image = new Image();
+			image.src = img_url;
+			image.onload = ()=>{
+				console.log("image_load");
+				this.img_url = img_url;
+				image = null;
+			};
 		}
 	}
 </script>

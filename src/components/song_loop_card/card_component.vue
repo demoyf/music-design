@@ -3,7 +3,8 @@
 		<div class="container-div">
 			<div class="img-container" ref="img_container">
 				<a href="#">
-					<img src="https://p.qpic.cn/music_cover/JBDCVgqXWXaYUvcsElqcicTqxjf1FITqfN9nJ1D7xicyMRlJ81Pic30kg/300?n=1" class="singer-img">
+					<img :src="defaultImg" class="singer-img"
+					onerror="onerror=null;src='./../../../static/img/default.png'">
 					<div class="shadow-div">
 						<div class="circle-icon">
 							<i class="icon-play-icon icon"></i>
@@ -11,22 +12,36 @@
 					</div>
 				</a>
 			</div>
-			<a href="#"><h3 class="title-h3">一曲流觞唱流年，一人独坐观中叹</h3></a>
-			<a href="#"><span class="artist-span">估计是个傻子</span></a>
+			<a href="#" :data-albumid="data_info.album_id"><h3 class="title-h3">{{data_info.title}}</h3></a>
+			<a href="#" :data-artistid="data_info.artist_id"><span class="artist-span">{{data_info.author}}</span></a>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
 export default {
 	name:"card-component",
-	props:["info_item"],
+	props:["infoItem"],
 	data(){
 		return {
-			data_info:this.info_item
+			data_info:this.infoItem,
+			defaultImg:"./../../../static/img/default.png"
 		}
 	},
 	mounted(){
-
+		let img_url = this.data_info.pic_big;
+		let image = new Image();
+		let index = img_url.lastIndexOf("@")>0?img_url.lastIndexOf("@"):img_url.length;
+		img_url = img_url.substr(0,index);
+		if(img_url.lastIndexOf("s_0")>0){
+			img_url+="@s_0,w_240";
+		}else{
+			img_url+="@s_1,w_240,h_240";
+		}
+		image.src = img_url;
+		image.onload = ()=>{
+			this.defaultImg = img_url;
+			image = null;
+		};
 	},
 	methods:{
 
