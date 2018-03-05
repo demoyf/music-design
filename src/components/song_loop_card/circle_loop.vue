@@ -1,5 +1,5 @@
 <template>
-	<div id="loop">
+	<div class="loop">
 		<h1 class="circle-title">歌单推荐</h1>
 		<!-- 轮播图 -->
 		<div class="loop-parent">
@@ -163,7 +163,7 @@ export default {
 </script>
 <style type="stylesheet/stylus" lang="stylus">
 @import './../../common/stylus/mixin.styl';
-#loop
+.loop
 	width: 100%;
 	min-width: my-min-width;
 	background: linear-gradient(#99999928 40%,white 100%);
@@ -183,12 +183,12 @@ export default {
 			font-size:.65em;
 			margin:0 1em;
 			color:rgba(0,0,0,.15);
-			transition: color .5s;
+			transition: color scale-second;
 			&:hover
 				cursor:pointer;
 		.active
 			color:rgba(0,0,0,.3);
-			transition: color .5s;
+			transition: color scale-second;
 	.circle-title
 		text-align: center;
 		margin-bottom: 1.8em;
@@ -222,7 +222,7 @@ export default {
 					content: '';
 					clear: both;
 		.add_transition
-			add_prefix('transition',left 1s);
+			add_prefix('transition',left roll-scond);
 		&::after
 			content: '';
 			clear: both;
@@ -242,17 +242,17 @@ export default {
 			background:rgba(99,99,99,0.1);
 	.to-left-button
 		left:-5em;
-		add_prefix('transition',left .5s);
+		add_prefix('transition',left scale-second);
 	.to-right-button
 		right:-5em;
-		add_prefix('transition',right .5s);
+		add_prefix('transition',right scale-second);
 	&:hover
 		.to-left-button
 			left:0em;
-			add_prefix('transition',left .5s);
+			add_prefix('transition',left scale-second);
 		.to-right-button
 			right:0em;
-			add_prefix('transition',right .5s);
+			add_prefix('transition',right scale-second);
 @media(max-width:1300px)
 	#loop .loop-parent
 		width:90%;

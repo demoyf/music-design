@@ -55,7 +55,6 @@ import * as storage_util from './../../common/util/local_storage.js';
 			}
 		},
 		mounted(){
-			console.log(storage_util.read_form_array());
 			// storage_util.clear_all();
 			const self = this;
 			self.current_width = document.body.clientWidth;
@@ -136,7 +135,8 @@ import * as storage_util from './../../common/util/local_storage.js';
 						this.is_search_now = false;
 						return;
 					}
-					this.$http.get(url_util.url+"search/suggesstion/"+search_text).then((data)=>{
+					let url = url_util.search_suggestion+search_text;
+					this.$http.get(url).then((data)=>{
 						if (data.status===200) {
 							if (data.body) {
 								let body = data.body;
@@ -206,7 +206,7 @@ import * as storage_util from './../../common/util/local_storage.js';
 		left:5em;
 		top:25px;
 		z-index:50;
-		add_prefix('transition',left .5s);
+		add_prefix('transition',left inpur-second);
 		background-color:white;
 		.search-input
 			display: inline-block;
@@ -235,7 +235,7 @@ import * as storage_util from './../../common/util/local_storage.js';
 		// padding:0.5em;
 		-webkit-box-sizing:border-box;
 		box-sizing:border-box;
-		add_prefix('transition',all .5s);
+		add_prefix('transition',all inpur-second);
 		visibility:hidden;
 		.result-item
 			margin:0.3em 0;
@@ -276,17 +276,17 @@ import * as storage_util from './../../common/util/local_storage.js';
 					span
 						color:white;
 	.input-large
-		add_prefix('transition',all .5s);
+		add_prefix('transition',all inpur-second);
 		width:190px;
 	.input-small
-		add_prefix('transition',all .5s);
+		add_prefix('transition',all inpur-second);
 		width:0px;
 	.input-left
 		left:-7em;
-		add_prefix('transition',all .5s);
+		add_prefix('transition',all inpur-second);
 	.input-center
 		left:0em;
-		add_prefix('transition',left .5s);
+		add_prefix('transition',left inpur-second);
 	.show
 		height:auto;
 		visibility:visible;

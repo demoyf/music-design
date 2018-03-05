@@ -1,21 +1,23 @@
 <template>
-	<div id="little-one-card">
-		<img-shadow class="img-container"></img-shadow>
+	<div class="little-one-card">
+		<img-shadow class="img-container" :img-url="img_url"></img-shadow>
 		<div class="descripe-container">
-				<p class="music-title-p">我要的</p>
-				<p class="artist-name-p">张靓颖</p>
+				<p class="music-title-p">{{my_song_item.title}}</p>
+				<p class="artist-name-p">{{my_song_item.author}}</p>
 		</div>
-		<p class="music-duration">03:40</p>
+		<p class="music-duration">{{my_song_item.file_duration}}</p>
 	</div>
 </template>
 <script type="text/javascript">
 import img_shadow from './img_shadow.vue';
 export default {
 	name:"little-one-card",
-	props:[],
+	props:['songItem'],
 	data(){
 		return {
-			mock_list:[]
+			mock_list:[],
+			my_song_item:this.songItem,
+			img_url:{}
 		}
 	},
 	methods:{
@@ -25,7 +27,11 @@ export default {
 
 	},
 	mounted(){
-
+		let url = this.my_song_item.pic_small;
+		let music_url = {
+			img_url:url
+		}
+		this.img_url = music_url;
 	},
 	components: {
 		'img-shadow':img_shadow
@@ -34,7 +40,7 @@ export default {
 </script>
 <style lang="stylus">
 @import "../../common/stylus/mixin.styl";
-#little-one-card
+.little-one-card
 	width:32%;
 	margin-right: 1%;
 	-webkit-box-sizing: border-box;

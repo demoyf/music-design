@@ -1,7 +1,7 @@
 <template>
-	<div id="img-shadow">
+	<div class="img-shadow">
 		<a href="#" class="link-container">
-			<img src="https://p.qpic.cn/music_cover/JBDCVgqXWXaYUvcsElqcicTqxjf1FITqfN9nJ1D7xicyMRlJ81Pic30kg/300?n=1">
+			<img :src="img_url">
 			<i class="mask-mod">
 				<i class="icon-play-icon play-icon"></i>
 			</i>
@@ -11,16 +11,21 @@
 <script type="text/javascript">
 	export default {
 		name:"img-shadow",
-		props:["to_info"],
+		props:["imgUrl"],
 		data(){
 			return {
-				info:this.to_info
+				info:this.imgUrl,
+				img_url:"./../../../static/img/default.png"
 			}
+		},
+		mounted() {
+		  //do something after mounting vue instance
+			this.img_url = this.info.img_url;
 		}
 	}
 </script>
 <style lang="stylus">
-#img-shadow
+.img-shadow
 	.link-container
 		display:block;
 		width:100%;

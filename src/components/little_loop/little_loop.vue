@@ -1,10 +1,10 @@
 <template>
-	<div id="little-loop-component">
+	<div class="little-loop-component">
 		<h1 class="circle-title">新歌速递</h1>
 		<div class="parent-container">
 			<div class="roll-container" ref="song_list_container">
 				<div class="one-part" ref="song_item_container" v-for="index in length">
-					<little-one-card v-for="n in list">
+					<little-one-card v-for="n in card_num" :song-item="song_list[card_num*(index-1)+(n-1)]">
 					</little-one-card>
 				</div>
 				<i class="clear_float"></i>
@@ -24,27 +24,57 @@
 </template>
 <script type="text/javascript">
 import one_card from './little_one_card.vue';
-import Roll from '../../common/util/roll_util';
+import Roll from './../../common/util/roll_util';
+import url from './../../common/util/url';
 	export default {
 		name:"little-loop-component",
 		props:[],
 		data(){
 			return {
-				mock_list:[],
-				list:9,
 				roll:null,
-				count:2,
+				count:0,
 				active_index:1,
-				length:4
+				length:0,
+				song_list:[],
+				card_num:9
 			}
 		},
 		created() {
 		  //do something after creating vue instance
-			this.$nextTick(()=>{
-				this.roll = new Roll(this,"song_list_container","song_item_container");
-				this.roll.build("add_transition",this.count);
-				this.roll.bind_transition_listener("roll-container");
-			});
+			console.log(url.get_new_song+"1");
+			this.$http.get(url.get_new_song+"1").then((response)=>{
+				if(response.status===200){
+					let body = response.body;
+					let song_list = body.song_list;
+					let count = Math.ceil(song_list.length/9);
+					let length = song_list.length;
+					if(length%9!=0){
+						let temp_index = length%9;
+						let temp_list = song_list.slice(0,9-temp_index);
+						song_list.push(...temp_list);
+						temp_list = null;
+						temp_index = null;
+					}
+					length = song_list.length;
+					this.count = count;
+					let first = song_list.slice(0,9);
+					let index = length-9<0?0:length-9;
+					let after = song_list.slice(index,length);
+					song_list.push(...first);
+					song_list.unshift(...after);
+					this.length = count+2;
+					this.song_list = song_list;
+					after = null;
+					first = null;
+				}
+				this.$nextTick(()=>{
+					this.roll = new Roll(this,"song_list_container","song_item_container");
+					this.roll.build("add_transition",this.count);
+					this.roll.bind_transition_listener("roll-container");
+				});
+			}).catch((error)=>{
+				console.log(error);
+			})
 		},
 		methods:{
 			to_left(){
@@ -67,7 +97,7 @@ import Roll from '../../common/util/roll_util';
 </script>
 <style lang="stylus">
 @import "../../common/stylus/mixin.styl";
-#little-loop-component
+.little-loop-component
 	width:100%;
 	background: linear-gradient(#99999928 40%,white 100%);
 	overflow: hidden;
@@ -85,12 +115,12 @@ import Roll from '../../common/util/roll_util';
 			font-size:.65em;
 			margin:0 1em;
 			color:rgba(0,0,0,.15);
-			transition: color .5s;
+			transition: color scale-second;
 			&:hover
 				cursor:pointer;
 		.active
 			color:rgba(0,0,0,.3);
-			transition: color .5s;
+			transition: color scale-second;
 	.circle-title
 		text-align: center;
 		margin-bottom: 1.8em;
@@ -123,7 +153,7 @@ import Roll from '../../common/util/roll_util';
 				content: '';
 				clear: both;
 		.add_transition
-			transition: left .8s;
+			transition: left roll-scond;
 	.loop-ctrl
 		background:rgba(99,99,99,0.05);
 		width:5em;
@@ -140,17 +170,17 @@ import Roll from '../../common/util/roll_util';
 			background:rgba(99,99,99,0.1);
 	.to-left-button
 		left:-5em;
-		add_prefix('transition',left .5s);
+		add_prefix('transition',left scale-second);
 	.to-right-button
 		right:-5em;
-		add_prefix('transition',right .5s);
+		add_prefix('transition',right scale-second);
 	&:hover
 		.to-left-button
 			left:0em;
-			add_prefix('transition',left .5s);
+			add_prefix('transition',left scale-second);
 		.to-right-button
 			right:0em;
-			add_prefix('transition',right .5s);
+			add_prefix('transition',right scale-second);
 @media(max-width:1300px)
 	#little-loop-component .parent-container
 		width:90%;

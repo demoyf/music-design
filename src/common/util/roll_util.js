@@ -31,11 +31,9 @@ class VueRoll{
     this.parent.addEventListener("transitionend",(event)=>{
       if(event.target.classList.contains(target_class)){
       this.is_transition = false;
-      console.log("end");
       let _count = this.count;
       let _current = this.current;
       let _parent = this.parent;
-      console.log(_count);
       // 结束的时候，是在第一个（伪装的最后一个），需要瞬间跳回最后一个
       if(_current<=0){
         this.current = _count;

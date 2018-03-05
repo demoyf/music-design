@@ -1,5 +1,5 @@
 <template>
-	<div id="card-component">
+	<div class="card-component">
 		<div class="container-div">
 			<div class="img-container" ref="img_container">
 				<a href="#">
@@ -36,7 +36,7 @@ export default {
 <!--  lang="stylus" -->
 <style type="stylesheet/stylus" lang="stylus">
 @import './../../common/stylus/mixin.styl';
-#card-component
+.card-component
 	width: 20%;
 	box-sizing: border-box;
 	padding-right:20px;
