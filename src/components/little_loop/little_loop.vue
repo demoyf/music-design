@@ -110,8 +110,7 @@ import url from './../../common/util/url';
 @import "../../common/stylus/mixin.styl";
 .little-loop-component
 	width:100%;
-	background: -webkit-gradient(linear,left top, left bottom,color-stop(40%, #99999928),to(white));
-	background: linear-gradient(#99999928 40%,white 100%);
+	gardient-background();
 	overflow: hidden;
 	position: relative;
 	.circle-bottom-icon-container

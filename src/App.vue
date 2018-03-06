@@ -3,6 +3,7 @@
   <m-header></m-header>
   <card-loop></card-loop>
   <little-loop></little-loop>
+  <recommend-loop></recommend-loop>
   <billboard-com></billboard-com>
   </div>
 </template>
@@ -11,6 +12,7 @@ import header from './components/header/header.vue';
 import card_loop from './components/song_loop_card/circle_loop.vue';
 import little_loop from './components/little_loop/little_loop.vue';
 import billboard from './components/billboard/billboard_com.vue';
+import recommend from './components/recommend/recommend_loop';
 export default {
   name: 'app',
   data () {
@@ -22,7 +24,8 @@ export default {
     "m-header":header,
     "card-loop":card_loop,
     "little-loop":little_loop,
-    'billboard-com':billboard
+    'billboard-com':billboard,
+    'recommend-loop':recommend
   },
 }
 </script>

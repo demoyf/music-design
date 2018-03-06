@@ -37,3 +37,28 @@ my-font-stretch()
   font-weight:bold;
   -webkit-transform: scale(.95);
   transform: scale(.95);
+
+gardient-background()
+  background: -webkit-gradient(linear,left top, left bottom,color-stop(40%, #99999928),to(white));
+  background: linear-gradient(#AAAAAA16 40%,white 100%);
+
+loop-ctrl-mixin()
+  background:rgba(99,99,99,0.05);
+  width:5em;
+  height:7em;
+  text-align:center;
+  position: absolute;
+  top:calc(50% - 3.5em);
+  line-height:8.3em;
+
+bottom-icon(temp)
+  color:#999;
+  display:inline-block;
+  font-size:.65em;
+  margin:0 temp;
+  color:rgba(0,0,0,.15);
+  -webkit-transition: color scale-second;
+  transition: color scale-second;
+  &:hover
+    cursor:pointer;
+    color: rgba(0,0,0,.3);

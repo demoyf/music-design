@@ -64,26 +64,26 @@ export default {
 <style lang="stylus" scoped>
 @import "../../common/stylus/mixin.styl";
 #billboard-container
-  width: max-screen-width;
-  margin-left: 9%;
+  width: 100%;
   overflow: hidden;
   margin-bottom: 6em;
+  gardient-background();
   .billboard-title
     my-font-stretch();
     margin-top: 1.3em;
     position: relative;
   .billboard
-    width: 100%;
+    width: max-screen-width;
     float: left;
-    .billboard
-      .clear-float::after
-        clear: both;
-        content: '';
+    margin-left: 9%;
+    .clear-float::after
+      clear: both;
+      content: '';
     &::after
       clear: both;
       content: '';
 @media(max-width:1300px)
-  #billboard-container
+  #billboard-container .billboard
     width: min-screen-width;
     margin-left: 5%;
 </style>

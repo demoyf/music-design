@@ -186,7 +186,7 @@ export default {
 .loop
 	width: 100%;
 	min-width: my-min-width;
-	background: linear-gradient(#99999928 40%,white 100%);
+	gardient-background();
 	padding-top:3em;
 	position:relative;
 	overflow:hidden;
