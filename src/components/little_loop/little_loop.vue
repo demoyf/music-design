@@ -195,7 +195,7 @@ import url from './../../common/util/url';
 			right:0em;
 			add_prefix('transition',right scale-second);
 @media(max-width:1300px)
-	#little-loop-component .parent-container
+	.little-loop-component .parent-container
 		width:90%;
 		left: 5%;
 </style>

@@ -274,6 +274,6 @@ export default {
 			right:0em;
 			add_prefix('transition',right scale-second);
 @media(max-width:1300px)
-	#loop .loop-parent
+	.loop .loop-parent
 		width:90%;
 </style>
