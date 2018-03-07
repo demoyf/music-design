@@ -8,12 +8,11 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
-
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: './src/main.js',
+    song_list:'./page/song_list/src/main.js'
   },
   output: {
     path: config.build.assetsRoot,

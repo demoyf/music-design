@@ -69,14 +69,18 @@ import url from './../../common/util/url';
 						this.roll = new Roll(this,"song_list_container","song_item_container");
 						this.roll.build("add_transition",this.count);
 						this.roll.bind_transition_listener("roll-container");
-					})
+					});
 				}
 			}).catch((error)=>{
 				console.log(error);
 			})
 		},
 		watch:{
-
+			
+		},
+		mounted() {
+		  //do something after mounting vue instance
+		  console.log("in mounted");
 		},
 		methods:{
 			to_left(){

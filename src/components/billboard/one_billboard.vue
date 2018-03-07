@@ -35,7 +35,6 @@ export default {
   },
   mounted() {
     //do something after mounting vue instance
-    console.log(this.background_url);
   }
 }
 </script>

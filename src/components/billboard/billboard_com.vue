@@ -49,7 +49,6 @@ export default {
         index++;
       }
       this.billboard_list = result;
-      console.log(this.billboard_list);
     });
   },
   mounted() {
