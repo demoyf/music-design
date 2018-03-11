@@ -32,7 +32,6 @@ footer, header, menu, nav, section {
 
 body {
     line-height: 1;
-    font-family: sans-serif;
 }
 
 blockquote, q {
@@ -61,25 +60,19 @@ li {
 }
 
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 10px;
+    height: 10px;
 }
 
-::-webkit-scrollbar-track-piece {
-    background-color: rgba(0, 0, 0, 0.2);
-    -webkit-border-radius: 6px;
+body ::-webkit-scrollbar-thumb {
+    background-color: #ddd;
 }
-
-::-webkit-scrollbar-thumb:vertical {
-    height: 5px;
-    background-color: rgba(125, 125, 125, 0.7);
-    -webkit-border-radius: 6px;
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 5px;
 }
-
-::-webkit-scrollbar-thumb:horizontal {
-    width: 5px;
-    background-color: rgba(125, 125, 125, 0.7);
-    -webkit-border-radius: 6px;
+::-webkit-scrollbar-track {
+    background: 0 0;
 }
 
 html, body {
