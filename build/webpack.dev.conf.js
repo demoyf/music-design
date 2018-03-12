@@ -70,6 +70,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       inject: true,
       chunks:['album_info']
     }),
+    new HtmlWebpackPlugin({
+      filename: 'page/artist.html',
+      template: 'page/artist/artist.html',
+      inject: true,
+      chunks:['artist']
+    }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
