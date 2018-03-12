@@ -27,7 +27,7 @@ export default {
 	data(){
 		return {
 			data_info:this.infoItem,
-			defaultImg:"./../../../static/img/default.png"
+			defaultImg:"./static/img/default.png"
 		}
 	},
 	mounted(){

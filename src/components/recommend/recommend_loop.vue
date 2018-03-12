@@ -31,11 +31,11 @@ export default {
     return{
       count:3,
       active_index:1,
-      dujia_list:[["./../../../static/img/recommend/5.jpg","./../../../static/img/recommend/6.jpg"],
-      ["./../../../static/img/recommend/1.jpg","./../../../static/img/recommend/2.jpg"],
-      ["./../../../static/img/recommend/3.jpg","./../../../static/img/recommend/4.jpg"],
-      ["./../../../static/img/recommend/5.jpg","./../../../static/img/recommend/6.jpg"],
-      ["./../../../static/img/recommend/1.jpg","./../../../static/img/recommend/2.jpg"]]
+      dujia_list:[["./static/img/recommend/5.jpg","./static/img/recommend/6.jpg"],
+      ["./static/img/recommend/1.jpg","./static/img/recommend/2.jpg"],
+      ["./static/img/recommend/3.jpg","./static/img/recommend/4.jpg"],
+      ["./static/img/recommend/5.jpg","./static/img/recommend/6.jpg"],
+      ["./static/img/recommend/1.jpg","./static/img/recommend/2.jpg"]]
     }
   },
   created() {

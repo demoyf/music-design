@@ -11,7 +11,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const env = require('../config/prod.env')
+const env = require('./../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -72,7 +72,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency',
+      chunks: ['manifest','vendor','app']
     }),
     new HtmlWebpackPlugin({
       filename: config.build.song_list,

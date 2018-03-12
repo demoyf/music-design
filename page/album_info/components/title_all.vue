@@ -66,7 +66,7 @@ export default {
   name: "title-all",
   data(){
     return {
-      img_url:'./../../../static/img/default.png',
+      img_url:'./../static/img/default.png',
       album_info:undefined,
       song_list:[],
       configObj:undefined
