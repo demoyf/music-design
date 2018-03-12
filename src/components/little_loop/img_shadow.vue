@@ -1,6 +1,6 @@
 <template>
 	<div class="img-shadow" :data-song-id="info.song_id">
-		<a href="#" class="link-container">
+		<a class="link-container">
 			<img :src="img_url">
 			<i class="mask-mod">
 				<i class="icon-play-icon play-icon"></i>
@@ -39,6 +39,7 @@
 		position:relative;
 		overflow: hidden;
 		&:hover
+			cursor: pointer;
 			img
 				-webkit-transition: -webkit-transform .5s;
 				transition: -webkit-transform .5s;

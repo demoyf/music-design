@@ -1,9 +1,12 @@
 <template>
 	<div class="little-one-card">
-		<img-shadow class="img-container" :img-url="get_music_url()"></img-shadow>
+		<div @click="to_url(my_song_item.song_id)">
+			<img-shadow class="img-container" :img-url="get_music_url()"></img-shadow>
+		</div>
 		<div class="descripe-container">
 				<p class="music-title-p"
-				:data-song-id="my_song_item.song_id">{{my_song_item.title}}</p>
+				:data-song-id="my_song_item.song_id"
+				@click="to_url(my_song_item.song_id)">{{my_song_item.title}}</p>
 				<p class="artist-name-p" :data-tinguid="my_song_item.ting_uid"
 				:data-artistid="my_song_item.artist_id">{{my_song_item.author}}</p>
 		</div>
@@ -12,6 +15,8 @@
 </template>
 <script type="text/javascript">
 import img_shadow from './img_shadow.vue';
+import * as loca from './../../common/util/local_storage';
+import key from './../../common/util/key.js';
 export default {
 	name:"little-one-card",
 	props:['songItem'],
@@ -41,6 +46,11 @@ export default {
 			}
 			this.img_url = music_url;
 			return this.img_url;
+		},
+		to_url(song_id){
+			loca.save_item(key.get_song_info,song_id);
+			window.location.href =
+			key.jump_url+"page/song_list.html";
 		}
 	},
 	computed:{

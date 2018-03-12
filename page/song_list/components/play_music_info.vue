@@ -31,11 +31,7 @@
         </button>
         <button class="music-other-button" type="button" name="comment-button">
           <i class="icon-quill"></i>
-          评论
-        </button>
-        <button class="music-other-button" type="button" name="more-button">
-          <i class="icon-spinner-icon"></i>
-          更多
+          去讨论
         </button>
       </div>
     </div>
@@ -46,6 +42,12 @@
       <h1>简介</h1>
       <p>{{album_info.info}}</p>
       <more-span :config-obj="configObj" class="more-span-class"></more-span>
+      <div class="album-img-container">
+        <h1>所属专辑</h1>
+        <img :src="album_info.pic_big" style="display:block"/>
+        <h2 style="margin-top:.3em;font-size:1em;color:#333">{{album_info.title}}</h2>
+        <h3 style="margin-top:.3em;font-size:.9em;color:#999;margin-left:.1em">{{album_info.publishtime}}</h3>
+      </div>
     </div>
   </div>
 </div>
@@ -54,6 +56,8 @@
 import url_util from './../../../src/common/util/url.js';
 import lrc_com from './lrc_com.vue';
 import more_span from './more_span.vue';
+import * as loca from './../../../src/common/util/local_storage';
+import key from './../../common/key.js';
 export default {
   name: "play-music-info",
   data(){
@@ -68,10 +72,12 @@ export default {
   },
   created() {
     //do something after creating vue instance
+    let song_id = loca.read_item(key.get_song_info);
     let url = url_util.get_song_by_id;
     let album_url = url_util.get_album_info;
-    url += this.song_id;
+    url += song_id;
     console.log(url);
+    // 获取歌曲信息
     this.$http.get(url).then((response)=>{
       if(response.status===200){
         let body = response.body;
@@ -88,7 +94,9 @@ export default {
         this.album_info = album_info;
         let info = album_info.info;
         this.configObj = {
-          album_info:info
+          info:info,
+          direction:'l',
+          show_header:"专辑简介"
         }
       }
     }).catch((error)=>{
@@ -129,10 +137,16 @@ export default {
         color: #333;
         &::after
           position: absolute;
-          right: .5em;
+          right: 0em;
           bottom: 0;
           content: '....'
           background-color: white;
+      .album-img-container
+        margin-top: 2em;
+        > h1
+          font-size: 1.1em;
+          font-weight: 600;
+          margin-bottom: .5em;
   .all-info
     width: max-screen-width;
     display: flex;
@@ -182,10 +196,10 @@ export default {
             color: music-color;
             cursor: pointer;
       .button-container
-        max-width: 520px;
+        max-width: 410px;
         display: flex;
         flex-direction: row;
-        justify-content: space-between
+        justify-content: space-between;
         margin-top: 4em;
         overflow: hidden;
         >button

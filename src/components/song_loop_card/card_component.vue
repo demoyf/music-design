@@ -1,8 +1,8 @@
 <template>
 	<div class="card-component">
 		<div class="container-div">
-			<div class="img-container" ref="img_container">
-				<a href="#">
+			<div class="img-container" ref="img_container" @click="to_url(data_info.album_id)">
+				<a>
 					<img :src="defaultImg" class="singer-img"
 					onerror="onerror=null;src='./../../../static/img/default.png'">
 					<div class="shadow-div">
@@ -12,12 +12,15 @@
 					</div>
 				</a>
 			</div>
-			<a href="#" :data-albumid="data_info.album_id"><h3 class="title-h3">{{data_info.title}}</h3></a>
-			<a href="#" :data-artistid="data_info.artist_id"><span class="artist-span">{{data_info.author}}</span></a>
+			<a :data-albumid="data_info.album_id">
+				<h3 class="title-h3" @click="to_url(data_info.album_id)">{{data_info.title}}</h3></a>
+			<a :data-artistid="data_info.artist_id"><span class="artist-span">{{data_info.author}}</span></a>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
+import * as local_uitl from './../../common/util/local_storage';
+import key from './../../common/util/key';
 export default {
 	name:"card-component",
 	props:["infoItem"],
@@ -44,7 +47,10 @@ export default {
 		};
 	},
 	methods:{
-
+		to_url(album_id){
+			local_uitl.save_item(key.get_album_info,album_id);
+			window.location.href = key.jump_url+"page/album_info.html";
+		}
 	}
 }
 </script>
@@ -124,6 +130,7 @@ export default {
 			ellipsis_tran()
 			&:hover
 				color:music-color;
+				cursor: pointer;
 		span.artist-span
 			font-size:.95em;
 			color:#999;
@@ -132,4 +139,5 @@ export default {
 			ellipsis_tran();
 			&:hover
 				color:music-color;
+				cursor: pointer;
 </style>

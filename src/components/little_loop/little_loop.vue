@@ -4,7 +4,8 @@
 		<div class="parent-container">
 			<div class="roll-container" ref="song_list_container">
 				<div class="one-part" ref="song_item_container" v-for="index in my_length" :key="index">
-					<little-one-card v-for="n in card_num" :song-item="song_list[card_num*(index-1)+(n-1)]" :key="index*200+n">
+					<little-one-card v-for="n in card_num" :song-item="song_list[card_num*(index-1)+(n-1)]"
+					:key="index*200+n">
 					</little-one-card>
 				</div>
 				<i class="clear_float"></i>
@@ -26,7 +27,7 @@
 import one_card from './little_one_card';
 import Roll from './../../common/util/roll_util';
 import url from './../../common/util/url';
-	export default {
+export default {
 		name:"little-loop-component",
 		props:[],
 		data(){
@@ -76,7 +77,7 @@ import url from './../../common/util/url';
 			})
 		},
 		watch:{
-			
+
 		},
 		mounted() {
 		  //do something after mounting vue instance

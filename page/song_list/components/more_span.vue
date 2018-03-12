@@ -1,14 +1,14 @@
 <template>
   <div id="more-span">
-    <span class="more-click" @click="show_mod">[更多]</span>
-    <div class="more-info-container" v-show="is_show">
+    <span class="more-click" @click="show_mod" ref="more_span_ref">[更多]</span>
+    <div class="more-info-container" ref="more_info_container" v-show="is_show">
       <div class="more-header">
-        专辑简介
+        {{config.show_header}}
       </div>
       <div class="album-info">
-          {{config.album_info}}
+          {{config.info}}
       </div>
-      <div class="pointer-icon">
+      <div class="pointer-icon" ref="pointer_ref">
       </div>
     </div>
   </div>
@@ -38,6 +38,17 @@ export default {
           that.is_show = false;
         }
     });
+    let top = this.$refs.more_span_ref.offsetTop;
+    let left = this.$refs.more_span_ref.offsetLeft;
+    let obj = this.configObj;
+    // 通过配置的direction设置位置
+    let direction = obj.direction||"l";
+    if(direction=="l"){
+      this.$refs.pointer_ref.classList.add("left-pointer");
+    }else if(direction=="t"){
+      this.$refs.pointer_ref.classList.add("top-pointer");
+      this.$refs.more_info_container.classList.add("top-more-info");
+    }
   },
   methods:{
     show_mod(){
@@ -50,6 +61,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 #more-span
+  position: relative;
   >span
     color: #31c27c;
     font-size: 1em;
@@ -60,10 +72,10 @@ export default {
       cursor: pointer;
   > .more-info-container
     width: 600px;
-    left: -610px;
-    top:-142px;
+    left: -615px;
+    top:-115px;
     float: left;
-    position: relative;
+    position: absolute;
     box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.1);
     border-radius: 5px;
     padding-right: .2em;
@@ -88,17 +100,29 @@ export default {
     > .pointer-icon
       width: .6em;
       height: .6em;
+      float: left;
+      box-sizing: border-box;
+      position: absolute;
+    .left-pointer
       border-left: 1px solid rgba(0,0,0,0.07);
       border-top: 1px solid transparent;
       border-right: 1px solid transparent;
       border-bottom: 1px solid transparent;
       border-width: .6em;
-      float: left;
-      box-sizing: border-box;
-      position: absolute;
       left: 100%;
       top: 50%;
+    .top-pointer
+      border-left: 1px solid transparent;
+      border-top: 1px solid transparent;
+      border-right: 1px solid transparent;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      top:-1.2em;
+      left: 70%;
+      border-width: .6em;
     &::after
       content: '';
       clear: both;
+  > .top-more-info
+    left: -410px;
+    top: 150%;
 </style>
