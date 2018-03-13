@@ -11,7 +11,7 @@
       </div>
       <ul class="ul-container">
         <li v-for="(item,index) in billboard_info.song_list">
-          <p>
+          <p class="song-title" @click="to_url(item.song_id)">
             {{index+1}}  {{item.title}}
           </p>
           <p class="artist-name">
@@ -23,6 +23,8 @@
   </div>
 </template>
 <script>
+import key from './../../common/util/key';
+import * as loca from './../../common/util/local_storage';
 export default {
   name: "one-billboard-com",
   props: ['colorName','billboardInfo',"imgBack"],
@@ -35,6 +37,13 @@ export default {
   },
   mounted() {
     //do something after mounting vue instance
+  },
+  methods: {
+    to_url(songid) {
+      console.log(songid);
+      loca.save_item(key.get_song_info,songid);
+      window.location.href = key.jump_song_info;
+    }
   }
 }
 </script>
@@ -141,6 +150,9 @@ export default {
           font-weight: 500;
           padding-right: 1em;
           ellipsis_tran();
+        .song-title
+          &:hover
+            cursor: pointer;
         .artist-name
           padding-left: .8em;
           padding-top: .6em;

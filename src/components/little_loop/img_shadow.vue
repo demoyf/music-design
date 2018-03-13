@@ -18,8 +18,8 @@
 				img_url:"./static/img/default.png"
 			}
 		},
-		created() {
-		  //do something after creating vue instance
+		mounted() {
+		  //do something after mounting vue instance
 			let img_url = this.info.img_url;
 			let image = new Image();
 			image.src = img_url;

@@ -9,13 +9,15 @@
     <div class="list-header one-part-container"
      v-for="(item,index) in song_list">
       <i class="small-span">{{index+1}}</i>
-      <span class="max-span">{{item.title}}</span>
+      <span class="max-span" @click="to_url(item.song_id)">{{item.title}}</span>
       <span class="middle-span">{{item.author}}</span>
       <span class="small-span">{{get_duration(item.file_duration)}}</span>
     </div>
   </div>
 </template>
 <script>
+import key from './../../common/key';
+import * as loca from './../../common/local_storage';
 export default {
   name: "show-song",
   props: ['songList'],
@@ -34,6 +36,10 @@ export default {
       let second = file_duration%60;
       result+=second>=10?second:"0"+second;
       return result;
+    },
+    to_url(songid){
+      loca.save_item(key.get_song_info,songid);
+      window.location.href = key.jump_song_info;
     }
   }
 }
