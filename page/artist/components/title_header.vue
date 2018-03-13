@@ -1,39 +1,46 @@
 <template>
-  <div id="title-all" v-if="album_info!=undefined">
-    <div class="all-info">
+  <div id="title-header">
+    <div class="all-info"
+    v-if="artist_info!=undefined">
       <div class="img-container">
         <img :src="img_url"/>
       </div>
       <div class="info-container">
-        <h1>{{album_info.title}}</h1>
-        <div class="icon-conatiner">
-          <i class="icon-github"></i>
-          <span class="artist-name">{{album_info.author}}</span>
+        <h1>{{artist_info.name}}</h1>
+        <div class="other-info">
+          <div class="album-info one-part-info">
+            国籍：
+            <span>
+              {{artist_info.country}}</span>
+          </div>
+          <div class="company-info one-part-info">
+            生日：
+            <span>{{artist_info.birth}}</span>
+          </div>
         </div>
         <div class="other-info">
           <div class="album-info one-part-info">
-            类型：
+            所属公司：
             <span>
-              {{album_info.styles}}</span>
+              {{artist_info.company}}</span>
           </div>
           <div class="company-info one-part-info">
-            语种：
-            <span>{{album_info.language}}</span>
+            星座：
+            <span>{{artist_info.constellation}}</span>
           </div>
         </div>
-        <div class="other-info">
-          <div class="one-part-info">
-            地区：
-            <span>{{album_info.country}}</span>
-          </div>
-          <div class="one-part-info">
-            发行公司：
-            <span>{{album_info.publishcompany}}</span>
-          </div>
+        <div class="intro-container">
+          <p>{{artist_info.intro}}</p>
+          <more-span :config-obj="configObj"></more-span>
         </div>
-        <div class="button-container">
+        <div class="artist-song-etc">
+          <h1>单曲 {{artist_info.songs_total}} | </h1>
+          <h1>专辑 {{artist_info.albums_total}} | </h1>
+          <h1>MV {{artist_info.mv_total}}</h1>
+        </div>
+      <div class="button-container">
           <button class="music-play-button" type="button" name="play-button">
-            <i class="icon-play-icon-1"></i>播放</button>
+            <i class="icon-play-icon-1"></i>热门</button>
           <button type="button" class="music-other-button" name="coll-button">
             <i class="icon-heart-icon"></i>
             收藏
@@ -45,89 +52,66 @@
         </div>
       </div>
     </div>
-    <div class="show-and-brief">
-      <show-song :song-list="song_list" class="show-song-list"></show-song>
-      <div class="album-brief">
-        <h1>简介</h1>
-        <p style="margin-bottom:.7em;">{{album_info.info}}</p>
-        <more-span :config-obj="configObj" class="more-span-class"></more-span>
-      </div>
-    </div>
   </div>
 </template>
 <script>
-import url_util from './../../../src/common/util/url.js';
-import show_song from './show_song.vue';
-import more_span from './../../song_list/components/more_span.vue';
-import * as loca from './../../../src/common/util/local_storage';
-import key from './../../common/key.js';
+import * as loca from './../../common/local_storage';
+import key_util from './../../common/key';
+import url_util from './../../common/url';
+import more_span from './../../song_list/components/more_span';
 export default {
-  name: "title-all",
+  name: "title-header",
   data(){
     return {
       img_url:'./../static/img/default.png',
-      album_info:undefined,
-      song_list:[],
+      artist_info:undefined,
       configObj:undefined
     }
   },
   created(){
-    let albumid = loca.read_item(key.get_album_info);
-    let url = url_util.get_album_info+albumid;
-    this.$http.get(url).then((response)=>{
+    let artist_url = url_util.get_artist_by_id;
+    let artist_id = loca.read_item(key_util.get_artist_id)||88;
+    let tinguid = loca.read_item(key_util.get_ting_id)||2517;
+    artist_url += tinguid+"/"+artist_id;
+    let artist_song_url = url_util.get_artist_song_lsit;
+    artist_song_url += tinguid+"/"+artist_id+"/1";
+    let artist_album_url = url_util.get_artist_album;
+    artist_album_url += tinguid+"/1";
+    this.$http.get(artist_url).then((response)=>{
       if(response.status===200){
         let body = response.body;
-        let albumInfo = body.albumInfo;
+        this.artist_info = body;
+        this.img_url = body.avatar_big;
         this.configObj = {
-          info:albumInfo.info,
-          direction:'l',
-          show_header:"专辑简介"
+          info:body.intro,
+          direction:'t',
+          show_header:"歌手简介"
         }
-        this.album_info = albumInfo;
-        this.song_list = body.songlist.slice(0,6);
-        this.img_url = albumInfo.pic_radio;
+      }
+    });
+    this.$http.get(artist_song_url).then((response)=>{
+      if(response.status===200){
+        console.log("song_list",response.body);
+      }
+    });
+    this.$http.get(artist_album_url).then((response)=>{
+      if(response.status===200){
+        console.log("album_list",response.body);
       }
     });
   },
   components:{
-    "show-song":show_song,
-    "more-span":more_span
+    'more-span':more_span
   }
 }
 </script>
 <style lang="stylus" scoped>
 @import "./../../../src/common/stylus/mixin.styl";
-#title-all
+#title-header
   width:100%;
   color: #333;
   gardient-background();
   padding-top: 5em;
-  .show-and-brief
-    width: max-screen-width;
-    margin:5em 9%;
-    display: flex;
-    flex-direction: row;
-    .album-brief
-      flex:0 0 290px;
-      > h1
-        font-size: 1.3em;
-        margin-bottom: 1em;
-        font-weight: 600;
-      > p
-        height: 10em;
-        overflow: hidden;
-        position: relative;
-        font-size: 1em;
-        color: #333;
-        &::after
-          position: absolute;
-          right: 0em;
-          bottom: 0;
-          content: '....'
-          background-color: white;
-      &::after
-        clear: both;
-        content: ''
   .all-info
     width: max-screen-width;
     display: flex;
@@ -137,6 +121,8 @@ export default {
     .img-container
       width: 250px;
       margin: 0 2em 0 0;
+      border-radius: 50%;
+      overflow: hidden;
       >img
         width: 100%;
         height: 100%;
@@ -147,7 +133,7 @@ export default {
       > h1
         margin: .5em 0 0 0;
         font-size: 2em;
-        font-weight: 600;
+        font-weight: 400;
         ellipsis_tran();
         height: 1.5em;
       > .icon-conatiner
@@ -168,7 +154,7 @@ export default {
         width: 520px;
         display: flex;
         flex-direction: row;
-        margin-top: 1em;
+        margin-top: .5em;
         .one-part-info
           width: 47%;
           margin-right: 3%;
@@ -176,12 +162,27 @@ export default {
           >span:hover
             color: music-color;
             cursor: pointer;
+      .intro-container
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        >p
+          display: inline-block;
+          max-width: 80%;
+          ellipsis_tran();
+      .artist-song-etc
+        display: flex;
+        margin-top: .5em;
+        flex-direction: row;
+        font-size: 1.2em;
+        >h1
+          margin-right: .3em;
       .button-container
         max-width: 410px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin-top: 3em;
+        margin-top: 2em;
         overflow: hidden;
         >button
           border-radius: 3px;

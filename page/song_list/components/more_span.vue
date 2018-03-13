@@ -65,7 +65,6 @@ export default {
   >span
     color: #31c27c;
     font-size: 1em;
-    margin-top: .7em;
     margin-left: .2em;
     display: inline-block;
     &:hover

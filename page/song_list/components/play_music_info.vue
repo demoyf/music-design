@@ -14,7 +14,7 @@
         <div class="album-info one-part-info"
         :data-albumid="song_info?song_info.album_id:''">
           专辑：
-          <span :data-albumid="song_info?song_info.album_id:''">
+          <span @click="to_url(song_info.album_id)">
             {{song_info?song_info.album_title:''}}</span>
         </div>
         <div class="company-info one-part-info">
@@ -40,7 +40,7 @@
     <lrc-com v-if="song_info!=undefined" :lrc-url="song_info.lrclink"></lrc-com>
     <div v-if="album_info!==undefined" class="album-brief">
       <h1>简介</h1>
-      <p>{{album_info.info}}</p>
+      <p style="margin-bottom:.7em;">{{album_info.info}}</p>
       <more-span :config-obj="configObj" class="more-span-class"></more-span>
       <div class="album-img-container">
         <h1>所属专辑</h1>
@@ -106,6 +106,12 @@ export default {
   components: {
     'lrc-com':lrc_com,
     'more-span':more_span
+  },
+  methods: {
+    to_url(album_id) {
+      loca.save_item(key.get_album_info,album_id);
+      window.location.href = key.jump_album_info;
+    }
   }
 }
 </script>

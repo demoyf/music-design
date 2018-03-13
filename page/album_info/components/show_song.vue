@@ -41,6 +41,19 @@ export default {
       loca.save_item(key.get_song_info,songid);
       window.location.href = key.jump_song_info;
     }
+  },
+  created() {
+    //do something after creating vue instance
+    window.addEventListener("storage",(evenet)=>{
+      if(event.key==="current_album"){
+        console.log(event.newValue);
+        return;
+      }
+      if(event.key==="current_song"){
+        console.log("song:"+event.newValue);
+        return;
+      }
+    });
   }
 }
 </script>
