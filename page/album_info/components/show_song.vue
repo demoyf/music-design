@@ -62,12 +62,13 @@ export default {
 #show-song
   width: 100%;
   margin-right: 4em;
+  border-radius: 5px;
   .one-part-container
     display: flex;
     flex-direction: row;
     padding: 1em;
     &:nth-child(2n+1)
-      background-color: rgba(0,0,0,0.02);
+      background-color: rgba(0,0,0,0.01);
     > i
     > span
       display: block;

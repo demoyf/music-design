@@ -1,7 +1,6 @@
 <template>
   <div id="title-header">
-    <div class="all-info"
-    v-if="artist_info!=undefined">
+    <div class="all-info" v-if="artist_info!=undefined">
       <div class="img-container">
         <img :src="img_url"/>
       </div>
@@ -52,6 +51,10 @@
         </div>
       </div>
     </div>
+    <div class="hot-song-container">
+      <hot-song v-if="songList!==undefined"
+      :song-list="songList"></hot-song>
+    </div>
   </div>
 </template>
 <script>
@@ -59,13 +62,15 @@ import * as loca from './../../common/local_storage';
 import key_util from './../../common/key';
 import url_util from './../../common/url';
 import more_span from './../../song_list/components/more_span';
+import hot_song from './hot_song.vue';
 export default {
   name: "title-header",
   data(){
     return {
       img_url:'./../static/img/default.png',
       artist_info:undefined,
-      configObj:undefined
+      configObj:undefined,
+      songList:undefined
     }
   },
   created(){
@@ -91,17 +96,20 @@ export default {
     });
     this.$http.get(artist_song_url).then((response)=>{
       if(response.status===200){
-        console.log("song_list",response.body);
+        let songlist = response.body.songlist.slice(0,10);
+        this.songList = songlist;
       }
     });
-    this.$http.get(artist_album_url).then((response)=>{
-      if(response.status===200){
-        console.log("album_list",response.body);
-      }
-    });
+    // this.$http.get(artist_album_url).then((response)=>{
+    //   if(response.status===200){
+    //     console.log("album_list",response.body);
+    //
+    //   }
+    // });
   },
   components:{
-    'more-span':more_span
+    'more-span':more_span,
+    'hot-song':hot_song
   }
 }
 </script>
@@ -207,4 +215,7 @@ export default {
             background-color: rgba(99,99,99,0.05);
           >i
             color: #999;
+  .hot-song-container
+    width: max-screen-width;
+    margin:5em auto;
 </style>
