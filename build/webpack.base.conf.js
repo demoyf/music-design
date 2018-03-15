@@ -14,7 +14,8 @@ module.exports = {
     app: './src/main.js',
     song_list:'./page/song_list/src/main.js',
     album_info:'./page/album_info/src/main.js',
-    artist:'./page/artist/src/main.js'
+    artist:'./page/artist/src/main.js',
+    hot_artist:'./page/hot_artist/src/main.js'
   },
   output: {
     path: config.build.assetsRoot,

@@ -9,23 +9,23 @@
     <div class="header-content">
       <ul class="header-nav">
         <li>
-          <a href="#" class="active">
+          <a href="/" :class="{'active': 1==active_el}">
           音乐馆
           </a>
         </li>
         <li>
-          <a href="#">
-          我的音乐
+          <a href="/page/hot_artist.html" :class="{'active': 2==active_el}">
+          热门歌手
           </a>
         </li>
         <li>
-          <a href="#">
-          客户端
+          <a href="#" :class="{'active': 3==active_el}">
+          排行榜
           </a>
         </li>
         <li>
-          <a href="#">
-          音乐号
+          <a href="#" :class="{'active': 4==active_el}">
+          论坛
           </a>
         </li>
       </ul>
@@ -42,9 +42,16 @@
 import vue_search from './vue_search.vue';
 export default {
   name: "music-header",
+  props: ['active'],
   data() {
     return {
-
+      active_el:this.active
+    }
+  },
+  created() {
+    //do something after creating vue instance
+    if(!this.active_el){
+      this.active_el = 1;
     }
   },
   methods: {

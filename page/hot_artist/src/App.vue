@@ -1,13 +1,11 @@
 <template>
   <div id="App">
-    <header-com></header-com>
-    <title-header></title-header>
+    <header-com :active='2'></header-com>
     <my-footer></my-footer>
   </div>
 </template>
 <script>
 import my_header from './../../../src/components/header/header.vue';
-import title_header from './../components/title_header';
 import footer from './../../../src/components/footer/footer.vue';
 export default {
   name: "App",
@@ -18,8 +16,7 @@ export default {
   },
   components: {
     'header-com':my_header,
-    'my-footer':footer,
-    'title-header':title_header
+    'my-footer':footer
   }
 }
 </script>

@@ -120,6 +120,21 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: 'dependency',
       chunks: ['manifest','vendor','artist']
     }),
+    new HtmlWebpackPlugin({
+      filename: config.build.hot_artist,
+      template: 'page/hot_artist/hot_artist.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency',
+      chunks: ['manifest','vendor','hot_artist']
+    }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
