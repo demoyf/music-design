@@ -8,7 +8,8 @@
       <h1>{{song_info?song_info.title:''}}</h1>
       <div class="icon-conatiner">
         <i class="icon-github"></i>
-        <span class="artist-name">{{song_info?song_info.author:''}}</span>
+        <span class="artist-name"
+        @click="to_artist_url(song_info.all_artist_id,song_info.all_artist_ting_uid)">{{song_info?song_info.author:''}}</span>
       </div>
       <div class="other-info">
         <div class="album-info one-part-info"
@@ -76,7 +77,6 @@ export default {
     let url = url_util.get_song_by_id;
     let album_url = url_util.get_album_info;
     url += song_id;
-    console.log(url);
     // 获取歌曲信息
     this.$http.get(url).then((response)=>{
       if(response.status===200){
@@ -111,6 +111,11 @@ export default {
     to_url(album_id) {
       loca.save_item(key.get_album_info,album_id);
       window.location.href = key.jump_album_info;
+    },
+    to_artist_url(artistid,tingid){
+      loca.save_item(key.get_artist_id,artistid);
+      loca.save_item(key.get_ting_id,tingid);
+      window.location.href = key.jump_artist_info;
     }
   }
 }
@@ -189,6 +194,9 @@ export default {
           max-width: 80%;
           ellipsis_tran();
           font-family: 'SimSun';
+          &:hover
+            color: music-color;
+            cursor: pointer;
       .other-info
         width: 520px;
         display: flex;

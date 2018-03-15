@@ -8,7 +8,8 @@
 				:data-song-id="my_song_item.song_id"
 				@click="to_url(my_song_item.song_id)">{{my_song_item.title}}</p>
 				<p class="artist-name-p" :data-tinguid="my_song_item.ting_uid"
-				:data-artistid="my_song_item.artist_id">{{my_song_item.author}}</p>
+				:data-artistid="my_song_item.artist_id"
+				@click="to_artist_url(my_song_item.artist_id,my_song_item.ting_uid)">{{my_song_item.author}}</p>
 		</div>
 		<p class="music-duration">{{get_file_duration()}}</p>
 	</div>
@@ -51,6 +52,11 @@ export default {
 			loca.save_item(key.get_song_info,song_id);
 			window.location.href =
 			key.jump_url+"page/song_list.html";
+		},
+		to_artist_url(artisid,tingid){
+			loca.save_item(key.get_artist_id,artisid);
+			loca.save_item(key.get_ting_id,tingid);
+			window.location.href = key.jump_artist_info;
 		}
 	},
 	computed:{

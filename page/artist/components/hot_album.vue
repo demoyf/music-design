@@ -6,8 +6,10 @@
     </div>
     <div class="album-container">
       <div class="one-card" v-for="album in album_list">
-        <img-shadow :img-url="{img_url:album.pic_radio}" class="my-img-shadow">
-        </img-shadow>
+        <div @click="to_album_url(album.album_id)">
+          <img-shadow :img-url="{img_url:album.pic_radio}" class="my-img-shadow" >
+          </img-shadow>
+        </div>
         <h2 class="album-title" @click="to_album_url(album.album_id)">{{album.title}}</h2>
         <h2 class="album-author">{{album.author}}</h2>
       </div>

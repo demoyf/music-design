@@ -8,7 +8,8 @@
         <h1>{{album_info.title}}</h1>
         <div class="icon-conatiner">
           <i class="icon-github"></i>
-          <span class="artist-name">{{album_info.author}}</span>
+          <span class="artist-name" @click="to_artist_url(song_list[0].artist_id,
+            song_list[0].ting_uid)">{{album_info.author}}</span>
         </div>
         <div class="other-info">
           <div class="album-info one-part-info">
@@ -92,6 +93,13 @@ export default {
   components:{
     "show-song":show_song,
     "more-span":more_span
+  },
+  methods: {
+    to_artist_url(artistid,tingid){
+      loca.save_item(key.get_artist_id,artistid);
+      loca.save_item(key.get_ting_id,tingid);
+      window.location.href = key.jump_artist_info;
+    }
   }
 }
 </script>
@@ -164,6 +172,9 @@ export default {
           max-width: 80%;
           ellipsis_tran();
           font-family: 'SimSun';
+          &:hover
+            color: music-color;
+            cursor: pointer;
       .other-info
         width: 520px;
         display: flex;

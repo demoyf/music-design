@@ -14,7 +14,7 @@
           <p class="song-title" @click="to_url(item.song_id)">
             {{index+1}}  {{item.title}}
           </p>
-          <p class="artist-name">
+          <p class="artist-name" @click="to_artist_url(item.artist_id,item.ting_uid)">
             {{item.artist_name}}
           </p>
         </li>
@@ -43,6 +43,11 @@ export default {
       console.log(songid);
       loca.save_item(key.get_song_info,songid);
       window.location.href = key.jump_song_info;
+    },
+    to_artist_url(artisid,tingid){
+      loca.save_item(key.get_artist_id,artisid);
+      loca.save_item(key.get_ting_id,tingid);
+      window.location.href = key.jump_artist_info;
     }
   }
 }
@@ -156,4 +161,6 @@ export default {
         .artist-name
           padding-left: .8em;
           padding-top: .6em;
+          &:hover
+            cursor: pointer;
 </style>
