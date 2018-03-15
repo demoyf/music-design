@@ -54,6 +54,9 @@
     <div class="hot-song-container">
       <hot-song v-if="songList!==undefined"
       :song-list="songList"></hot-song>
+      <hot-album v-if="albumList!=undefined" :album-list="albumList">
+
+      </hot-album>
     </div>
   </div>
 </template>
@@ -63,6 +66,7 @@ import key_util from './../../common/key';
 import url_util from './../../common/url';
 import more_span from './../../song_list/components/more_span';
 import hot_song from './hot_song.vue';
+import hot_album from './hot_album.vue';
 export default {
   name: "title-header",
   data(){
@@ -70,7 +74,8 @@ export default {
       img_url:'./../static/img/default.png',
       artist_info:undefined,
       configObj:undefined,
-      songList:undefined
+      songList:undefined,
+      albumList:undefined
     }
   },
   created(){
@@ -100,16 +105,16 @@ export default {
         this.songList = songlist;
       }
     });
-    // this.$http.get(artist_album_url).then((response)=>{
-    //   if(response.status===200){
-    //     console.log("album_list",response.body);
-    //
-    //   }
-    // });
+    this.$http.get(artist_album_url).then((response)=>{
+      if(response.status===200){
+        this.albumList = response.body.albumlist.slice(0,5);
+      }
+    });
   },
   components:{
     'more-span':more_span,
-    'hot-song':hot_song
+    'hot-song':hot_song,
+    'hot-album':hot_album
   }
 }
 </script>
