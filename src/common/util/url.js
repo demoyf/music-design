@@ -1,6 +1,5 @@
 const url="http://127.0.0.1:3000/";
 export default {
-	jump_url:"http://localhost:8080/",
 	search_suggestion:url+"search/suggesstion/",//need query
 	search_all:url+"search/all/",//need query type
 	billboard:url+"billboard/",//need query type
