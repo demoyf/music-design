@@ -2,7 +2,7 @@
   <div id="App">
     <header-com :active='2'></header-com>
     <hot-artist v-if="hot_artist!==undefined"
-    :hot-artist="hot_artist"></hot-artist>
+    :hot-artist="hot_artist" :page-info="page_info"></hot-artist>
     <my-footer></my-footer>
   </div>
 </template>
@@ -27,6 +27,7 @@ export default {
         let body = response.body;
         this.hot_artist=body.artist;
         this.page_info = body.name;
+        console.log(body);
       }
     });
   },

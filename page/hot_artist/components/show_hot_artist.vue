@@ -13,22 +13,27 @@
     >
       <p v-for="item in span_hot">{{item.name}}</p>
     </div>
+    <pagination-com @pagination="change"
+    :page-num="page_info.page_num"></pagination-com>
   </div>
 </template>
 <script>
+import pagination from './../../common/components/pagination.vue';
 export default {
   name: "show-hot-artist",
-  props: ['hotArtist'],
+  props: ['hotArtist',"pageInfo"],
   data(){
     return {
       artist_list:this.hotArtist,
       music_url:'./../static/img/default.png',
       img_hot:undefined,
-      span_hot:undefined
+      span_hot:undefined,
+      page_info:this.pageInfo
     }
   },
   created() {
     //do something after creating vue instance
+    console.log(this.page_info.page_num);
     let hot_artist = this.artist_list;
     let img_list = hot_artist.slice(0,10);
     for(let i = 0;i<img_list.length;i++){
@@ -43,7 +48,6 @@ export default {
       img.src = item.avatar_big;
       img.onload = ((i)=>{
         this.img_hot[i].music_url = item.avatar_big;
-        console.log("created");
       })(i);
     }
     if(hot_artist.length>10){
@@ -54,6 +58,14 @@ export default {
   mounted() {
     //do something after mounting vue instance
     console.log("mounted");
+  },
+  components: {
+    'pagination-com':pagination
+  },
+  methods:{
+    change(index){
+      console.log(index);
+    }
   }
 }
 </script>
@@ -108,6 +120,4 @@ export default {
       &:hover
         color: music-color;
         cursor: pointer;
-
-
 </style>
