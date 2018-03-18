@@ -32,20 +32,23 @@
     </div>
     <vue-search></vue-search>
     <div class="button-container">
-      <button class="login-button"> 登录</button>
+      <button class="login-button" @click="show_l"> 登录</button>
       <button class="register-button">注册</button>
     </div>
   </div>
+  <login-com v-show="show_login" @close-login="close_login"></login-com>
   </div>
 </template>
 <script type="text/javascript">
 import vue_search from './vue_search.vue';
+import login_com from './../login/login';
 export default {
   name: "music-header",
   props: ['active'],
   data() {
     return {
-      active_el:this.active
+      active_el:this.active,
+      show_login:false
     }
   },
   created() {
@@ -55,13 +58,22 @@ export default {
     }
   },
   methods: {
-
+    show_l(){
+      document.body.style.overflow = "hidden";
+      this.show_login = true;
+    },
+    close_login(){
+      console.log("in hear");
+      document.body.style.overflow = "visible";
+      this.show_login = false;
+    }
   },
   compute: {
 
   },
   components:{
-    "vue-search":vue_search
+    "vue-search":vue_search,
+    'login-com':login_com
   }
 }
 
