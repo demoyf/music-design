@@ -19,7 +19,7 @@
           </a>
         </li>
         <li>
-          <a href="#" :class="{'active': 3==active_el}">
+          <a href="/page/billboard.html" :class="{'active': 3==active_el}">
           排行榜
           </a>
         </li>
@@ -36,7 +36,9 @@
       <button class="register-button">注册</button>
     </div>
   </div>
-  <login-com v-show="show_login" @close-login="close_login"></login-com>
+  <transition name="fade-in">
+    <login-com v-show="show_login" @close-login="close_login"></login-com>
+  </transition>
   </div>
 </template>
 <script type="text/javascript">
@@ -152,4 +154,16 @@ export default {
         border-radius:3px;
         margin-right:1em;
         height: 2.2em;
+  .fade-in-enter-to,
+  .fade-in-leave
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  .fade-in-enter-active,
+  .fade-in-leave-active
+    transition: all .5s;
+    transform: scale(1) rotate(0);
+  .fade-in-enter,
+  .fade-in-leave-to
+    opacity: 0;
+    transform: scale(0) rotate(180deg);
 </style>

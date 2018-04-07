@@ -43,6 +43,7 @@ module.exports = {
     album_info:path.resolve(__dirname,'../dist/page/album_info.html'),
     artist:path.resolve(__dirname,'../dist/page/artist.html'),
     hot_artist:path.resolve(__dirname,'../dist/page/hot_artist.html'),
+    billboard:path.resolve(__dirname,'../dist/page/billboard.html'),
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
