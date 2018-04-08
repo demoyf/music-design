@@ -61,7 +61,9 @@ export default {
         if(response.status===200){
           let body = response.body;
           this.page_info = body.billboard;
+          this.page_list = [];
           this.page_list = body.song_list;
+          console.log(this.page_list);
         }
       });
     }
