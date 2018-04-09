@@ -1,15 +1,17 @@
 <template>
   <div id="billboard-item">
-    <div class="img-container">
+    <div class="img-container" @click="to_music(billboardItem.song_id)">
       <img :src="billboardItem.pic_small" alt="">
     </div>
-    <h1>{{billboardItem.title}}</h1>
-    <p>{{billboardItem.artist_name}}</p>
-    <p>{{billboardItem.album_title}}</p>
+    <h1 @click="to_music(billboardItem.song_id)">{{billboardItem.title}}</h1>
+    <p @click="to_artist(billboardItem.artist_id,billboardItem.ting_uid)">{{billboardItem.artist_name}}</p>
+    <p @click="to_album(billboardItem.album_id)">{{billboardItem.album_title}}</p>
     <h2>{{billboardItem.file_duration|change_duration}}</h2>
   </div>
 </template>
 <script>
+import * as local_uitl from './../../common/local_storage';
+import key from './../../common/key';
 export default {
   name: "billboard-item",
   props: ['billboardItem'],
@@ -35,6 +37,21 @@ export default {
       result+=second>=10?second:"0"+second;
       return result;
     }
+  },
+  methods:{
+    to_music(music_id){
+      local_uitl.save_item(key.get_song_info,music_id);
+			window.open(key.jump_url+"page/song_list.html");
+    },
+    to_album(album_id){
+      local_uitl.save_item(key.get_album_info,album_id);
+      window.open(key.jump_url+"page/album_info.html");
+    },
+    to_artist(artisid,tingid){
+      local_uitl.save_item(key.get_artist_id,artisid);
+      local_uitl.save_item(key.get_ting_id,tingid);
+      window.open(key.jump_artist_info);
+    }
   }
 }
 </script>
@@ -58,16 +75,25 @@ export default {
     img
       width: 100%;
       height: 100%;
+      &:hover
+        color: #31c27c;
+        cursor: pointer;
   h1
     width: 25%;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    &:hover
+      color: #31c27c;
+      cursor: pointer;
   p
     width: 20%;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    &:hover
+      color: #31c27c;
+      cursor: pointer;
   h2
     width: 8%;
 </style>
