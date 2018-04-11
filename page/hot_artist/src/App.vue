@@ -27,7 +27,6 @@ export default {
         let body = response.body;
         this.hot_artist=body.artist;
         this.page_info = body.name;
-        console.log(body);
       }
     });
   },

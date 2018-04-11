@@ -6,7 +6,7 @@
         v-on:navIndex="on_current"
       ></left-nav>
       <billboard class="billboard"
-      :page-info="page_info" :page-list="page_list">
+      :page-info="page_info" :page-list="page_list" :type="type">
       </billboard>
     </div>
     <my-footer></my-footer>
@@ -27,7 +27,9 @@ export default {
       page_info:{
         name:''
       },
-      page_list:[]
+      page_list:[],
+      type:0,
+      current:1
     }
   },
   created(){
@@ -38,6 +40,7 @@ export default {
     let first = this.billboard_type[0];
     let url = url_util.billboard;
     url += first.type+"/1";
+    this.type=first.type;
     this.$http.get(url).then((response)=>{
       if(response.status===200){
         let body = response.body;
@@ -54,7 +57,8 @@ export default {
   },
   methods: {
     on_current(index) {
-      console.log(index);
+      this.type = bilboard_type.billboard_info[index].type;
+      this.current = 1;
       let url = url_util.billboard;
       url += bilboard_type.billboard_info[index].type+"/1";
       this.$http.get(url).then((response)=>{
@@ -63,7 +67,6 @@ export default {
           this.page_info = body.billboard;
           this.page_list = [];
           this.page_list = body.song_list;
-          console.log(this.page_list);
         }
       });
     }

@@ -7,7 +7,7 @@
       <div class="info-container">
         <h1>{{album_info.title}}</h1>
         <div class="icon-conatiner">
-          <i class="icon-github"></i>
+          <i class="icon-user"></i>
           <span class="artist-name" @click="to_artist_url(song_list[0].artist_id,
             song_list[0].ting_uid)">{{album_info.author}}</span>
         </div>

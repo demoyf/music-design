@@ -5,9 +5,9 @@
     </div>
     <div class="billboard-header">
       <div class="img-header">
-        头像
       </div>
       <h1>歌曲名</h1>
+      <i></i>
       <p>歌手名</p>
       <p>专辑名</p>
       <h2>时长</h2>
@@ -15,24 +15,71 @@
     <div class="song-list-container">
       <billboard-item v-for="item in pageList" :billboard-item="item">
       </billboard-item>
+      <div v-show="show_loading">
+        <loading></loading>
+      </div>
+      <div class="get-more" @click="load_more()" style="text-align:center;margin-top:1em">
+        {{text}}
+      </div>
     </div>
   </div>
 </template>
 <script>
 import billboard_item from './../../common/components/billboard_item.vue';
+import loading from './../../common/components/loading.vue';
+import url_util from './../../common/url.js';
 export default {
   name: "billboard-container",
-  props:['pageInfo','pageList'],
+  props:['pageInfo','pageList','type'],
   data(){
     return {
-
+      show_loading:false,
+      text:"加载更多",
+      current:1
     }
   },
   mounted(){
 
   },
   components: {
-    'billboard-item':billboard_item
+    'billboard-item':billboard_item,
+    'loading':loading
+  },
+  methods:{
+    load_more(){
+      if(this.show_loading||this.pageInfo.page_num<=this.current){
+        return;
+      }
+      this.current++;
+      this.show_loading = true;
+      let url = url_util.billboard;
+      url += this.type+"/"+this.current;
+      this.$http.get(url).then((response)=>{
+        if(response.status===200){
+          setTimeout(()=>{
+            this.show_loading = false;
+            let body = response.body;
+            if(body.song_list)
+            this.pageList.push(...body.song_list);
+          },500);
+        }
+      });
+      if(this.pageInfo.page_num<=this.current){
+        this.text = "无更多数据";
+      }else{
+        this.text = "加载更多";
+      }
+    }
+  },
+  watch:{
+    pageInfo(){
+      this.current = 1;
+      if(this.pageInfo.page_num<=this.current){
+        this.text = "无更多数据";
+      }else{
+        this.text = "加载更多";
+      }
+    }
   }
 }
 </script>
@@ -71,7 +118,7 @@ export default {
         width: 100%;
         height: 100%;
     h1
-      width: 25%;
+      width: 23%;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -82,4 +129,13 @@ export default {
       overflow: hidden;
     h2
       width: 8%;
+    i
+      display: block;
+      width: 18px;
+      height: 16px;
+  .get-more
+    border-radius: 5px;
+    padding: 1em;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
 </style>

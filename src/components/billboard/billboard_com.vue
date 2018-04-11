@@ -30,7 +30,7 @@ export default {
     }
   },
   created(){
-    let type_list = type_util.billboard_info;
+    let type_list = type_util.billboard_info.slice(0,5);
     let promise_list = [];
     let url = url_util.billboard;
     let result = [];

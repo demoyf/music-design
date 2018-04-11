@@ -4,6 +4,9 @@
       <img :src="billboardItem.pic_small" alt="">
     </div>
     <h1 @click="to_music(billboardItem.song_id)">{{billboardItem.title}}</h1>
+    <div class="icon">
+      <i class="icon-play-icon-1"></i>
+    </div>
     <p @click="to_artist(billboardItem.artist_id,billboardItem.ting_uid)">{{billboardItem.artist_name}}</p>
     <p @click="to_album(billboardItem.album_id)">{{billboardItem.album_title}}</p>
     <h2>{{billboardItem.file_duration|change_duration}}</h2>
@@ -22,7 +25,7 @@ export default {
   },
   created() {
     //do something after creating vue instance
-    console.log(this.billboardItem);
+    
   },
   filters:{
     change_duration(value){
@@ -67,6 +70,17 @@ export default {
   justify-content: space-between;
   color: #666;
   align-items: center;
+  &:hover
+    .icon
+      opacity: 1;
+      font-size: 1.2em;
+  .icon
+    opacity: 0;
+    width: 18px;
+    height: 18px;
+    &:hover
+      color: #31c27c;
+      cursor: pointer;
   .img-container
     width: 60px;
     height: 100%;
@@ -79,7 +93,7 @@ export default {
         color: #31c27c;
         cursor: pointer;
   h1
-    width: 25%;
+    width: 23%;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
