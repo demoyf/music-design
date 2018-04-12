@@ -10,6 +10,7 @@
       </billboard>
     </div>
     <my-footer></my-footer>
+    <to-top></to-top>
   </div>
 </template>
 <script>
@@ -19,6 +20,7 @@ import left_nav from './../../common/components/left_nav.vue';
 import nav_container from './../components/billboard_container.vue';
 import bilboard_type from './../../../src/common/util/get_type.js';
 import url_util from './../../common/url.js';
+import to_top from './../../common/components/to_top.vue';
 export default {
   name: "App",
   data() {
@@ -53,7 +55,8 @@ export default {
     'header-com':my_header,
     'left-nav':left_nav,
     'billboard':nav_container,
-    'my-footer':footer
+    'my-footer':footer,
+    'to-top':to_top
   },
   methods: {
     on_current(index) {
