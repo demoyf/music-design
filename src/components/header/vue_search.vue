@@ -1,7 +1,10 @@
 <template>
 	<div id="vue-search" v-on:mouseenter="enter()" v-on:mouseleave="leave()">
 		<div class="input-container" ref="input_container">
-		<input ref="search_input" placeholder="歌曲名、歌手名、专辑名" class="search-input input-large" type="text" name="search-input" v-on:input="search_suggestion" v-model="search_content" v-on:blur="hide_result" v-on:focus="show_result" v-on:keyup.enter="local_to_search_page">
+		<input ref="search_input" placeholder="歌曲名、歌手名、专辑名"
+		class="search-input input-large" type="text" name="search-input"
+		v-on:input="search_suggestion" v-model="search_content" v-on:blur="hide_result"
+		 v-on:focus="show_result" v-on:keyup.enter="local_to_search_page">
 		<i class="icon-search-icon icon">
 		</i>
 		</div>
@@ -170,8 +173,8 @@ import * as storage_util from './../../common/util/local_storage.js';
 				if (this.search_content==="") {
 					return;
 				}
-				storage_util.save_to_array(this.search_content);
-				// @todo  跳转到搜索结果页面
+				storage_util.save_item("current_search",this.search_content);
+				window.open("/page/search_result.html");
 			}
 		}
 	}

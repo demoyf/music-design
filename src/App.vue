@@ -6,6 +6,7 @@
   <recommend-loop></recommend-loop>
   <billboard-com></billboard-com>
   <footer-com></footer-com>
+  <to-top></to-top>
   </div>
 </template>
 <script>
@@ -15,6 +16,7 @@ import little_loop from './components/little_loop/little_loop.vue';
 import billboard from './components/billboard/billboard_com.vue';
 import recommend from './components/recommend/recommend_loop';
 import footer from './components/footer/footer';
+import to_top from './common/to_top.vue';
 export default {
   name: 'app',
   data () {
@@ -28,7 +30,8 @@ export default {
     "little-loop":little_loop,
     'billboard-com':billboard,
     'recommend-loop':recommend,
-    'footer-com':footer
+    'footer-com':footer,
+    'to-top':to_top
   },
 }
 </script>

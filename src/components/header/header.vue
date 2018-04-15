@@ -3,7 +3,7 @@
   <div class="music-header-container">
     <h1 class="header-head">
       <a class="home-link" href="/">
-        <img src="./../../assets/logo.png">
+        <img src="./../../assets/logo.jpg" width="170" height="46">
       </a>
     </h1>
     <div class="header-content">

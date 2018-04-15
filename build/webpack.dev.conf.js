@@ -71,6 +71,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       chunks:['album_info']
     }),
     new HtmlWebpackPlugin({
+      filename: 'page/search_result.html',
+      template: 'page/search_result/search_result.html',
+      inject: true,
+      chunks:['search_result']
+    }),
+    new HtmlWebpackPlugin({
       filename: 'page/artist.html',
       template: 'page/artist/artist.html',
       inject: true,

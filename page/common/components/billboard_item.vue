@@ -25,7 +25,7 @@ export default {
   },
   created() {
     //do something after creating vue instance
-    
+
   },
   filters:{
     change_duration(value){

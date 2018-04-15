@@ -2,9 +2,11 @@
   <div id="pagination">
     <div class="my-pagination">
       <i class="icon-to-left-icon icon" @click="to_left"></i>
-      <transition name="page-item" v-for="item in page_list">
+      <transition name="page-item" v-for="item in this.page_num"
+      >
         <i @click="to_index(item)"
-         :class="{'active':item==current}">{{item}}</i>
+         :class="{'active':item==current}"
+         v-show="item>=before&&item<(count+before)">{{item}}</i>
       </transition>
       <i class="icon-to-right-icon icon" @click="to_right"></i>
     </div>
@@ -16,10 +18,10 @@ export default {
   props: ['pageNum'],
   data(){
     return {
-      page_num:this.pageNum,
+      page_num:this.pageNum+1,
       count:0,
       current:1,
-      page_list:[]
+      before:1
     }
   },
   created() {
@@ -29,13 +31,13 @@ export default {
     }else{
       this.count = this.page_num;
     }
-    for(let i = 0;i<this.count;i++){
-      this.page_list.push(i+1);
-    }
-    console.log(this.page_list);
   },
   methods: {
     to_left() {
+      if(this.current-2<this.before&&this.before>=2){
+        console.log("before:"+this.before);
+        this.before--;
+      }
       if(this.current<=1){
         return;
       }else{
@@ -44,6 +46,9 @@ export default {
       }
     },
     to_right(){
+      if(this.current+2>this.count&&this.current+2<=this.page_num){
+        this.before++;
+      }
       if(this.current>=this.page_num){
         return;
       }else{

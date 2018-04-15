@@ -24,6 +24,8 @@ export default {
       if(response.status===200){
         let text = response.bodyText;
         text = text.replace(/\[\d{2}:\d{2}\.\d{2}\]/ig,'');
+        text = text.replace(/\[\S*\]/ig,'');
+        text = text.trim()
         this.lrc_text = text;
       }
     })

@@ -1,6 +1,6 @@
 <template>
 	<div class="loop">
-		<h1 class="circle-title">歌单推荐</h1>
+		<h1 class="circle-title">新专辑推荐</h1>
 		<!-- 轮播图 -->
 		<div class="loop-parent">
 			<div class="loop-container" ref="loop_container">
