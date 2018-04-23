@@ -4,7 +4,7 @@
 		<input ref="search_input" placeholder="歌曲名、歌手名、专辑名"
 		class="search-input input-large" type="text" name="search-input"
 		v-on:input="search_suggestion" v-model="search_content" v-on:blur="hide_result"
-		 v-on:focus="show_result" v-on:keyup.enter="local_to_search_page">
+		 v-on:focus="show_result" v-on:keyup.enter="local_to_search_page" />
 		<i class="icon-search-icon icon">
 		</i>
 		</div>

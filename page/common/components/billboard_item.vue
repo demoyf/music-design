@@ -7,7 +7,7 @@
     <div class="icon">
       <i class="icon-play-icon-1"></i>
     </div>
-    <p @click="to_artist(billboardItem.artist_id,billboardItem.ting_uid)">{{billboardItem.artist_name}}</p>
+    <p @click="to_artist(billboardItem.artist_id,billboardItem.ting_uid)">{{billboardItem.artist_name||billboardItem.author}}</p>
     <p @click="to_album(billboardItem.album_id)">{{billboardItem.album_title}}</p>
     <h2>{{billboardItem.file_duration|change_duration}}</h2>
   </div>
@@ -110,4 +110,6 @@ export default {
       cursor: pointer;
   h2
     width: 8%;
+em
+  color:#31c27c;
 </style>

@@ -65,6 +65,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       chunks:['song_list']
     }),
     new HtmlWebpackPlugin({
+      filename: 'page/play_music.html',
+      template: 'page/play_music/play_music.html',
+      inject: true,
+      chunks:['play_music']
+    }),
+    new HtmlWebpackPlugin({
       filename: 'page/album_info.html',
       template: 'page/album_info/album_info.html',
       inject: true,

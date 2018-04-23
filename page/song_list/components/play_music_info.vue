@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="button-container">
-        <button class="music-play-button" type="button" name="play-button">
+        <button class="music-play-button" type="button" name="play-button" @click="to_play_url(song_info.song_id)">
           <i class="icon-play-icon-1"></i>播放</button>
         <button type="button" class="music-other-button" name="coll-button">
           <i class="icon-heart-icon"></i>
@@ -116,6 +116,19 @@ export default {
       loca.save_item(key.get_artist_id,artistid);
       loca.save_item(key.get_ting_id,tingid);
       window.location.href = key.jump_artist_info;
+    },
+    to_play_url(song_id){
+      loca.save_item(key.get_play_song_id,song_id);
+      let temp = loca.read_item(key.get_has_paly_page);
+      if(temp==0){
+        loca.save_item(key.get_has_paly_page,"1");
+        window.open(key.jump_play_music);
+      }else if(temp==1){
+        // window.open(key.jump_play_music);
+      }else{
+        loca.save_item(key.get_has_paly_page,"1");
+        window.open(key.jump_play_music);
+      }
     }
   }
 }

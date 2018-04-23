@@ -54,14 +54,10 @@ export default {
     },
     login(){
       this.is_login = true;
-
     },
     check_email(){
 
     }
-  },
-  created(){
-
   }
 }
 </script>

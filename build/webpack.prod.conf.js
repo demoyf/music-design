@@ -91,6 +91,21 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunks: ['manifest','vendor','song_list']
     }),
     new HtmlWebpackPlugin({
+      filename: config.build.play_music,
+      template: 'page/play_music/play_music.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency',
+      chunks: ['manifest','vendor','play_music']
+    }),
+    new HtmlWebpackPlugin({
       filename: config.build.search_result,
       template: 'page/search_result/search_result.html',
       inject: true,

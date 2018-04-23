@@ -59,14 +59,19 @@ export default {
       this.active_el = 1;
     }
   },
+  mounted(){
+    document.addEventListener("mousewheel",(event)=>{
+      if(this.show_login){
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    });
+  },
   methods: {
     show_l(){
-      document.body.style.overflow = "hidden";
       this.show_login = true;
     },
     close_login(){
-      console.log("in hear");
-      document.body.style.overflow = "visible";
       this.show_login = false;
     }
   },
