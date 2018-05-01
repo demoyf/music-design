@@ -38,8 +38,12 @@
           <h1>MV {{artist_info.mv_total}}</h1>
         </div>
       <div class="button-container">
-          <button class="music-play-button" type="button" name="play-button">
+          <button class="music-play-button" type="button" name="play-button" @click="play_new_music_list">
             <i class="icon-play-icon-1"></i>热门</button>
+          <button type="button" class="music-other-button" name="coll-button" @click="add_new_music_list">
+            <i class="icon-plus-square-icon" style="font-weight:100"></i>
+            播放队列
+          </button>
           <button type="button" class="music-other-button" name="coll-button">
             <i class="icon-heart-icon"></i>
             收藏
@@ -55,7 +59,6 @@
       <hot-song v-if="songList!==undefined"
       :song-list="songList"></hot-song>
       <hot-album v-if="albumList!=undefined" :album-list="albumList">
-
       </hot-album>
     </div>
   </div>
@@ -115,6 +118,36 @@ export default {
     'more-span':more_span,
     'hot-song':hot_song,
     'hot-album':hot_album
+  },
+  methods: {
+    play_new_music_list() {
+      let song_list = this.songList;
+      let id_list = '';
+      for(let item of song_list){
+        id_list += item.song_id+",";
+      }
+      id_list = id_list.substr(0,id_list.length-1);
+      loca.save_item("play_new_music_list",id_list);
+      let temp = loca.read_item(key_util.get_has_paly_page);
+      if(temp==0){
+        loca.save_item(key_util.get_has_paly_page,"1");
+        window.open(key_util.jump_play_music);
+      }
+    },
+    add_new_music_list(){
+      let song_list = this.songList;
+      let id_list = '';
+      for(let item of song_list){
+        id_list += item.song_id+",";
+      }
+      id_list = id_list.substr(0,id_list.length-1);
+      loca.save_item("add_new_music_list",id_list);
+      let temp = loca.read_item(key_util.get_has_paly_page);
+      if(temp==0){
+        loca.save_item(key_util.get_has_paly_page,"1");
+        window.open(key_util.jump_play_music);
+      }
+    }
   }
 }
 </script>
@@ -191,7 +224,7 @@ export default {
         >h1
           margin-right: .3em;
       .button-container
-        max-width: 410px;
+        max-width: 540px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -203,7 +236,7 @@ export default {
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          padding: .5em 2.2em;
+          padding: .5em 1.8em;
           font-size: 1em;
           > i
             margin-right: .2em;

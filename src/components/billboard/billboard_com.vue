@@ -6,7 +6,7 @@
       v-for="(item,index) in billboard_list"
       :color-name="my_class_list[index]"
       :billboard-info="item"
-      :img-back="img_list[index]">
+      :img-back="img_list[index]" :type="type_list[index].type">
       </one-billboard>
       <i class="clear-float"></i>
     </div>
@@ -26,11 +26,13 @@ export default {
       img_list:['./../../../static/img/background/back1.jpg',
     './../../../static/img/background/back2.jpg',
   './../../../static/img/background/back3.jpg',
-'./../../../static/img/background/back4.jpg','./../../../static/img/background/back5.jpeg']
+'./../../../static/img/background/back4.jpg','./../../../static/img/background/back5.jpeg'],
+      type_list:[]
     }
   },
   created(){
     let type_list = type_util.billboard_info.slice(0,5);
+    this.type_list = type_list;
     let promise_list = [];
     let url = url_util.billboard;
     let result = [];

@@ -10,5 +10,6 @@ export default{
   jump_album_info:URL+"page/album_info.html",
   jump_song_info:URL+"page/song_list.html",
   jump_artist_info:URL+"page/artist.html",
-  jump_play_music:URL+"page/play_music.html"
+  jump_play_music:URL+"page/play_music.html",
+  jump_billboard_url:URL+"page/billboard.html"
 }

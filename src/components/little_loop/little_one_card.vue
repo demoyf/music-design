@@ -32,7 +32,7 @@ export default {
 		get_file_duration(){
 			let file_duration = parseInt(this.my_song_item.file_duration);
 			let result = "";
-			let minute = Math.ceil(file_duration/60);
+			let minute = Math.floor(file_duration/60);
 			result+=minute>=10?minute:("0"+minute);
 			result+=":";
 			let second = file_duration%60;

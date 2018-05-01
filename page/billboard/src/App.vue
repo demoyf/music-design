@@ -3,7 +3,7 @@
     <header-com :active="3"></header-com>
     <div class="billboard-container">
       <left-nav class="nav" :nav-title-list="billboard_type"
-        v-on:navIndex="on_current"
+        v-on:navIndex="on_current" :current-active="active_index"
       ></left-nav>
       <billboard class="billboard"
       :page-info="page_info" :page-list="page_list" :type="type">
@@ -31,7 +31,8 @@ export default {
       },
       page_list:[],
       type:0,
-      current:1
+      current:1,
+      active_index:0
     }
   },
   created(){
@@ -40,14 +41,24 @@ export default {
   mounted() {
     //do something after mounting vue instance
     let first = this.billboard_type[0];
+    let check_type = localStorage.getItem("current_billboard_type");
+    let type = first.type;
+    if(check_type&&check_type!==''){
+      type = check_type;
+      let index = this.billboard_type.findIndex(item=>item.type==check_type);
+      if(index!=-1){
+        this.active_index = index;
+      }
+    }
     let url = url_util.billboard;
-    url += first.type+"/1";
-    this.type=first.type;
+    url += type+"/1";
+    this.type=type;
     this.$http.get(url).then((response)=>{
       if(response.status===200){
         let body = response.body;
         this.page_info = body.billboard;
         this.page_list = body.song_list;
+        localStorage.setItem("current_billboard_type",'');
       }
     });
   },
@@ -64,6 +75,7 @@ export default {
       this.current = 1;
       let url = url_util.billboard;
       url += bilboard_type.billboard_info[index].type+"/1";
+      console.log(url);
       this.$http.get(url).then((response)=>{
         if(response.status===200){
           let body = response.body;

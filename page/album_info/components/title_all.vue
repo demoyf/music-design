@@ -33,8 +33,12 @@
           </div>
         </div>
         <div class="button-container">
-          <button class="music-play-button" type="button" name="play-button">
+          <button class="music-play-button" type="button" name="play-button" @click="add_all_music">
             <i class="icon-play-icon-1"></i>播放</button>
+          <button type="button" class="music-other-button" name="coll-button" @click="add_new_music_list">
+            <i class="icon-plus-square-icon" style="font-weight:100"></i>
+            播放队列
+          </button>
           <button type="button" class="music-other-button" name="coll-button">
             <i class="icon-heart-icon"></i>
             收藏
@@ -99,6 +103,34 @@ export default {
       loca.save_item(key.get_artist_id,artistid);
       loca.save_item(key.get_ting_id,tingid);
       window.location.href = key.jump_artist_info;
+    },
+    add_all_music(){
+      let song_list = this.song_list;
+      let id_list = '';
+      for(let item of song_list){
+        id_list += item.song_id+",";
+      }
+      id_list = id_list.substr(0,id_list.length-1);
+      loca.save_item("play_new_music_list",id_list);
+      let temp = loca.read_item(key.get_has_paly_page);
+      if(temp==0){
+        loca.save_item(key.get_has_paly_page,"1");
+        window.open(key.jump_play_music);
+      }
+    },
+    add_new_music_list(){
+      let song_list = this.song_list;
+      let id_list = '';
+      for(let item of song_list){
+        id_list += item.song_id+",";
+      }
+      id_list = id_list.substr(0,id_list.length-1);
+      loca.save_item("add_new_music_list",id_list);
+      let temp = loca.read_item(key.get_has_paly_page);
+      if(temp==0){
+        loca.save_item(key.get_has_paly_page,"1");
+        window.open(key.jump_play_music);
+      }
     }
   }
 }
@@ -188,19 +220,18 @@ export default {
             color: music-color;
             cursor: pointer;
       .button-container
-        max-width: 410px;
+        max-width: 880px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         margin-top: 3em;
-        overflow: hidden;
         >button
           border-radius: 3px;
           display: flex;
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          padding: .5em 2.2em;
+          padding: .5em 1.9em;
           font-size: 1em;
           > i
             margin-right: .2em;

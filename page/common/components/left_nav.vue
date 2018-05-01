@@ -18,6 +18,13 @@ export default {
       current:0
     }
   },
+  created(){
+    let current = localStorage.getItem("current_billboard_type");
+    if(current&&current!==''){
+      let index = this.billboard_types.findIndex(item=>item.type==current);
+      this.current = index;
+    }
+  },
   methods: {
     change_active(index) {
       if(this.current ===index){

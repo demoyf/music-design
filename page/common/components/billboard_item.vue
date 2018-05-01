@@ -4,8 +4,9 @@
       <img :src="billboardItem.pic_small" alt="">
     </div>
     <h1 @click="to_music(billboardItem.song_id)">{{billboardItem.title}}</h1>
-    <div class="icon">
-      <i class="icon-play-icon-1"></i>
+    <div class="icon-container">
+      <i class="icon-play-circle-icon icon" @click="to_play_url(billboardItem.song_id)"></i>
+      <i class="icon-plus-square-icon icon" @click="to_add_url(billboardItem.song_id)"></i>
     </div>
     <p @click="to_artist(billboardItem.artist_id,billboardItem.ting_uid)">{{billboardItem.artist_name||billboardItem.author}}</p>
     <p @click="to_album(billboardItem.album_id)">{{billboardItem.album_title}}</p>
@@ -33,7 +34,7 @@ export default {
         return '暂无';
       }
       let result = "";
-      let minute = Math.ceil(value/60);
+      let minute = Math.floor(value/60);
       result+=minute>=10?minute:("0"+minute);
       result+=":";
       let second = value%60;
@@ -54,6 +55,22 @@ export default {
       local_uitl.save_item(key.get_artist_id,artisid);
       local_uitl.save_item(key.get_ting_id,tingid);
       window.open(key.jump_artist_info);
+    },
+    to_play_url(song_id){
+      local_uitl.save_item(key.get_play_song_id,song_id);
+      let temp = local_uitl.read_item(key.get_has_paly_page);
+      if(temp==0){
+        local_uitl.save_item(key.get_has_paly_page,"1");
+        window.open(key.jump_play_music);
+      }
+    },
+    to_add_url(song_id){
+      local_uitl.save_item("add_new_music",song_id);
+      let temp = local_uitl.read_item(key.get_has_paly_page);
+      if(temp==0){
+        local_uitl.save_item(key.get_has_paly_page,"1");
+        window.open(key.jump_play_music);
+      }
     }
   }
 }
@@ -71,16 +88,21 @@ export default {
   color: #666;
   align-items: center;
   &:hover
-    .icon
+    .icon-container
       opacity: 1;
-      font-size: 1.2em;
-  .icon
+      font-size: 1.1em;
+  .icon-container
+    width: 8%;
     opacity: 0;
-    width: 18px;
-    height: 18px;
-    &:hover
-      color: #31c27c;
-      cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 2%;
+    .icon
+      width: 18px;
+      height: 18px;
+      &:hover
+        cursor: pointer;
   .img-container
     width: 60px;
     height: 100%;

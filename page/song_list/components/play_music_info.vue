@@ -26,6 +26,10 @@
       <div class="button-container">
         <button class="music-play-button" type="button" name="play-button" @click="to_play_url(song_info.song_id)">
           <i class="icon-play-icon-1"></i>播放</button>
+        <button type="button" class="music-other-button" name="coll-button" @click="add_new_music(song_info.song_id)">
+          <i class="icon-plus-square-icon" style="font-weight:100"></i>
+          播放队列
+        </button>
         <button type="button" class="music-other-button" name="coll-button">
           <i class="icon-heart-icon"></i>
           收藏
@@ -123,9 +127,12 @@ export default {
       if(temp==0){
         loca.save_item(key.get_has_paly_page,"1");
         window.open(key.jump_play_music);
-      }else if(temp==1){
-        // window.open(key.jump_play_music);
-      }else{
+      }
+    },
+    add_new_music(song_id){
+      loca.save_item("add_new_music",song_id);
+      let temp = loca.read_item(key.get_has_paly_page);
+      if(temp==0){
         loca.save_item(key.get_has_paly_page,"1");
         window.open(key.jump_play_music);
       }
@@ -223,7 +230,7 @@ export default {
             color: music-color;
             cursor: pointer;
       .button-container
-        max-width: 410px;
+        max-width: 540px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -235,7 +242,7 @@ export default {
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          padding: .5em 2.2em;
+          padding: .5em 1.8em;
           font-size: 1em;
           > i
             margin-right: .2em;

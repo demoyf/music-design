@@ -3,6 +3,8 @@
     <div class="list-header one-part-container">
       <i class="small-span"> </i>
       <span class="max-span">歌曲</span>
+      <div class="play-or-add">
+      </div>
       <span class="middle-span">歌手</span>
       <span class="small-span">时长</span>
     </div>
@@ -10,6 +12,10 @@
      v-for="(item,index) in song_list">
       <i class="small-span">{{index+1}}</i>
       <span class="max-span" @click="to_url(item.song_id)">{{item.title}}</span>
+      <div class="play-or-add">
+        <i class="icon-play-circle-icon icon" @click="to_play_url(item.song_id)"></i>
+        <i class="icon-plus-square-icon icon" @click="to_add_url(item.song_id)"></i>
+      </div>
       <span class="middle-span">{{item.author}}</span>
       <span class="small-span">{{get_duration(item.file_duration)}}</span>
     </div>
@@ -30,7 +36,7 @@ export default {
     get_duration(duration){
       let file_duration = parseInt(duration);
       let result = "";
-      let minute = Math.ceil(file_duration/60);
+      let minute = Math.floor(file_duration/60);
       result+=minute>=10?minute:("0"+minute);
       result+=":";
       let second = file_duration%60;
@@ -40,17 +46,31 @@ export default {
     to_url(songid){
       loca.save_item(key.get_song_info,songid);
       window.location.href = key.jump_song_info;
+    },
+    to_play_url(song_id){
+      loca.save_item(key.get_play_song_id,song_id);
+      let temp = loca.read_item(key.get_has_paly_page);
+      if(temp==0){
+        loca.save_item(key.get_has_paly_page,"1");
+        window.open(key.jump_play_music);
+      }
+    },
+    to_add_url(song_id){
+      loca.save_item("add_new_music",song_id);
+      let temp = loca.read_item(key.get_has_paly_page);
+      if(temp==0){
+        loca.save_item(key.get_has_paly_page,"1");
+        window.open(key.jump_play_music);
+      }
     }
   },
   created() {
     //do something after creating vue instance
     window.addEventListener("storage",(evenet)=>{
       if(event.key==="current_album"){
-        console.log(event.newValue);
         return;
       }
       if(event.key==="current_song"){
-        console.log("song:"+event.newValue);
         return;
       }
     });
@@ -73,9 +93,9 @@ export default {
     > span
       display: block;
     .max-span
-      width: 55%;
+      width: 40%;
       ellipsis_tran();
-      max-width: 55%;
+      max-width: 40%;
       &:hover
         color: music-color;
         cursor: pointer;
@@ -83,6 +103,16 @@ export default {
       width: 4%;
       min-width: 2em;
       color: #999;
+    .play-or-add
+      opacity: 0;
+      width: 10%;
+      display: flex;
+      flex-direction: row;
+      justify-content:space-between;
+      font-size: 1.2em;
+      padding-right: 5%;
+      i
+        cursor: pointer;
     .middle-span
       width: 35%;
       max-width: 35%;
@@ -90,4 +120,7 @@ export default {
       &:hover
         color: music-color;
         cursor: pointer;
+    &:hover
+      .play-or-add
+        opacity: 1;
 </style>

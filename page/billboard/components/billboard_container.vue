@@ -131,7 +131,7 @@ export default {
       width: 8%;
     i
       display: block;
-      width: 18px;
+      width: 10%;
       height: 16px;
   .get-more
     border-radius: 5px;

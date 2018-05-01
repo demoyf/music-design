@@ -5,8 +5,8 @@
     </div>
     <div class="info-container" :class="color_name">
       <p class="text-center">巅峰榜</p>
-      <h3 class="billboard-title">{{billboard_info.billboard.name}}</h3>
-      <div class="hover-change">
+      <h3 class="billboard-title" @click="to_billboard(current_type)">{{billboard_info.billboard.name}}</h3>
+      <div class="hover-change" @click="to_billboard(current_type)">
         <i class="icon-play-icon billboard-icon"></i>
       </div>
       <ul class="ul-container">
@@ -27,12 +27,13 @@ import key from './../../common/util/key';
 import * as loca from './../../common/util/local_storage';
 export default {
   name: "one-billboard-com",
-  props: ['colorName','billboardInfo',"imgBack"],
+  props: ['colorName','billboardInfo',"imgBack",'type'],
   data: function(){
     return {
       color_name:this.colorName,
       billboard_info:this.billboardInfo,
-      background_url:this.imgBack
+      background_url:this.imgBack,
+      current_type:this.type
     }
   },
   mounted() {
@@ -40,7 +41,6 @@ export default {
   },
   methods: {
     to_url(songid) {
-      console.log(songid);
       loca.save_item(key.get_song_info,songid);
       window.location.href = key.jump_song_info;
     },
@@ -48,6 +48,10 @@ export default {
       loca.save_item(key.get_artist_id,artisid);
       loca.save_item(key.get_ting_id,tingid);
       window.location.href = key.jump_artist_info;
+    },
+    to_billboard(type){
+      loca.save_item("current_billboard_type",type);
+      window.location.href = key.jump_billboard_url;
     }
   }
 }
@@ -108,6 +112,7 @@ export default {
       padding-bottom: .3em;
     .hover-change
       position: relative;
+      cursor: pointer;
       &::after
         content: '';
         display: block;
@@ -143,6 +148,7 @@ export default {
       text-align: center;
       font-size: 1.6em;
       margin-bottom: 1em;
+      cursor: pointer;
     .ul-container
       padding-left: 2em;
       margin-top: 2em;
