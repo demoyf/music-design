@@ -18,7 +18,9 @@ module.exports = {
     hot_artist:'./page/hot_artist/src/main.js',
     billboard:'./page/billboard/src/main.js',
     search_result:'./page/search_result/src/main.js',
-    play_music:'./page/play_music/src/main.js'
+    play_music:'./page/play_music/src/main.js',
+    all_forum:'./page/all_forum/src/main.js',
+    publish_page:'./page/publish_page/src/main.js'
   },
   output: {
     path: config.build.assetsRoot,

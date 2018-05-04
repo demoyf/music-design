@@ -65,10 +65,22 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       chunks:['song_list']
     }),
     new HtmlWebpackPlugin({
+      filename: 'page/all_forum.html',
+      template: 'page/all_forum/all_forum.html',
+      inject: true,
+      chunks:['all_forum']
+    }),
+    new HtmlWebpackPlugin({
       filename: 'page/play_music.html',
       template: 'page/play_music/play_music.html',
       inject: true,
       chunks:['play_music']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'page/publish_page.html',
+      template: 'page/publish_page/publish_page.html',
+      inject: true,
+      chunks:['publish_page']
     }),
     new HtmlWebpackPlugin({
       filename: 'page/album_info.html',

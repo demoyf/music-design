@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>论坛</title>
+  <link rel="stylesheet" type="text/css" href="./../../static/stylesheet/reset.css">
+  <style type="text/css">
+  body,html,#app{
+    min-width: 1100px;
+    width: 100%;
+  }
+  html{
+    min-height: 100%;
+  }
+  .back-container{
+    width: 100%;
+    height: auto;
+    z-index: -1;
+  }
+  .back-container .first{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: -1;
+  }
+  .back-container .top-container{
+    position: absolute;
+    left: 0;
+    width: 200px;
+    height: 600px;
+    transform: rotate(35deg) translateX(-290px);
+    box-shadow: 5px 5px 6px rgba(0,0,0,0.8);
+    background: url('./../static/img/line.png');
+    background-size:4px 600px;
+    background-repeat: repeat;
+    background-color: #010203;
+    z-index: 10;
+  }
+
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="./dist/all_forum.js"></script>
+  <script type="text/javascript" src="/static/ckeditor/ckeditor.js">
+  </script>
+</body>
+</html>

@@ -81,7 +81,6 @@ export default {
 		},
 		mounted() {
 		  //do something after mounting vue instance
-		  console.log("in mounted");
 		},
 		methods:{
 			to_left(){

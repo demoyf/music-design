@@ -91,6 +91,36 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunks: ['manifest','vendor','song_list']
     }),
     new HtmlWebpackPlugin({
+      filename: config.build.publish_page,
+      template: 'page/publish_page/publish_page.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency',
+      chunks: ['manifest','vendor','publish_page']
+    }),
+    new HtmlWebpackPlugin({
+      filename: config.build.all_forum,
+      template: 'page/all_forum/all_forum.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency',
+      chunks: ['manifest','vendor','all_forum']
+    }),
+    new HtmlWebpackPlugin({
       filename: config.build.play_music,
       template: 'page/play_music/play_music.html',
       inject: true,

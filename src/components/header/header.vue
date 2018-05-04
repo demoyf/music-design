@@ -24,20 +24,54 @@
           </a>
         </li>
         <li>
-          <a href="#" :class="{'active': 4==active_el}">
+          <a href="/page/all_forum.html" :class="{'active': 4==active_el}">
           论坛
           </a>
         </li>
       </ul>
     </div>
     <vue-search></vue-search>
-    <div class="button-container">
+    <div class="button-container" v-if="!user_info">
       <button class="login-button" @click="show_l"> 登录</button>
-      <button class="register-button">注册</button>
+      <button class="register-button" @click="start_reg">注册</button>
+    </div>
+    <div class="user-info-container" v-if="user_info" >
+      <div class="user-icon" @click="show_user_control">
+        <img :src="user_info.picture" alt="">
+      </div>
+      <div class="user-control" v-show="show_control" :class="show_control?'active':''">
+        <div class="info">
+          <div class="img-container">
+            <img :src="user_info.picture" alt="">
+          </div>
+          <p>{{user_info.nickname}}</p>
+        </div>
+        <div class="manage-list">
+          <div class="personal-manage manage">
+            <p>个人信息管理</p>
+            <button type="button" name="button">进入</button>
+          </div>
+          <div class="forum-manage manage">
+            <p>论坛管理</p>
+            <button type="button" name="button">进入</button>
+          </div>
+          <div class="forum-manage manage" v-if="user_info.is_manager">
+            <p>用户管理</p>
+            <button type="button" name="button">进入</button>
+          </div>
+          <div class="manage">
+            <p></p>
+            <button type="button" name="button" @click="login_out">退出</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <transition name="fade-in">
-    <login-com v-show="show_login" @close-login="close_login"></login-com>
+    <login-com v-show="show_login" @close-login="close_login" :login-type="'login'"></login-com>
+  </transition>
+  <transition name="fade-in">
+    <login-com v-show="show_reg" @close-login="close_login" :login-type="'reg'"></login-com>
   </transition>
   </div>
 </template>
@@ -50,11 +84,20 @@ export default {
   data() {
     return {
       active_el:this.active,
-      show_login:false
+      show_login:false,
+      show_reg:false,
+      user_info:undefined,
+      show_control:false
     }
   },
   created() {
     //do something after creating vue instance
+    let user_info = localStorage.getItem("current_user");
+    if(user_info&&user_info!==''){
+      let data =  JSON.parse(user_info);
+      data.picture = "http://106.14.13.178/icon/"+data.picture+".jpg";
+      this.user_info = data;
+    }
     if(!this.active_el){
       this.active_el = 1;
     }
@@ -66,13 +109,36 @@ export default {
         event.stopPropagation();
       }
     });
+    document.addEventListener("click",(event)=>{
+      if(this.show_control){
+        this.show_control = false;
+      }
+    });
   },
   methods: {
     show_l(){
       this.show_login = true;
     },
     close_login(){
+      if(this.show_login)
       this.show_login = false;
+
+      if(this.show_reg)
+      this.show_reg = false
+    },
+    start_reg(){
+      this.show_reg = true;
+    },
+    show_user_control(event){
+      this.show_control = true;
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    login_out(event){
+      localStorage.setItem("current_user",'');
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.reload();
     }
   },
   compute: {
@@ -159,6 +225,79 @@ export default {
         border-radius:3px;
         margin-right:1em;
         height: 2.2em;
+    .user-info-container
+      position: relative;
+      right:0;
+      height:90px;
+      line-height:90px;
+      width: 90px;
+      left: 500px;
+      .user-icon
+        position: absolute;
+        top: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        overflow: hidden;
+        cursor: pointer;
+        img
+          width: 100%;
+          height: 100%;
+      .user-control
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+        border-radius: 5px;
+        transition: all .5s;
+        transform-origin:  50% 0;
+        transform: scaleX(0);
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 90px;
+        right: -50px;
+        background-color: white;
+        z-index: 600;
+        width: 300px;
+        padding: 2em;
+        box-sizing: border-box;
+        .info
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .img-container
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid white;
+            img
+              width: 100%;
+              height: 100%;
+          p
+            width: 150px;
+            margin-left: 40px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        .manage-list
+          display: flex;
+          flex-direction: column;
+          margin-top: .5em;
+          .manage
+            margin: .5em 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            p
+              width: 100px;
+            button
+              border-radius: 5px;
+              background-color: #31c27c;
+              color: white;
+              padding: .7em 1em;
+      .active
+        transition: all .5s;
+        transform: scaleX(1);
   .fade-in-enter-to,
   .fade-in-leave
     transform: scale(1) rotate(0);

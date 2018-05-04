@@ -46,6 +46,8 @@ module.exports = {
     billboard:path.resolve(__dirname,'../dist/page/billboard.html'),
     search_result:path.resolve(__dirname,'../dist/page/search_result.html'),
     play_music:path.resolve(__dirname,'../dist/page/play_music.html'),
+    all_forum:path.resolve(__dirname,'../dist/page/all_forum.html'),
+    publish_page:path.resolve(__dirname,'../dist/page/publish_page.html'),
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',

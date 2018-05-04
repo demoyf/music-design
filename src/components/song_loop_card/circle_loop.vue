@@ -56,7 +56,7 @@ export default {
 					}
 			}
 		}).catch(()=>{
-
+			window.location.reload();
 		});
 		function init(mock_list){
 				let _mock_list = mock_list;
@@ -74,7 +74,6 @@ export default {
 				}
 				that.reslut_list = temp;
 				that.$nextTick(()=>{
-					console.log("tick");
 					that.$refs.loop_container.style.width = num*100+"%";
 					let length = that.$refs.card_container.length;
 					let container = that.$refs.card_container;
