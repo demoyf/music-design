@@ -43,7 +43,7 @@
             <i class="icon-heart-icon"></i>
             收藏
           </button>
-          <button class="music-other-button" type="button" name="comment-button">
+          <button class="music-other-button" type="button" name="comment-button" @click="to_publish">
             <i class="icon-quill"></i>
             去讨论
           </button>
@@ -99,6 +99,16 @@ export default {
     "more-span":more_span
   },
   methods: {
+    to_publish(){
+      let info = this.album_info;
+      let obj = {
+        name:info.title,
+        picture:info.pic_small,
+        album_id:info.album_id
+      }
+      localStorage.setItem("publish_album",JSON.stringify(obj));
+      window.open('/page/publish_page.html');
+    },
     to_artist_url(artistid,tingid){
       loca.save_item(key.get_artist_id,artistid);
       loca.save_item(key.get_ting_id,tingid);

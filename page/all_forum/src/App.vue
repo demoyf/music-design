@@ -9,7 +9,6 @@
       <h2>不要试图去填满生命的空白，因为，音乐就来自那空白深处~</h2>
       <h2 class="name">——泰戈尔</h2>
     </div>
-    <my-editor :value="current_value" :setting="editor_setting" class="my-editor"></my-editor>
     <to-top></to-top>
   </div>
 </template>
@@ -24,16 +23,12 @@ export default {
   name: "App",
   data() {
     return{
-      current_value:"",
-      editor_setting:{
-        height:400
-      }
+
     }
   },
   components: {
     'forum-header':forum_header,
-    'to-top':to_top,
-    'my-editor':editor_tinymce
+    'to-top':to_top
   },
   methods:{
     to_publish(){
@@ -46,9 +41,6 @@ export default {
 #App
   width: 100%;
   position: relative;
-  .my-editor
-    margin-left: 200px;
-    margin-bottom: 200px;
   .info-container
     width: 100%;
     top: -90px;

@@ -48,7 +48,7 @@
             <i class="icon-heart-icon"></i>
             收藏
           </button>
-          <button class="music-other-button" type="button" name="comment-button">
+          <button class="music-other-button" type="button" name="comment-button" @click="to_publish">
             <i class="icon-quill"></i>
             去讨论
           </button>
@@ -120,6 +120,17 @@ export default {
     'hot-album':hot_album
   },
   methods: {
+    to_publish(){
+      let info = this.artist_info;
+      let obj = {
+        name:info.name,
+        picture:info.avatar_small,
+        artist_id:info.artist_id,
+        ting_uid:info.ting_uid
+      }
+      localStorage.setItem("publish_artist",JSON.stringify(obj));
+      window.open('/page/publish_page.html');
+    },
     play_new_music_list() {
       let song_list = this.songList;
       let id_list = '';

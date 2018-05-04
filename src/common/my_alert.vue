@@ -13,7 +13,7 @@ export default {
   props: ['msg','isShow','showColor'],
   data(){
     return{
-      
+
     }
   }
 }

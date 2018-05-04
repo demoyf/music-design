@@ -1,4 +1,5 @@
 const url="http://106.14.13.178:3000/";
+const dev_url = "http://127.0.0.1:3000/"
 export default {
 	jump_url:"http://localhost:8080/",
 	search_suggestion:url+"search/suggesstion/",//need query
@@ -11,5 +12,6 @@ export default {
 	get_artist_by_id:url+"artist/get_artist/",//need tinguid artisitid
 	get_new_album:url+"album/new_album/",//not need
 	get_album_info:url+"album/album_info/",//need albumid
-	get_artist_album:url+"album/artist_album/"//need tinguid page
+	get_artist_album:url+"album/artist_album/",//need tinguid page
+	forum_url:dev_url+"forum/publish"
 }

@@ -5,9 +5,6 @@
     </div>
     <div id="editor_area" class="text" style="width:1100px;height:400px;border: 1px solid #ccc;"> <!--可使用 min-height 实现编辑区域自动增加高度-->
     </div>
-    <div class="submit-button">
-      <button type="button" name="button" @click="save_data">提交</button>
-    </div>
   </div>
 </template>
 <script>
@@ -52,12 +49,19 @@ export default{
         var url = result.data[0];
         insertImg(url)
       }
+    };
+    let that = this;
+    editor.customConfig.onchange = function (html) {
+      // html 即变化之后的内容
+      let text = editor.txt.text();
+      that.$emit('changeinput',text,html);
     }
+    editor.customConfig.zIndex = 10;
     editor.create();
   },
   methods:{
     save_data() {
-      console.log(this.editor.txt.html());
+
     }
   }
 }
@@ -66,5 +70,4 @@ export default{
 .editor-xyf
   height:500px;
   margin-left: 100px;
-  margin-bottom: 200px;
 </style>

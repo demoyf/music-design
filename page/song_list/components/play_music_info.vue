@@ -34,7 +34,7 @@
           <i class="icon-heart-icon"></i>
           收藏
         </button>
-        <button class="music-other-button" type="button" name="comment-button">
+        <button class="music-other-button" type="button" name="comment-button" @click="to_publish">
           <i class="icon-quill"></i>
           去讨论
         </button>
@@ -112,6 +112,16 @@ export default {
     'more-span':more_span
   },
   methods: {
+    to_publish(){
+      let info = this.song_info;
+      let obj = {
+        name:info.title,
+        picture:info.pic_small,
+        song_id:info.song_id
+      }
+      localStorage.setItem("publish_music",JSON.stringify(obj));
+      window.open('/page/publish_page.html');
+    },
     to_url(album_id) {
       loca.save_item(key.get_album_info,album_id);
       window.location.href = key.jump_album_info;
