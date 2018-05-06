@@ -140,7 +140,7 @@ export default {
       id_list = id_list.substr(0,id_list.length-1);
       loca.save_item("play_new_music_list",id_list);
       let temp = loca.read_item(key_util.get_has_paly_page);
-      if(temp==0){
+      if((typeof temp == 'object')||temp==0){
         loca.save_item(key_util.get_has_paly_page,"1");
         window.open(key_util.jump_play_music);
       }
@@ -154,7 +154,7 @@ export default {
       id_list = id_list.substr(0,id_list.length-1);
       loca.save_item("add_new_music_list",id_list);
       let temp = loca.read_item(key_util.get_has_paly_page);
-      if(temp==0){
+      if((typeof temp == 'object')||temp==0){
         loca.save_item(key_util.get_has_paly_page,"1");
         window.open(key_util.jump_play_music);
       }
