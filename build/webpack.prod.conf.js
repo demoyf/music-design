@@ -93,7 +93,7 @@ const webpackConfig = merge(baseWebpackConfig, {
 
     new HtmlWebpackPlugin({
       filename: config.build.show_forum,
-      template: 'page/song_list/show_forum.html',
+      template: 'page/show_forum/show_forum.html',
       inject: true,
       minify: {
         removeComments: true,
