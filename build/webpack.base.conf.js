@@ -20,7 +20,9 @@ module.exports = {
     search_result:'./page/search_result/src/main.js',
     play_music:'./page/play_music/src/main.js',
     all_forum:'./page/all_forum/src/main.js',
-    publish_page:'./page/publish_page/src/main.js'
+    publish_page:'./page/publish_page/src/main.js',
+    show_forum:'./page/show_forum/src/main.js',
+    forum_page:'./page/forum_page/src/main.js',
   },
   output: {
     path: config.build.assetsRoot,

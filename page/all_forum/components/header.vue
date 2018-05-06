@@ -3,8 +3,8 @@
     <div class="link-container">
       <a href="/">音乐首页</a>
       <a href="/page/all_forum.html">论坛首页</a>
-      <a href="#">热门</a>
-      <a href="#">最新</a>
+      <a href="#" @click="to_forum_page('hot')">热门</a>
+      <a href="#" @click="to_forum_page('new')">最新</a>
     </div>
     <div class="button-container" v-if="!user_info">
       <button class="login-button" @click="to_show_login"> 登录</button>
@@ -65,7 +65,9 @@ export default {
     let user_info = localStorage.getItem("current_user");
     if(user_info&&user_info!==''){
       let data =  JSON.parse(user_info);
-      data.picture = "http://106.14.13.178/icon/"+data.picture+".jpg";
+      if((typeof data.picture)=='number'||data.picture.indexOf('http')<0){
+        data.picture = "http://106.14.13.178/icon/"+data.picture+".jpg";
+      }
       this.user_info = data;
     }
     document.addEventListener("click",(event)=>{
@@ -78,6 +80,10 @@ export default {
     'login-com':login
   },
   methods: {
+    to_forum_page(type){
+      localStorage.setItem("forum_sort",type);
+      window.location.href = '/page/forum_page.html';
+    },
     to_show_login() {
       this.show_login = true;
     },

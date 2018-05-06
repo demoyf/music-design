@@ -45,11 +45,11 @@ export default {
   methods:{
     to_music(music_id){
       local_uitl.save_item(key.get_song_info,music_id);
-			window.open(key.jump_url+"page/song_list.html");
+			window.open("/page/song_list.html");
     },
     to_album(album_id){
       local_uitl.save_item(key.get_album_info,album_id);
-      window.open(key.jump_url+"page/album_info.html");
+      window.open("/page/album_info.html");
     },
     to_artist(artisid,tingid){
       local_uitl.save_item(key.get_artist_id,artisid);

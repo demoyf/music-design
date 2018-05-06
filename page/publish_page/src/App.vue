@@ -62,7 +62,8 @@ export default {
       login_result_msg:'',
       current_text:'',
       current_html:'',
-      is_publish:false
+      is_publish:false,
+      user_info:undefined
     }
   },
   methods:{
@@ -103,6 +104,9 @@ export default {
         let publish_info = this.publish_info;
         publish_info.content = this.current_html;
         publish_info.type = this.type;
+        publish_info.user_id = this.user_info._id;
+        publish_info.user_name = this.user_info.nickname;
+        publish_info.user_picture = this.user_info.picture;
         let time = new Date();
         publish_info.publish_time = time.getTime();
         publish_info.comment_count = 0;
@@ -111,7 +115,8 @@ export default {
           if(response.status===200){
             let body = response.body;
             if(body.success){
-              console.log(body.id);
+              localStorage.setItem("show_forum_current",body.id);
+              window.location.href = '/page/show_forum.html';
             }else{
               this.is_publish = false;
               this.show_alert_tip(body.msg);
@@ -125,6 +130,12 @@ export default {
     }
   },
   created(){
+    let user_info = localStorage.getItem("current_user");
+    if(user_info&&user_info!==''){
+      let data =  JSON.parse(user_info);
+      data.picture = "http://106.14.13.178/icon/"+data.picture+".jpg";
+      this.user_info = data;
+    }
     let info = localStorage.getItem("publish_artist");
     if(info&&info!==''){
       this.publish_info.info =JSON.parse(info);

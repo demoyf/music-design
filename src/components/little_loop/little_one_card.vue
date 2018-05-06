@@ -51,7 +51,7 @@ export default {
 		to_url(song_id){
 			loca.save_item(key.get_song_info,song_id);
 			window.location.href =
-			key.jump_url+"page/song_list.html";
+			"/page/song_list.html";
 		},
 		to_artist_url(artisid,tingid){
 			loca.save_item(key.get_artist_id,artisid);

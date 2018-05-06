@@ -90,6 +90,37 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: 'dependency',
       chunks: ['manifest','vendor','song_list']
     }),
+
+    new HtmlWebpackPlugin({
+      filename: config.build.show_forum,
+      template: 'page/song_list/show_forum.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency',
+      chunks: ['manifest','vendor','show_forum']
+    }),
+    new HtmlWebpackPlugin({
+      filename: config.build.forum_page,
+      template: 'page/forum_page/forum_page.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency',
+      chunks: ['manifest','vendor','forum_page']
+    }),
     new HtmlWebpackPlugin({
       filename: config.build.publish_page,
       template: 'page/publish_page/publish_page.html',

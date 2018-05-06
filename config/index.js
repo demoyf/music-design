@@ -48,10 +48,12 @@ module.exports = {
     play_music:path.resolve(__dirname,'../dist/page/play_music.html'),
     all_forum:path.resolve(__dirname,'../dist/page/all_forum.html'),
     publish_page:path.resolve(__dirname,'../dist/page/publish_page.html'),
+    forum_page:path.resolve(__dirname,'../dist/page/forum_page.html'),
+    show_forum:path.resolve(__dirname,'../dist/page/show_forum.html'),
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',//on build update  ./
+    assetsPublicPath: './',//on build update  ./
 
     /**
      * Source Maps

@@ -95,7 +95,9 @@ export default {
     let user_info = localStorage.getItem("current_user");
     if(user_info&&user_info!==''){
       let data =  JSON.parse(user_info);
-      data.picture = "http://106.14.13.178/icon/"+data.picture+".jpg";
+      if((typeof data.picture)=='number'||data.picture.indexOf('http')<0){
+        data.picture = "http://106.14.13.178/icon/"+data.picture+".jpg";
+      }
       this.user_info = data;
     }
     if(!this.active_el){

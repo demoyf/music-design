@@ -49,7 +49,7 @@ export default {
 	methods:{
 		to_url(album_id){
 			local_uitl.save_item(key.get_album_info,album_id);
-			window.location.href = key.jump_url+"page/album_info.html";
+			window.location.href = "/page/album_info.html";
 		}
 	}
 }

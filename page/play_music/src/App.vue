@@ -197,6 +197,9 @@ export default {
     }else if(add_song&&add_song!==''){
       localStorage.setItem("add_new_music",'')
       that.push_song(add_song,true);
+    }else{
+      this.current = 0;
+      this.current_song = this.song_list[0];
     }
   },
   mounted(){

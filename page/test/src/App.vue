@@ -1,52 +1,16 @@
 <template>
   <div id="App">
     <forum-header></forum-header>
-    <div class="info-container">
-      <span class="center-icon" @click="to_publish">
-        <i class="icon-quill"></i>
-      </span>
-      <h1>不准备写点什么吗？</h1>
-      <h2>不要试图去填满生命的空白，因为，音乐就来自那空白深处~</h2>
-      <h2 class="name">——泰戈尔</h2>
-    </div>
-    <div class="forum-container">
-      <div class="a-container">
-        <div class="msg-container">
-          <h1 @click="to_forum_page(1)">歌曲相关帖子</h1>
-        </div>
-        <div class="my-forum">
-          <a-forum v-for="item in song_forum" :forum-info="item"></a-forum>
-        </div>
-      </div>
-      <div class="a-container">
-        <div class="msg-container">
-            <h1 @click="to_forum_page(2)">歌手相关帖子</h1>
-        </div>
-        <div class="my-forum">
-          <a-forum v-for="item in artist_forum" :forum-info="item"></a-forum>
-        </div>
-      </div>
-      <div class="a-container">
-        <div class="msg-container">
-          <h1 @click="to_forum_page(3)">专辑相关帖子</h1>
-        </div>
-        <div class="my-forum">
-          <a-forum v-for="item in album_forum" :forum-info="item"></a-forum>
-        </div>
-      </div>
-    </div>
     <to-top></to-top>
-    <my-footer></my-footer>
   </div>
 </template>
 <script>
 import url_util from './../../common/url';
 import * as local_uitl from './../../common/local_storage';
 import key from './../../common/key.js';
-import forum_header from './../components/header.vue';
+import forum_header from './../../all_forum/components/header.vue';
 import to_top from './../../common/components/to_top.vue';
 import a_forum from './../../common/components/a_forum.vue';
-import footer from './../../../src/components/footer/footer.vue';
 export default {
   name: "App",
   data() {
@@ -59,31 +23,26 @@ export default {
   components: {
     'forum-header':forum_header,
     'to-top':to_top,
-    'a-forum':a_forum,
-    'my-footer':footer
+    'a-forum':a_forum
   },
   methods:{
     to_publish(){
       window.open('/page/publish_page.html');
-    },
-    to_forum_page(type){
-      localStorage.setItem("forum_type",type);
-      window.open('/page/forum_page.html');
     }
   },
   created(){
     let url = url_util.get_type_hot_forum;
-    this.$http.get(url+"1/0/0/5").then((response)=>{
+    this.$http.get(url+"1/0/5").then((response)=>{
       if(response.status===200){
         this.song_forum = response.body;
       }
     });
-    this.$http.get(url+"2/0/0/5").then((response)=>{
+    this.$http.get(url+"2/0/5").then((response)=>{
       if(response.status===200){
         this.artist_forum = response.body;
       }
     });
-    this.$http.get(url+"3/0/0/5").then((response)=>{
+    this.$http.get(url+"3/0/5").then((response)=>{
       if(response.status===200){
         this.album_forum = response.body;
       }
@@ -93,17 +52,13 @@ export default {
 </script>
 <style lang="stylus" scoped>
 #App
-  user-select: none;
   width: 100%;
   position: relative;
   .forum-container
     display: flex;
     flex-direction: column;
     .a-container
-      padding-bottom:  4em;
-      margin-bottom: 3em;
-      border-bottom: 1px solid #d8d8d8;
-      border-radius: 50px;
+      margin-bottom:  2em;
       .msg-container
         width: 1100px;
         margin: auto;
