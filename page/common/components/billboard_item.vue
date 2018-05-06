@@ -59,7 +59,7 @@ export default {
     to_play_url(song_id){
       local_uitl.save_item(key.get_play_song_id,song_id);
       let temp = local_uitl.read_item(key.get_has_paly_page);
-      if(temp==0){
+      if(!temp||temp==0){
         local_uitl.save_item(key.get_has_paly_page,"1");
         window.open(key.jump_play_music);
       }
@@ -67,7 +67,7 @@ export default {
     to_add_url(song_id){
       local_uitl.save_item("add_new_music",song_id);
       let temp = local_uitl.read_item(key.get_has_paly_page);
-      if(temp==0){
+      if(!temp||temp==0){
         local_uitl.save_item(key.get_has_paly_page,"1");
         window.open(key.jump_play_music);
       }

@@ -50,7 +50,7 @@ export default {
     to_play_url(song_id){
       loca.save_item(key.get_play_song_id,song_id);
       let temp = loca.read_item(key.get_has_paly_page);
-      if(temp==0){
+      if(!temp||temp==0){
         loca.save_item(key.get_has_paly_page,"1");
         window.open(key.jump_play_music);
       }
@@ -58,7 +58,7 @@ export default {
     to_add_url(song_id){
       loca.save_item("add_new_music",song_id);
       let temp = loca.read_item(key.get_has_paly_page);
-      if(temp==0){
+      if(!temp||temp==0){
         loca.save_item(key.get_has_paly_page,"1");
         window.open(key.jump_play_music);
       }
