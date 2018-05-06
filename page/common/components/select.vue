@@ -48,7 +48,7 @@ export default {
       padding: .5em .3em;
       margin: 8px 0;
       font-size: .95em;
-      color: rgba(0,0,0,0.6);
+      color: rgba(0,0,0,0.8);
       &:hover
         background-color: #4a68ec;
         color: white;

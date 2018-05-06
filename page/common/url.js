@@ -1,5 +1,5 @@
 const url="http://106.14.13.178:3000/";
-const dev_url = "http://106.14.13.178:3000/"
+const dev_url = "http://106.14.13.178:3000/";
 export default {
 	search_suggestion:url+"search/suggesstion/",//need query
 	search_all:url+"search/all/",//need query type

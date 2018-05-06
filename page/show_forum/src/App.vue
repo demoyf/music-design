@@ -9,10 +9,11 @@
         <p>{{forum_info.user_name}}</p>
         <p>{{forum_info.publish_time | formatDateTime}}</p>
         <p>评论：{{forum_info.comment_count}}</p>
-        <p v-if="current_user.is_manager" style="cursor:pointer" @click="delete_click(1)">禁言用户</p>
-        <p v-if="current_user.is_manager||forum_info.user_id==current_user._id"
+        <p v-if="current_user&&current_user.is_manager" style="cursor:pointer" @click="delete_click(1)">禁言用户</p>
+        <p v-if="(current_user&&current_user.is_manager)||(current_user&&forum_info.user_id==current_user._id)"
         style="cursor:pointer" @click="delete_click(2)">删除帖子</p>
         <p @click="delete_click(3)" style="cursor:pointer">举报用户</p>
+        <p @click="delete_click(4)" style="cursor:pointer">举报帖子</p>
       </div>
       <div class="right-content">
         <div class="tag" v-if="forum_info.info">
@@ -38,9 +39,28 @@
             <button type="button" name="button" @click="publish_comment">发表</button>
           </div>
         </div>
+        <div class="tag-change" style="margin-bottom:2em;">
+          <span :class="current_tag == 1?'active':''" @click="change_tag(1)">全部评论</span>
+          <span :class="current_tag == 2?'active':''" @click="change_tag(2)">与我相关</span>
+        </div>
         <div class="show-comment">
-          <comment v-for="(item,index) in comment_list" v-if="item.type==1&&!item.is_ban"
-          :can-delete="item.my_id==current_user._id" :index="index" :comment-obj="item" @deletecomment="change_delete_comment"></comment>
+          <div v-for="(item,index) in comment_list" v-if="current_tag==1">
+            <comment v-if="item.type==1&&!item.is_ban"
+            :can-delete="item.my_id==(current_user?current_user._id:'')" :index="index"
+            :comment-obj="item" @deletecomment="change_delete_comment" @replycomment="reply_show"></comment>
+            <reply-comment v-if="item.type==2&&!item.is_ban"
+            :can-delete="item.my_id==(current_user?current_user._id:'')" :index="index"
+            :comment-obj="item" @deletecomment="change_delete_comment" @replycomment="reply_show"></reply-comment>
+          </div>
+          <div v-for="(item,index) in comment_list" v-if="current_tag==2">
+            <comment v-if="item.type==1&&!item.is_ban&&item.my_id==current_user._id"
+            :can-delete="item.my_id==(current_user?current_user._id:'')" :index="index"
+            :comment-obj="item" @deletecomment="change_delete_comment" @replycomment="reply_show"></comment>
+            <reply-comment
+            v-if="item.type==2&&!item.is_ban&&(item.my_id==current_user._id||item.replay_to_user_id==current_user._id)"
+            :can-delete="item.my_id==(current_user?current_user._id:'')" :index="index"
+            :comment-obj="item" @deletecomment="change_delete_comment" @replycomment="reply_show"></reply-comment>
+          </div>
         </div>
       </div>
     </div>
@@ -49,8 +69,17 @@
     <yf-comfirm :config="config_obj" @sure="sure_delete_comment" v-show="show_delete" @closeconfirm="hide_comfirm"></yf-comfirm>
     <to-top></to-top>
     <my-footer></my-footer>
-    <div class="reply-content">
-      
+    <div class="reply-content" v-if="current_reply_obj" v-show="show_reply">
+      <div class="bg" @click="hide_reply">
+      </div>
+      <div class="content">
+        <h1>回复</h1>
+        <textarea name="name" rows="8" cols="80" maxlength="140" v-model="reply_comment_content"
+         style="resize:none" :placeholder="'回复：'+current_reply_obj.my_name">
+        </textarea>
+        <p>剩余字数：{{get_reply_length}}</p>
+        <button type="button" name="button" @click="publish_reply">发表</button>
+      </div>
     </div>
   </div>
 </template>
@@ -64,6 +93,7 @@ import my_alert from './../../common/components/my_alert';
 import confirm_yf from './../../common/components/comfirm';
 import footer from './../../../src/components/footer/footer.vue';
 import comment from './../components/comment';
+import reply_comment from './../components/reply_comment';
 export default {
   name: "App",
   data() {
@@ -85,7 +115,11 @@ export default {
       can_delete:false,
       show_delete:false,
       current_delete:0,
-      current_index:-1
+      current_index:-1,
+      reply_comment_content:"",
+      show_reply:false,
+      current_reply_obj:undefined,
+      current_tag:1
     }
   },
   components: {
@@ -94,11 +128,15 @@ export default {
     'my-alert':my_alert,
     'my-footer':footer,
     'yf-comfirm':confirm_yf,
-    'comment':comment
+    'comment':comment,
+    'reply-comment':reply_comment
   },
   computed:{
     get_length(){
       return (140 - this.publish_comment_content.length);
+    },
+    get_reply_length(){
+      return (140 - this.reply_comment_content.length);
     }
   },
   filters:{
@@ -119,6 +157,21 @@ export default {
     }
   },
   methods:{
+    publish_reply(){
+      if(this.current_reply_obj){
+        this.publish_comment(2);
+      }
+    },
+    change_tag(index){
+      this.current_tag = index;
+    },
+    reply_show(_id,index){
+      this.current_reply_obj = this.comment_list[index];
+      this.show_reply = true;
+    },
+    hide_reply(){
+      this.show_reply = false;
+    },
     change_delete_comment(_id,index){
       this.current_delete = _id;
       this.show_delete = true;
@@ -148,11 +201,18 @@ export default {
     publish_comment(type){
       let url = url_util.publish_comment;
       let content = this.publish_comment_content;
+      if(type==2){
+        content = this.reply_comment_content;
+      }
       if(content==''){
         this.show_alert_tip('内容不能为空','#FF7F50');
         return;
       }
       let current_user = this.current_user;
+      if(!current_user){
+        this.show_alert_tip('登录后才能发表','#FF7F50');
+        return;
+      }
       let forum_info = this.forum_info;
       var time = new Date().getTime();
       let comment_obj = {
@@ -169,7 +229,8 @@ export default {
         type:1
       };
       if(type==2){
-        let current = this.current_active_comment;
+        let forum_info = this.forum_info;
+        let current = this.current_reply_obj;
         if(current.my_id==current_user._id){
           this.show_alert_tip('不能回复自己','#FF7F50');
           return;
@@ -201,17 +262,33 @@ export default {
             this.publish_comment_content = '';
             this.forum_info.comment_count = data.count;
             this.show_alert_tip('发表成功','#31c27caa');
+            if(type==2){
+              this.reply_comment_content = '';
+              this.show_reply = false;
+            }
           }else{
             this.show_alert_tip('发表失败','#FF7F50');
+            if(type==2){
+              this.show_reply = false;
+            }
           }
         }
       }).catch(()=>{
         this.show_alert_tip('发表失败','#FF7F50');
+        if(type==2){
+          this.show_reply = false;
+        }
       });
     },
     delete_click(index){
       this.show_comfirm = true;
       this.report_type = index;
+      if(index==3||index==4){
+        this.config_obj = {
+          header:'举报',
+          msg:'确定举报？'
+        }
+      }
     },
     sure_click(){
       let type = this.report_type;
@@ -226,11 +303,11 @@ export default {
       }else if(type==3){
         success_msg = '举报成功';
         error_msg = '举报失败';
-        this.config_obj = {
-          header:'举报',
-          msg:'确定举报？'
-        }
         url = url_util.report_user+forum_info.user_id;
+      }else {
+        success_msg = '举报成功';
+        error_msg = '举报失败';
+        url = url_util.report_tag+forum_info._id;
       }
       this.$http.get(url).then((response)=>{
           if(response.status==200){
@@ -257,6 +334,10 @@ export default {
     hide_comfirm(){
       this.show_comfirm = false;
       this.show_delete = false;
+      this.config_obj = {
+        header:'删除',
+        msg:'确定删除？'
+      }
     },
     show_alert_tip(msg,color){
       if(msg)
@@ -272,8 +353,13 @@ export default {
   created(){
     let current_id = localStorage.getItem("show_forum_current");
     let url = url_util.forum_content_url+current_id;
-    let current_user = JSON.parse(localStorage.getItem("current_user"));
-    this.current_user = current_user;
+    let current_user_string = localStorage.getItem("current_user");
+    if(typeof current_user_string =='object'||current_user_string==''){
+      this.current_user = undefined;
+    }else{
+      let current_user = JSON.parse(current_user_string);
+      this.current_user = current_user;
+    }
     this.$http.get(url).then((response)=>{
       if(response.status===200){
         let data = response.body;
@@ -297,6 +383,57 @@ export default {
 #App
   width: 100%;
   position: relative;
+  .reply-content
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    .bg
+      width: 100%;
+      height: 100%;
+      z-index: 300;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: rgba(0,0,0,0.2);
+    .content
+      z-index: 400;
+      position: absolute;
+      width: 500px;
+      height: 300px;
+      background-color: white;
+      left: calc(50% - 250px);
+      top: calc(50% - 150px);
+      display: flex;
+      flex-direction: column;
+      padding: 2em;
+      border-radius: 10px;
+      box-sizing: border-box;
+      h1
+        padding-bottom: 1em;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        font-size: 1.2em;
+        margin-bottom: .5em;
+      textarea
+        display: block;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 3px;
+        font-size: 1.1em;
+        padding: .9em;
+        outline: none;
+        margin-bottom: .5em;
+      p
+        font-size: .9em;
+      button
+        width: 100px;
+        height: 50px;
+        background-color: #31c27caa;
+        color: white;
+        border-radius: 5px;
+        margin-top: .5em;
+        display: block;
+        margin: auto;
   .my-header
     background-color: white;
     box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
@@ -343,6 +480,14 @@ export default {
       width: 82%;
       margin-left: 120px;
       position: relative;
+      .tag-change
+        span
+          margin-right: 1em;
+          cursor: pointer;
+        .active
+          color: #31c27c;
+          border-bottom: 1px solid #31c27c;
+          padding-bottom: .5em;
       .comment-content
         display: flex;
         flex-direction:column;

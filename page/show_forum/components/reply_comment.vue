@@ -9,6 +9,17 @@
     </div>
     <div class="content">
       <p>{{commentObj.comment_content}}</p>
+      <div class="reply-to-content">
+        <div class="header">
+          <div class="img-container">
+            <img :src="commentObj.replay_to_user_picture|get_picture" alt="">
+          </div>
+          <p>{{commentObj.replay_to_user_name}}</p>
+        </div>
+        <div class="msg">
+          {{commentObj.replay_to_commetn_content}}
+        </div>
+      </div>
     </div>
     <div class="footer">
       <button type="button" name="button" @click="reply">回复</button>
@@ -61,7 +72,7 @@ export default {
 <style lang="stylus" scoped>
 #comment
   width: 900px;
-  height: 300px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   padding: 1em;
@@ -76,11 +87,22 @@ export default {
     justify-content: flex-end;
     height: 50px;
     align-items: center;
+    width: 100%;
   .content
     width: 100%;
-    height: 170px;
+    height: 240px;
     padding: 2em;
     box-sizing: border-box;
+    .reply-to-content
+      padding: 2em;
+      margin-top: 1em;
+      box-sizing: border-box;
+      border-radius: 5px;
+      background-color: rgba(0,0,0,0.2);
+      width: 700px;
+      margin-left: 50px;
+      .header
+        margin-bottom: 1em;
   .header
     width: 100%;
     display: flex;

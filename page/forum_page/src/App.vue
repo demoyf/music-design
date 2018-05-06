@@ -17,6 +17,14 @@
     <div class="forum-container">
       <a-forum v-for="item in forum_list" :forum-info='item'></a-forum>
     </div>
+    <div class="load-more" style="width:1100px;margin:auto">
+      <loading-yf v-show="show_load"></loading-yf>
+      <div class="msg"
+      style="width:100%;height:50px;line-height:50px;font-size:1.2em;text-align:center;box-shadow: 2px 2px 4px rgba(0,0,0,0.2);cursor: pointer;"
+      @click="load_more">
+        {{msg}}
+      </div>
+    </div>
     <to-top></to-top>
     <my-footer></my-footer>
   </div>
@@ -30,6 +38,7 @@ import to_top from './../../common/components/to_top.vue';
 import a_forum from './../../common/components/a_forum.vue';
 import footer from './../../../src/components/footer/footer.vue';
 import yf_select from './../../common/components/select.vue';
+import loading_yf from './../../common/components/loading.vue';
 export default {
   name: "App",
   data() {
@@ -39,7 +48,12 @@ export default {
       forum_type:0,
       select_sort:0,
       select_type:0,
-      search_content:''
+      search_content:'',
+      show_load:false,
+      offset:0,
+      limit:10,
+      can_get_more:true,
+      msg:'加载更多'
     }
   },
   components: {
@@ -47,10 +61,8 @@ export default {
     'to-top':to_top,
     'a-forum':a_forum,
     'my-footer':footer,
-    'yf-select':yf_select
-  },
-  methods:{
-
+    'yf-select':yf_select,
+    'loading-yf':loading_yf
   },
   created(){
     let forum_sort = localStorage.getItem("forum_sort");
@@ -71,6 +83,14 @@ export default {
     localStorage.setItem("forum_sort",'');
   },
   methods: {
+    load_more(){
+      if(!this.can_get_more){
+        this.msg = '无更多数据';
+        return;
+      }
+      this.show_load = true;
+      this.start_search(1);
+    },
     get_data(add_or_replace) {
       let sort_type = this.sort_type;
       let forum_type = this.forum_type;
@@ -83,10 +103,14 @@ export default {
         if(response.status===200){
           let body = response.body;
           if(add_or_replace==1){
-            this.forum_list.push(body);
+            this.forum_list.push(...body);
           }else{
-
             this.forum_list = body;
+          }
+          if(this.forum_list.length!==0&&this.forum_list.length%10==0){
+            this.offset = this.forum_list.length;
+          }else{
+            this.can_get_more = false;
           }
         }
       });
@@ -97,33 +121,40 @@ export default {
       let url = '';
       if(select_type==0){
         if(select_sort==3){
-          url = url_util.get_time_forum+"0/0/10";
+          url = url_util.get_time_forum+"0/";
         }else if(select_sort==2){
-          url = url_util.get_time_forum+"1/0/10";
+          url = url_util.get_time_forum+"1/";
         }else if(select_sort==0){
-          url = url_util.get_hot_forum+"0/0/10";
+          url = url_util.get_hot_forum+"0/";
         }else if(select_sort==1){
-          url = url_util.get_hot_forum+"1/0/10";
+          url = url_util.get_hot_forum+"1/";
         }
       }else{
         if(select_sort==3){
-          url = url_util.get_type_time_forum+select_type+"/0/0/10";
+          url = url_util.get_type_time_forum+select_type+"/0/";
         }else if(select_sort==2){
-          url = url_util.get_type_time_forum+select_type+"/1/0/10";
+          url = url_util.get_type_time_forum+select_type+"/1/";
         }else if(select_sort==1){
-          url = url_util.get_type_hot_forum+select_type+"/0/0/10";
+          url = url_util.get_type_hot_forum+select_type+"/0/";
         }else if(select_sort==0){
-          url = url_util.get_type_hot_forum+select_type+"/1/0/10";
+          url = url_util.get_type_hot_forum+select_type+"/1/";
         }
       }
+      url += this.offset+"/"+this.limit;
       this.$http.get(url).then((response)=>{
         if(response.status===200){
           let body = response.body;
           if(add_or_replace==1){
-            this.forum_list.push(body);
+            this.forum_list.push(...body);
           }else{
             this.forum_list = body;
           }
+          if(this.forum_list.length!==0&&this.forum_list.length%10==0){
+            this.offset = this.forum_list.length;
+          }else{
+            this.can_get_more = false;
+          }
+          this.show_load = false;
         }
       });
     },
@@ -133,7 +164,7 @@ export default {
       let select_sort = this.select_sort+1;
       let select_type = this.select_type;
       url+= content;
-      url+="/"+select_sort+"/"+select_type+"/0/10";
+      url+="/"+select_sort+"/"+select_type+"/"+this.offset+"/"+this.limit;
       this.$http.get(url).then((response)=>{
         if(response.status===200){
           let body = response.body;
@@ -142,6 +173,12 @@ export default {
           }else{
             this.forum_list = body;
           }
+          if(this.forum_list.length!==0&&this.forum_list.length%10==0){
+            this.offset = this.forum_list.length;
+          }else{
+            this.can_get_more = false;
+          }
+          this.show_load = false;
         }
       });
     },
@@ -151,12 +188,12 @@ export default {
     change_sort(index){
       this.select_sort = index;
     },
-    start_search(){
+    start_search(add_or_replace){
       let content = this.search_content;
       if(!content||content==''){
-        this.get_sort_data();
+        this.get_sort_data(add_or_replace);
       }else{
-        this.get_search_data();
+        this.get_search_data(add_or_replace);
       }
     }
   }
@@ -166,7 +203,6 @@ export default {
 #App
   width: 100%;
   position: relative;
-
   .scroll-control
     position: relative;
     height: 200px;

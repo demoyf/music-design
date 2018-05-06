@@ -218,9 +218,11 @@ export default {
   position: relative;
   .time-info
     position: absolute;
-    right: 20px;
-    bottom: 10px;
-    color: #31c27caa;
+    right: 0;
+    bottom:0;
+    background-color: #31c27caa;
+    color: white;
+    padding: 10px 20px;
   .tag
     height: 40px;
     display: flex;
@@ -359,6 +361,4 @@ export default {
         margin:1em auto;
         border-radius: 5px;
         cursor: pointer;
-
-
 </style>
