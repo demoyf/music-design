@@ -28,7 +28,7 @@ export default {
   data(){
     return {
       artist_list:this.hotArtist,
-      music_url:'./../static/img/default.png',
+      music_url:'/static/img/default.png',
       img_hot:undefined,
       span_hot:undefined,
       page_info:this.pageInfo

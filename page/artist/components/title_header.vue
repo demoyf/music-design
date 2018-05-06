@@ -74,7 +74,7 @@ export default {
   name: "title-header",
   data(){
     return {
-      img_url:'./../static/img/default.png',
+      img_url:'/static/img/default.png',
       artist_info:undefined,
       configObj:undefined,
       songList:undefined,

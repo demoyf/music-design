@@ -69,7 +69,7 @@ export default {
     return {
       song_id:102723216,
       song_link:"",
-      img_url:'./../static/img/default.png',
+      img_url:'/static/img/default.png',
       song_info:undefined,
       album_info:undefined,
       configObj:undefined

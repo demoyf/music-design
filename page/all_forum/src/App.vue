@@ -129,7 +129,7 @@ export default {
     position: relative;
     padding: 6em 0 12em 0;
     background-attachment: scroll,	scroll,	scroll;
-    background-image: url('/../static/img/top-1600.svg'),url('/../static/img/overlay.png'), url('/../static/img/forum.jpg');
+    background-image: url('/static/img/top-1600.svg'),url('/static/img/overlay.png'), url('/static/img/forum.jpg');
     background-size: 1600px 230px,	auto,	cover;
     background-position: bottom center,	top left, center center;
     background-repeat: repeat-x,	repeat,	no-repeat;

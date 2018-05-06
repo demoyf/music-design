@@ -15,7 +15,7 @@
 		data(){
 			return {
 				info:this.imgUrl,
-				img_url:"./../static/img/default.png"
+				img_url:"/static/img/default.png"
 			}
 		},
 		mounted() {
