@@ -50,6 +50,7 @@ module.exports = {
     publish_page:path.resolve(__dirname,'../dist/page/publish_page.html'),
     forum_page:path.resolve(__dirname,'../dist/page/forum_page.html'),
     show_forum:path.resolve(__dirname,'../dist/page/show_forum.html'),
+    manage:path.resolve(__dirname,'../dist/page/manage.html'),
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',

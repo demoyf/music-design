@@ -48,16 +48,16 @@
         </div>
         <div class="manage-list">
           <div class="personal-manage manage">
-            <p>个人信息管理</p>
-            <button type="button" name="button">进入</button>
+            <p @click="to_manage($event,1)">个人信息管理</p>
+            <button type="button" name="button" @click="to_manage($event,1)">进入</button>
           </div>
           <div class="forum-manage manage">
-            <p>论坛管理</p>
-            <button type="button" name="button">进入</button>
+            <p @click="to_manage($event,2)">论坛管理</p>
+            <button type="button" name="button" @click="to_manage($event,2)">进入</button>
           </div>
           <div class="forum-manage manage" v-if="user_info.is_manager">
-            <p>用户管理</p>
-            <button type="button" name="button">进入</button>
+            <p @click="to_manage($event,3)">用户管理</p>
+            <button type="button" name="button" @click="to_manage($event,4)">进入</button>
           </div>
           <div class="manage">
             <p></p>
@@ -103,6 +103,13 @@ export default {
     if(!this.active_el){
       this.active_el = 1;
     }
+    window.addEventListener("storage",function(event){
+      if(event.key=="current_user"){
+        setTimeout(()=>{
+          window.location.reload();
+        },800);
+      }
+    });
   },
   mounted(){
     document.addEventListener("mousewheel",(event)=>{
@@ -120,6 +127,11 @@ export default {
   methods: {
     show_l(){
       this.show_login = true;
+    },
+    to_manage(event,index){
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.href = '/page/manage.html';
     },
     close_login(){
       if(this.show_login)

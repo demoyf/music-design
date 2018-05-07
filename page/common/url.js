@@ -1,5 +1,5 @@
 const url="http://106.14.13.178:3000/";
-const dev_url = "http://106.14.13.178:3000/";
+const dev_url = "http://127.0.0.1:3000/";
 export default {
 	search_suggestion:url+"search/suggesstion/",//need query
 	search_all:url+"search/all/",//need query type
@@ -26,5 +26,12 @@ export default {
 	forum_content_url:dev_url+"forum/forum_content/",
 	publish_comment:dev_url+"comment/publish_comment/",
 	get_comment_url:dev_url+"comment/get_comment/",
-	delete_comment:dev_url+"comment/delete/"
+	delete_comment:dev_url+"comment/delete/",
+	update_user_picture:dev_url+"user/update_img/",
+	update_user_info:dev_url+"user/update_info/",
+	collect_url:dev_url+"user/add_collect/",
+	get_collect:dev_url+"user/collect/",
+	get_my_forum:dev_url+"forum/my_forum/",
+	get_my_comment:dev_url+"comment/my_comment/",
+	get_report_comment:dev_url+"forum/report_forum"
 }

@@ -75,6 +75,13 @@ export default {
         this.show_control = false;
       }
     });
+    window.addEventListener("storage",function(event){
+      if(event.key=="current_user"){
+        setTimeout(()=>{
+          window.location.reload();
+        },800);
+      }
+    });
   },
   components:{
     'login-com':login

@@ -44,7 +44,7 @@
             <i class="icon-plus-square-icon" style="font-weight:100"></i>
             播放队列
           </button>
-          <button type="button" class="music-other-button" name="coll-button">
+          <button type="button" class="music-other-button" name="coll-button" @click="collect_this">
             <i class="icon-heart-icon"></i>
             收藏
           </button>
@@ -61,6 +61,7 @@
       <hot-album v-if="albumList!=undefined" :album-list="albumList">
       </hot-album>
     </div>
+    <my-alert :msg='alert_msg' :is-show="show_alert" :show-color="alert_color"></my-alert>
   </div>
 </template>
 <script>
@@ -70,6 +71,7 @@ import url_util from './../../common/url';
 import more_span from './../../song_list/components/more_span';
 import hot_song from './hot_song.vue';
 import hot_album from './hot_album.vue';
+import my_alert from './../../../src/common/my_alert.vue';
 export default {
   name: "title-header",
   data(){
@@ -78,7 +80,10 @@ export default {
       artist_info:undefined,
       configObj:undefined,
       songList:undefined,
-      albumList:undefined
+      albumList:undefined,
+      show_alert:false,
+      alert_msg:'123456',
+      alert_color:'#FF7F50',
     }
   },
   created(){
@@ -117,9 +122,50 @@ export default {
   components:{
     'more-span':more_span,
     'hot-song':hot_song,
-    'hot-album':hot_album
+    'hot-album':hot_album,
+    'my-alert':my_alert
   },
   methods: {
+    show_alert_tip(msg,color){
+      if(msg)
+      this.alert_msg = msg;
+      if(color)
+      this.alert_color = color;
+      this.show_alert = true;
+      setTimeout(()=>{
+        this.show_alert = false;
+      },1000);
+    },
+    collect_this(){
+      let info = this.artist_info;
+      let url = url_util.collect_url;
+      let str = localStorage.getItem("current_user");
+      if(typeof str == 'object'||str==''){
+        this.show_alert_tip('请先登录','#FF7F50');
+        return;
+      }
+      let current_user = JSON.parse(str);
+      let obj = {
+        user_id:current_user._id,
+        title:info.name,
+        is_ban:false,
+        artist_id:info.artist_id,
+        picture:info.avatar_big,
+        ting_uid:info.ting_uid,
+        type:2
+      };
+      this.$http.post(url,obj).then((response)=>{
+        if(response.status==200){
+          if(response.body.success)
+            this.show_alert_tip('收藏成功','#31c27c');
+          else{
+            this.show_alert_tip(response.body.msg,'#FF7F50');
+          }
+        }
+      }).catch(()=>{
+        this.show_alert_tip('添加失败','#FF7F50');
+      });
+    },
     to_publish(){
       let info = this.artist_info;
       let obj = {

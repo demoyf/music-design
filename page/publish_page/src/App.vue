@@ -34,7 +34,7 @@
 import url_util from './../../common/url';
 import * as local_uitl from './../../common/local_storage';
 import key from './../../common/key.js';
-import forum_header from './../components/header.vue';
+import forum_header from './../../all_forum/components/header.vue';
 import to_top from './../../common/components/to_top.vue';
 import editor_tinymce from './../../common/components/editor.vue';
 import my_alert from './../../../src/common/my_alert.vue';
@@ -98,6 +98,11 @@ export default {
     publish_forum(){
       if(this.is_publish){
         this.show_alert_tip('上传数据中....');
+        return;
+      }
+      let user_info = localStorage.getItem("current_user");
+      if(typeof user_info=="object"||user_info==''){
+        this.show_alert_tip('登录后才可以发表','#FF7F50');
         return;
       }
       if(this.check_isnull&&this.check_textarea){

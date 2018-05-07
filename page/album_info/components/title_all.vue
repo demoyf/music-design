@@ -39,7 +39,7 @@
             <i class="icon-plus-square-icon" style="font-weight:100"></i>
             播放队列
           </button>
-          <button type="button" class="music-other-button" name="coll-button">
+          <button type="button" class="music-other-button" name="coll-button" @click="collect_this">
             <i class="icon-heart-icon"></i>
             收藏
           </button>
@@ -58,14 +58,16 @@
         <more-span :config-obj="configObj" class="more-span-class"></more-span>
       </div>
     </div>
+    <my-alert :msg='alert_msg' :is-show="show_alert" :show-color="alert_color"></my-alert>
   </div>
 </template>
 <script>
-import url_util from './../../../src/common/util/url.js';
+import url_util from './../../common/url.js';
 import show_song from './show_song.vue';
 import more_span from './../../song_list/components/more_span.vue';
 import * as loca from './../../../src/common/util/local_storage';
 import key from './../../common/key.js';
+import my_alert from './../../../src/common/my_alert.vue';
 export default {
   name: "title-all",
   data(){
@@ -73,7 +75,10 @@ export default {
       img_url:'/static/img/default.png',
       album_info:undefined,
       song_list:[],
-      configObj:undefined
+      configObj:undefined,
+      show_alert:false,
+      alert_msg:'123456',
+      alert_color:'#FF7F50',
     }
   },
   created(){
@@ -96,9 +101,49 @@ export default {
   },
   components:{
     "show-song":show_song,
-    "more-span":more_span
+    "more-span":more_span,
+    'my-alert':my_alert
   },
   methods: {
+    show_alert_tip(msg,color){
+      if(msg)
+      this.alert_msg = msg;
+      if(color)
+      this.alert_color = color;
+      this.show_alert = true;
+      setTimeout(()=>{
+        this.show_alert = false;
+      },1000);
+    },
+    collect_this(){
+      let info = this.album_info;
+      let url = url_util.collect_url;
+      let str = localStorage.getItem("current_user");
+      if(typeof str == 'object'||str==''){
+        this.show_alert_tip('请先登录','#FF7F50');
+        return;
+      }
+      let current_user = JSON.parse(str);
+      let obj = {
+        user_id:current_user._id,
+        title:info.title,
+        is_ban:false,
+        album_id:info.album_id,
+        picture:info.pic_big,
+        type:3
+      };
+      this.$http.post(url,obj).then((response)=>{
+        if(response.status==200){
+          if(response.body.success)
+            this.show_alert_tip('收藏成功','#31c27c');
+          else{
+            this.show_alert_tip(response.body.msg,'#FF7F50');
+          }
+        }
+      }).catch(()=>{
+        this.show_alert_tip('添加失败','#FF7F50');
+      });
+    },
     to_publish(){
       let info = this.album_info;
       let obj = {

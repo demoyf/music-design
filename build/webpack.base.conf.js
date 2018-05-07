@@ -23,6 +23,7 @@ module.exports = {
     publish_page:'./page/publish_page/src/main.js',
     show_forum:'./page/show_forum/src/main.js',
     forum_page:'./page/forum_page/src/main.js',
+    manage:'./page/manage/src/main.js',
   },
   output: {
     path: config.build.assetsRoot,
