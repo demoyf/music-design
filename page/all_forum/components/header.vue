@@ -11,6 +11,9 @@
       <button class="register-button" @click="start_reg">注册</button>
     </div>
     <div class="user-info-container" v-if="user_info" >
+      <div class="has-new" v-if="has_new">
+
+      </div>
       <div class="user-icon" @click="show_user_control">
         <img :src="user_info.picture" alt="">
       </div>
@@ -31,7 +34,9 @@
             <button type="button" name="button">进入</button>
           </div>
           <div class="forum-manage manage" v-if="user_info.is_manager">
-            <p>用户管理</p>
+            <div class="has-new" v-if="has_new">
+            </div>
+            <p>数据管理</p>
             <button type="button" name="button">进入</button>
           </div>
           <div class="manage">
@@ -51,6 +56,7 @@
 </template>
 <script>
 import  login  from './../../../src/components/login/login.vue';
+import url_util from './../../common/url';
 export default {
   name: "forum-header",
   data(){
@@ -58,7 +64,8 @@ export default {
       show_login:false,
       show_reg:false,
       user_info:undefined,
-      show_control:false
+      show_control:false,
+      has_new:false
     }
   },
   created(){
@@ -69,6 +76,16 @@ export default {
         data.picture = "http://106.14.13.178/icon/"+data.picture+".jpg";
       }
       this.user_info = data;
+    }
+    if(this.user_info){
+      let url = url_util.has_new_url+this.user_info._id;
+      this.$http.get(url).then((response)=>{
+        if(response.status==200){
+          if(response.body.has_new){
+            this.has_new = true;
+          }
+        }
+      });
     }
     document.addEventListener("click",(event)=>{
       if(this.show_control){
@@ -199,6 +216,16 @@ export default {
     height:90px;
     line-height:90px;
     width: 90px;
+    .has-new
+      display: block;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      background-color: #FF7F50;
+      position: absolute;
+      left: 39px;
+      top:20px;
+      z-index: 15;
     .user-icon
       position: absolute;
       top: 20px;
@@ -255,6 +282,10 @@ export default {
           flex-direction: row;
           justify-content: space-between;
           align-items: center;
+          .has-new
+            position: absolute;
+            left: 120px;
+            top: 227px;
           p
             width: 100px;
           button

@@ -4,7 +4,12 @@
       <div class="left">
         <li :class="current==1?'active':''" @click="change_active(1)">发布的贴子</li>
         <li :class="current==2?'active':''" @click="change_active(2)">发表的评论</li>
-        <li :class="current==3?'active':''" @click="change_active(3)">收到的评论</li>
+        <li :class="current==3?'active':''" @click="change_active(3)">
+          <div class="has-new" v-if="has_new">
+
+          </div>
+          收到的评论
+        </li>
       </div>
       <div class="right">
         <div class="forum-container" v-show="current==1">
@@ -41,30 +46,30 @@
             <p class="time">发布时间</p>
             <p class="delete-con">删除</p>
           </div>
-          <div class="comment-part part"  v-for="item in comment_list" v-if="!item.is_ban&&(item.my_id==currentUser._id&&item.type!=2)">
+          <div class="comment-part part"  v-for="(item,index) in comment_list" v-if="!item.is_ban&&(item.my_id==currentUser._id)">
             <p class="title" @click="to_show_forum(item.forum_id)">{{item.forum_title}}</p>
-            <p class="comment">{{item.type==2?item.replay_to_commetn_content:item.comment_content}}</p>
+            <p class="comment">{{item.comment_content}}</p>
             <p class="reply">{{item.type==2?item.replay_to_user_name:'无'}}</p>
             <p class="time">{{item.publish_time | formatDateTime}}</p>
+            <p class="delete-con">
+              <button type="button" name="button" @click="delete_comment(index)">删除</button>
+            </p>
           </div>
         </div>
         <div class="comment-container" v-show="current==3">
           <div class="header part">
             <p class="title">帖子标题</p>
-            <p class="comment">评论内容</p>
+            <p class="comment">回复内容</p>
             <p class="reply">谁回复我</p>
             <p class="time">发布时间</p>
           </div>
           <div class="comment-part part"  v-for="item in comment_list"
-          v-if="!item.is_ban&&(item.user_id==currentUser._id&&item.my_id==currentUser._id)||
-          (item.my_id==currentUser._id&&item.type==2)">
+          v-if="!item.is_ban&&((item.user_id==currentUser._id&&(item.type==1&&item.my_id!=currentUser._id))||
+          (item.replay_to_user_id==currentUser._id&&item.type==2))">
             <p class="title" @click="to_show_forum(item.forum_id)">{{item.forum_title}}</p>
-            <p class="comment">{{item.type==2?item.replay_to_commetn_content:item.comment_content}}</p>
+            <p class="comment">{{item.type==2?item.reply_comment_content:item.comment_content}}</p>
             <p class="reply">{{item.my_name}}</p>
             <p class="time">{{item.publish_time | formatDateTime}}</p>
-            <p class="delete-con">
-              <button type="button" name="button">删除</button>
-            </p>
           </div>
         </div>
       </div>
@@ -80,7 +85,8 @@ export default {
     return {
       current:1,
       forum_list:[],
-      comment_list:[]
+      comment_list:[],
+      has_new:false
     }
   },
   methods:{
@@ -90,6 +96,16 @@ export default {
     },
     change_active(current){
       this.current = current;
+      if(current==3){
+        let url = url_util.delete_new_url+this.currentUser._id;
+        this.$http.get(url).then((response)=>{
+          if(response.status==200){
+            if(response.body.has_new){
+              this.has_new = false;
+            }
+          }
+        })
+      }
     },
     delete_info(_id,index){
       let url = url_util.delete_forum+_id+"/true";
@@ -101,6 +117,12 @@ export default {
           }
         }
       })
+    },
+    delete_comment(index){
+      setTimeout(()=>{
+        this.splice(index,1);
+        this.$emit('showtip','删除成功');
+      },500);
     }
   },
   created() {
@@ -118,7 +140,17 @@ export default {
       if(response.status==200){
         this.comment_list = response.body;
       }
-    })
+    });
+    if(this.currentUser){
+      let url = url_util.has_new_url+this.currentUser._id;
+      this.$http.get(url).then((response)=>{
+        if(response.status==200){
+          if(response.body.has_new){
+            this.has_new = true;
+          }
+        }
+      });
+    }
   },
   filters:{
     formatDateTime(inputTime) {
@@ -155,12 +187,23 @@ export default {
         padding: 1em 0;
         color: white;
         background-color: #666;
+        position: relative;
         &:first-child
           border-radius: 5px 5px 0 0;
         &:last-child
           border-radius: 0 0 5px 5px;
         &:hover
           cursor: pointer;
+        .has-new
+          display: block;
+          width: 16px;
+          height: 16px;
+          border-radius: 8px;
+          background-color: #FF7F50;
+          position: absolute;
+          left: 10px;
+          top:17px;
+          z-index: 15;
       .active
         transition: all .3s;
         transform: translateY(-10%) translateX(10%);

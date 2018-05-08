@@ -1,5 +1,5 @@
 const url="http://106.14.13.178:3000/";
-const dev_url = "http://127.0.0.1:3000/";
+const dev_url = "http://106.14.13.178:3000/";
 export default {
 	search_suggestion:url+"search/suggesstion/",//need query
 	search_all:url+"search/all/",//need query type
@@ -33,5 +33,7 @@ export default {
 	get_collect:dev_url+"user/collect/",
 	get_my_forum:dev_url+"forum/my_forum/",
 	get_my_comment:dev_url+"comment/my_comment/",
-	get_report_comment:dev_url+"forum/report_forum"
+	get_report_comment:dev_url+"forum/report_forum",
+	has_new_url:dev_url+"user/has_new/",
+	delete_new_url:dev_url+"user/update_new/"
 }

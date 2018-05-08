@@ -1,5 +1,5 @@
 const url="http://106.14.13.178:3000/";
-const dev_url = "http://127.0.0.1:3000/";
+const dev_url = "http://106.14.13.178:3000/";
 export default {
 	search_suggestion:url+"search/suggesstion/",//need query
 	search_all:url+"search/all/",//need query type
@@ -13,5 +13,6 @@ export default {
 	get_album_info:url+"album/album_info/",//need albumid
 	get_artist_album:url+"album/artist_album/",//need tinguid page
 	check_user_info:dev_url+"user/check",
-	add_user:dev_url+"user/reg"
+	add_user:dev_url+"user/reg",
+	has_new_url:dev_url+"user/has_new/"
 }

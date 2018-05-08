@@ -36,6 +36,9 @@
       <button class="register-button" @click="start_reg">注册</button>
     </div>
     <div class="user-info-container" v-if="user_info" >
+      <div class="has-new" v-if="has_new">
+
+      </div>
       <div class="user-icon" @click="show_user_control">
         <img :src="user_info.picture" alt="">
       </div>
@@ -56,7 +59,9 @@
             <button type="button" name="button" @click="to_manage($event,2)">进入</button>
           </div>
           <div class="forum-manage manage" v-if="user_info.is_manager">
-            <p @click="to_manage($event,3)">用户管理</p>
+            <div class="has-new" v-if="has_new">
+            </div>
+            <p @click="to_manage($event,3)">数据管理</p>
             <button type="button" name="button" @click="to_manage($event,4)">进入</button>
           </div>
           <div class="manage">
@@ -78,6 +83,7 @@
 <script type="text/javascript">
 import vue_search from './vue_search.vue';
 import login_com from './../login/login';
+import url_util from './../../common/util/url';
 export default {
   name: "music-header",
   props: ['active'],
@@ -87,7 +93,8 @@ export default {
       show_login:false,
       show_reg:false,
       user_info:undefined,
-      show_control:false
+      show_control:false,
+      has_new:false
     }
   },
   created() {
@@ -102,6 +109,16 @@ export default {
     }
     if(!this.active_el){
       this.active_el = 1;
+    }
+    if(this.user_info){
+      let url = url_util.has_new_url+this.user_info._id;
+      this.$http.get(url).then((response)=>{
+        if(response.status==200){
+          if(response.body.has_new){
+            this.has_new = true;
+          }
+        }
+      });
     }
     window.addEventListener("storage",function(event){
       if(event.key=="current_user"){
@@ -246,6 +263,16 @@ export default {
       line-height:90px;
       width: 90px;
       left: 500px;
+      .has-new
+        display: block;
+        width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        background-color: #FF7F50;
+        position: absolute;
+        left: 39px;
+        top:20px;
+        z-index: 15;
       .user-icon
         position: absolute;
         top: 20px;
@@ -296,12 +323,17 @@ export default {
           display: flex;
           flex-direction: column;
           margin-top: .5em;
+          position: relative;
           .manage
             margin: .5em 0;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+            .has-new
+              position: absolute;
+              left: 80px;
+              top: 125px;
             p
               width: 100px;
             button
