@@ -35,5 +35,7 @@ export default {
 	get_my_comment:dev_url+"comment/my_comment/",
 	get_report_comment:dev_url+"forum/report_forum",
 	has_new_url:dev_url+"user/has_new/",
-	delete_new_url:dev_url+"user/update_new/"
+	delete_new_url:dev_url+"user/update_new/",
+	all_user:dev_url+"user/all",
+	all_comment:dev_url+"comment/all",
 }

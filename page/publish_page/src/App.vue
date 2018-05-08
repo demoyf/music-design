@@ -107,6 +107,7 @@ export default {
       }
       if(this.check_isnull&&this.check_textarea){
         let publish_info = this.publish_info;
+        publish_info.title = publish_info.title.replace(/</gi,'&lt;').replace(/>/gi,'&gt;').replace(/\&/gi,'&amp;');
         publish_info.content = this.current_html;
         publish_info.type = this.type;
         publish_info.user_id = this.user_info._id;

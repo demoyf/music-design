@@ -26,18 +26,18 @@
         </div>
         <div class="manage-list">
           <div class="personal-manage manage">
-            <p>个人信息管理</p>
-            <button type="button" name="button">进入</button>
+            <p @click="to_manage($event,2)">个人信息管理</p>
+            <button type="button" name="button" @click="to_manage($event,2)">进入</button>
           </div>
           <div class="forum-manage manage">
-            <p>论坛管理</p>
-            <button type="button" name="button">进入</button>
+            <p @click="to_manage($event,2)">论坛管理</p>
+            <button type="button" name="button" @click="to_manage($event,2)">进入</button>
           </div>
           <div class="forum-manage manage" v-if="user_info.is_manager">
             <div class="has-new" v-if="has_new">
             </div>
-            <p>数据管理</p>
-            <button type="button" name="button">进入</button>
+            <p @click="to_manage($event,2)">数据管理</p>
+            <button type="button" name="button" @click="to_manage($event,2)">进入</button>
           </div>
           <div class="manage">
             <p></p>
@@ -104,6 +104,11 @@ export default {
     'login-com':login
   },
   methods: {
+    to_manage(event,index){
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.href = '/page/manage.html';
+    },
     to_forum_page(type){
       localStorage.setItem("forum_sort",type);
       window.location.href = '/page/forum_page.html';

@@ -280,6 +280,11 @@ export default {
       -webkit-transform: scale(.95);
       transform: scale(.95);
       margin-bottom: 1em;
+      max-width: 600px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      margin: auto;
     .content
       height: 100px;
       overflow: hidden;

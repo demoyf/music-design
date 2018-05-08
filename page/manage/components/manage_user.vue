@@ -4,6 +4,7 @@
       <div class="left">
         <li :class="current==1?'active':''" @click="change_active(1)">管理帖子</li>
         <li :class="current==2?'active':''" @click="change_active(2)">管理评论</li>
+        <li :class="current==3?'active':''" @click="change_active(3)">管理用户</li>
       </div>
       <div class="right">
         <div class="forum-container" v-show="current==1">
@@ -34,6 +35,52 @@
             </p>
           </div>
         </div>
+        <div class="forum-container" v-show="current==3">
+          <div class="header part">
+            <p class="title" style="width:230px">
+            </p>
+            <p class="comment">用户名</p>
+            <p class="report">举报次数</p>
+            <p class="time">管理员</p>
+            <p class="delete-con">禁言</p>
+          </div>
+          <div class="a-forum part" v-for="(item,index) in user_list" v-if="!item.is_ban">
+            <p class="title" style="" style="display:flex;flex-direction:row;">
+               <div class="img-container"
+               style="width:60px;height:60px;border-radius:30px;overflow:hidden;position:relative;left:-100px;">
+                    <img :src="item.picture | get_picture" alt="" width="100%" height="100%">
+              </div>
+            </p>
+            <p class="comment">{{item.nickname}}</p>
+            <p class="report">{{item.report_count}}</p>
+            <p class="time">{{item.is_manager?'是':'否'}}</p>
+            <p class="delete-con">
+              <button type="button" name="button" @click="delete_user(item._id,index)">禁言</button>
+            </p>
+          </div>
+        </div>
+        <div class="forum-container" v-show="current==2">
+          <div class="header part">
+            <p class="title">标题</p>
+            <p class="comment">发布者</p>
+            <div class="info">
+              发布内容
+            </div>
+            <p class="time">发布时间</p>
+            <p class="delete-con">删除</p>
+          </div>
+          <div class="a-forum part" v-for="(item,index) in comment_list" v-if="!item.is_ban">
+            <p class="title" @click="to_show_forum(item.forum_id)">{{item.forum_title}}</p>
+            <p class="comment">{{item.my_name}}</p>
+            <div class="info">
+              <p>{{item.comment_content}}</p>
+            </div>
+            <p class="time">{{item.publish_time | formatDateTime}}</p>
+            <p class="delete-con">
+              <button type="button" name="button" @click="delete_comment(item._id,index)">删除</button>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -45,10 +92,18 @@ export default {
   data(){
     return {
       current:1,
-      forum_list:[]
+      forum_list:[],
+      user_list:[],
+      comment_list:[]
     }
   },
   filters:{
+    get_picture(value){
+      if(typeof value=='number'||value.indexOf('http')<0){
+        return "http://106.14.13.178/icon/"+value+".jpg";
+      }
+      return value;
+    },
     formatDateTime(inputTime) {
       var date = new Date(inputTime);
       var y = date.getFullYear();
@@ -73,6 +128,18 @@ export default {
     change_active(current){
       this.current = current;
     },
+    delete_user(_id,index){
+      setTimeout(()=>{
+        this.user_list.splice(index,1);
+        this.$emit('showtip','删除成功');
+      },500);
+    },
+    delete_comment(_id,index){
+      setTimeout(()=>{
+        this.comment.splice(index,1);
+        this.$emit('showtip','删除成功');
+      },500);
+    },
     delete_info(_id,index){
       let url = url_util.delete_forum+_id+"/true";
       this.$http.get(url).then((response)=>{
@@ -91,6 +158,18 @@ export default {
     this.$http.get(url).then((response)=>{
       if(response.status==200){
         this.forum_list = response.body;
+      }
+    });
+    let all_user = url_util.all_user;
+    this.$http.get(all_user).then((response)=>{
+      if(response.status==200){
+        this.user_list = response.body;
+      }
+    });
+    let all_comment = url_util.all_comment;
+    this.$http.get(all_comment).then((response)=>{
+      if(response.status==200){
+        this.comment_list = response.body;
       }
     });
   }

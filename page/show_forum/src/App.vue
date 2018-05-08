@@ -559,4 +559,8 @@ export default {
           font-weight:bold;
           -webkit-transform: scale(.95);
           transform: scale(.95);
+          max-width: 600px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
 </style>
